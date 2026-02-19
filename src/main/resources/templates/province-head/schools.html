@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Schools</title>
+</head>
+<body>
+
+<h2>Schools of Your Province</h2>
+
+<a th:href="@{/province-head/schools/create}">
+    Create New School
+</a>
+
+<br><br>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr th:each="school : ${schools}">
+        <td th:text="${school.id}"></td>
+        <td th:text="${school.name}"></td>
+        <td th:text="${school.address}"></td>
+        <td th:text="${school.active} ? 'Active' : 'Inactive'"></td>
+        <td>
+        <a th:href="@{/provincehead/school-users(schoolId=${school.id})}">
+        View Users
+    </a>
+    |
+         <a th:href="@{|/provincehead/schools/${school.id}/users/create|}">Add User</a>
+          </td>
+      
+    </tr>
+</table>
+
+
+</body>
+</html>

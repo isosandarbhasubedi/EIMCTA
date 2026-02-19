@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Deleted HQ Users</title>
+</head>
+<body>
+
+<h2>Deleted HQ Users</h2>
+
+<a th:href="@{/admin/hq-users}">
+    Back to Active Users
+</a>
+
+<br><br>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Deleted By</th>
+        <th>Deleted At</th>
+        <th>Action</th>
+    </tr>
+
+    <tr th:each="u : ${users}">
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.username}"></td>
+        <td th:text="${u.email}"></td>
+        <td th:text="${u.role}"></td>
+        <td th:text="${u.deletedBy != null ? u.deletedBy.username : ''}"></td>
+        <td th:text="${u.deletedAt}"></td>
+        <td>
+            <a th:href="@{/admin/hq-users/restore(id=${u.id})}"
+               onclick="return confirm('Restore this user?');">
+                Restore
+            </a>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

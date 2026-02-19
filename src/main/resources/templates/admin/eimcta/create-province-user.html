@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Province User</title>
+</head>
+<body>
+
+<h2>Create Province Level User</h2>
+
+<form th:action="@{/admin/province-users/create}"
+      th:object="${user}"
+      method="post">
+
+    <!-- Basic Info -->
+    <div>
+        <label>Username:</label>
+        <input type="text" th:field="*{username}" required />
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" required />
+    </div>
+
+    <div>
+        <label>Password:</label>
+        <input type="password" th:field="*{password}" required />
+    </div>
+
+    <!-- Role Selection -->
+   <div>
+                <label>Role:</label>
+                <select name="role" required>
+                    <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"></option>
+                </select>
+            </div>
+
+
+    <!-- Province Selection -->
+    <div>
+        <label>Province:</label>
+        <select name="provinceId" required>
+            <option value="">-- Select Province --</option>
+            <option th:each="p : ${provinces}"
+                    th:value="${p.id}"
+                    th:text="${p.name}">
+            </option>
+        </select>
+    </div>
+
+    <br>
+
+    <button type="submit">Create User</button>
+
+</form>
+
+<br>
+<a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+
+</body>
+</html>

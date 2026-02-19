@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>School Audit Logs</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        .filter-box {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>School Audit Logs</h2>
+
+    <!-- 🔎 Filter Section -->
+    <div class="filter-box">
+        <form th:action="@{/admin/school-audit-logs}" method="get">
+            <label>Filter by Action:</label>
+
+            <select name="action" class="form-control"
+                    style="width:250px; display:inline-block; margin-left:10px;">
+                <option value=""
+                        th:selected="${selectedAction == null or selectedAction == ''}">
+                    All
+                </option>
+
+                <option value="CREATE_SCHOOL"
+                        th:selected="${selectedAction == 'CREATE_SCHOOL'}">
+                    CREATE_SCHOOL
+                </option>
+
+                <option value="EDIT_SCHOOL"
+                        th:selected="${selectedAction == 'EDIT_SCHOOL'}">
+                    EDIT_SCHOOL
+                </option>
+
+                <option value="ACTIVATE_SCHOOL"
+                        th:selected="${selectedAction == 'ACTIVATE_SCHOOL'}">
+                    ACTIVATE_SCHOOL
+                </option>
+
+                <option value="DEACTIVATE_SCHOOL"
+                        th:selected="${selectedAction == 'DEACTIVATE_SCHOOL'}">
+                    DEACTIVATE_SCHOOL
+                </option>
+
+                <option value="DELETE_SCHOOL"
+                        th:selected="${selectedAction == 'DELETE_SCHOOL'}">
+                    DELETE_SCHOOL
+                </option>
+
+                <option value="RESTORE_SCHOOL"
+                        th:selected="${selectedAction == 'RESTORE_SCHOOL'}">
+                    RESTORE_SCHOOL
+                </option>
+            </select>
+
+            <button type="submit" class="btn btn-primary"
+                    style="margin-left:10px;">
+                Filter
+            </button>
+        </form>
+    </div>
+
+    <!-- 📋 Audit Table -->
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Action</th>
+            <th>Entity Type</th>
+            <th>Entity ID</th>
+            <th>Performed By</th>
+            <th>IP Address</th>
+            <th>Details</th>
+            <th>Date & Time</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="log : ${schoolAuditLogs}">
+            <td th:text="${log.id}"></td>
+            <td th:text="${log.action}"></td>
+            <td th:text="${log.entityType}"></td>
+            <td th:text="${log.entityId}"></td>
+            <td th:text="${log.performedBy}"></td>
+            <td th:text="${log.ipAddress}"></td>
+            <td th:text="${log.details}"></td>
+            <td th:text="${log.performedAt}"></td>
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(schoolAuditLogs)}">
+            <td colspan="8" style="text-align:center;">
+                No audit logs found.
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

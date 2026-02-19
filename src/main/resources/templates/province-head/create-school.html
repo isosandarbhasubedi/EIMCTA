@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create School</title>
+</head>
+<body>
+
+<h2>Create School</h2>
+
+<form th:action="@{/provincehead/schools/create}"
+      th:object="${school}"
+      method="post"
+      enctype="multipart/form-data">
+
+    <div>
+        <label>School Name:</label>
+        <input type="text" th:field="*{name}" required />
+    </div>
+    
+     <div>
+                <label>Address:</label>
+                <input type="text" th:field="*{address}" placeholder="Enter address" required />
+            </div>
+
+            <div>
+                <label>Email:</label>
+                <input type="email" th:field="*{email}" placeholder="Enter email" />
+            </div>
+
+            <div>
+                <label>Mobile Number:</label>
+                <input type="text" th:field="*{mobileNumber}" placeholder="Enter mobile number" />
+            </div>
+
+            <div>
+                <label>Landline Number:</label>
+                <input type="text" th:field="*{landlineNumber}" placeholder="Enter landline number" />
+            </div>
+
+            <div>
+                <label>Social Media URL:</label>
+                <input type="text" th:field="*{socialMediaURL}" placeholder="Enter social media link" />
+            </div>
+    
+            <div>
+                <label>School Logo:</label>
+                <input type="file" name="logoFile" />
+            </div>
+
+    <br>
+
+    <button type="submit">Create School</button>
+</form>
+
+<br>
+<a th:href="@{/provincehead/schools}">Back</a>
+
+</body>
+</html>

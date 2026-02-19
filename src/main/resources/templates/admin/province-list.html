@@ -1,0 +1,40 @@
+<table border="1" cellpadding="10">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Province Name</th>
+            <th>Number of Schools</th>
+            <th>Schools</th>
+            <th>Manage</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr th:each="province : ${provinces}">
+            <td th:text="${province.id}"></td>
+
+            <td th:text="${province.name}"></td>
+
+            <td th:text="${province.schools != null ? province.schools.size() : 0}"></td>
+
+            <!-- ✅ Separate View Column -->
+            <td>
+                <a th:href="@{'/admin/provinces/' + ${province.id} + '/schools'}">
+                    View Schools
+                </a>
+            </td>
+
+            <!-- ✅ Separate Manage Column -->
+            <td>
+                <a th:href="@{'/admin/provinces/edit/' + ${province.id}}">
+                    Edit
+                </a>
+                |
+                <a th:href="@{'/admin/provinces/delete/' + ${province.id}}"
+                   onclick="return confirm('Are you sure you want to delete this province?');">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

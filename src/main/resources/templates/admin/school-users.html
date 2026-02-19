@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>School Users</title>
+</head>
+<body>
+
+<h2>Users in School: <span th:text="${school.name}"></span></h2>
+
+<a th:href="@{/admin/provinces}">Back to Provinces</a>
+<br><br>
+
+<!-- PRINCIPALS -->
+<h3>Principals</h3>
+<table border="1" cellpadding="10">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:if="${#lists.isEmpty(principals)}">
+            <td colspan="3">No principals found.</td>
+        </tr>
+        <tr th:each="user : ${principals}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- COORDINATORS -->
+<h3>Coordinators</h3>
+<table border="1" cellpadding="10">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:if="${#lists.isEmpty(coordinators)}">
+            <td colspan="3">No coordinators found.</td>
+        </tr>
+        <tr th:each="user : ${coordinators}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- DEOs -->
+<h3>DEOs</h3>
+<table border="1" cellpadding="10">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:if="${#lists.isEmpty(deos)}">
+            <td colspan="3">No DEOs found.</td>
+        </tr>
+        <tr th:each="user : ${deos}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- EDUCATORS -->
+<h3>Educators</h3>
+<table border="1" cellpadding="10">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:if="${#lists.isEmpty(educators)}">
+            <td colspan="3">No educators found.</td>
+        </tr>
+        <tr th:each="user : ${educators}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

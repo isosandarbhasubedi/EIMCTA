@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Province User</title>
+</head>
+<body>
+
+<h2>Edit Province User</h2>
+
+<form th:action="@{/admin/province-users/edit}"
+      th:object="${user}"
+      method="post">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <div>
+        <label>Username:</label>
+        <input type="text" th:field="*{username}" required />
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" required />
+    </div>
+
+    <div>
+        <label>Role:</label>
+        <select th:field="*{role}" required>
+            <option value="PROVINCE_HEAD">Province Head</option>
+            <option value="CONSULTANT">Consultant</option>
+            <option value="CRO">CRO</option>
+            <option value="EDEO">EDEO</option>
+        </select>
+    </div>
+
+    <br>
+    <button type="submit">Update</button>
+
+</form>
+
+<br>
+<a th:href="@{/admin/province-users}">
+    Back
+</a>
+
+</body>
+</html>

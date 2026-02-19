@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>Dashboard - <span th:text="${school.name}"></span></h1>
+<a th:href="@{/logout}">Logout</a>
+<a th:href="@{./educators/create}">+ Create Educator</a>
+
+<h2>Educators</h2>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+    <tr th:each="educator : ${educators}">
+        <td th:text="${educator.id}"></td>
+        <td th:text="${educator.username}"></td>
+        <td th:text="${educator.email}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

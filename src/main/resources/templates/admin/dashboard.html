@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Super Admin Dashboard</h1>
+        <a th:href="@{/logout}">Logout</a>
+    </header>
+
+    <main>
+    <a th:href="@{/admin/audit-logs}">+ Audit Log</a>
+     <a th:href="@{/admin/province-audit-logs}">+ Province Audit Log</a>
+     <a th:href="@{/admin/school-audit-logs}">+ School Audit Log</a>
+     <a th:href="@{/admin/school-user-audit-logs}">+ School User Audit Log</a>
+    <a th:href="@{/admin/hq/users/create}">+ Create HQ Users</a>
+     <a th:href="@{/admin/hq-users}">
+    Manage HQ Users
+</a>
+
+      <a th:href="@{/admin/hq-users/deleted}">
+    View Deleted HQ Users
+</a>
+
+     <a th:href="@{/admin/province-users/create}">+ Create Province Users</a>
+    <a th:href="@{/admin/province-users}">
+    Manage Province Users
+</a>
+<a th:href="@{/admin/provinces/create}">
+         + Add Province
+      </a>
+      <a th:href="@{/admin/province-users/deleted}">
+    View Deleted Province Users
+</a>
+      
+        <h2>Schools</h2>
+        <a th:href="@{/admin/schools/create}">+ Create New School</a>
+      
+      <a th:href="@{/admin/provinces}">
+         View Provinces
+      </a>
+      
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>School Name</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="school : ${schools}">
+                    <td th:text="${school.id}"></td>
+                    <td th:text="${school.name}"></td>
+                    <td th:text="${school.address}"></td>
+                    
+                    <td th:text="${school.active} ? 'Active' : 'Inactive'"></td>
+                    <td>
+                        <a th:href="@{|/admin/schools/${school.id}/users/create|}">Add User</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

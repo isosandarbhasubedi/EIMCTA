@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Image</title>
+</head>
+<body>
+<img th:src="@{'/uploads/employees/' + ${employee.image}}"
+     width="150"
+     height="150"
+     alt="Employee Image">
+
+</body>
+</html>

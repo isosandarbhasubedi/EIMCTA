@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>Create Educator</h1>
+<a th:href="@{./dashboard}">Back to Dashboard</a>
+
+<form th:action="@{./educators/create}" th:object="${user}" method="post">
+    <input type="text" th:field="*{username}" placeholder="Full Name" required />
+    <input type="email" th:field="*{email}" placeholder="Email" required />
+    <input type="password" th:field="*{password}" placeholder="Password" required />
+    <button type="submit">Create Educator</button>
+
+    <div th:if="${error}">
+        <p style="color:red;" th:text="${error}"></p>
+    </div>
+</form>
+
+</body>
+</html>

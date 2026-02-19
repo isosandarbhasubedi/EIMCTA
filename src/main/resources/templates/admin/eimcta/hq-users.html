@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>HQ Users</title>
+</head>
+<body>
+
+<h2>HQ Users (HR, SALES, ACCOUNT)</h2>
+
+<a th:href="@{/admin/hq-users/deleted}">
+    View Deleted HQ Users
+</a>
+
+<br><br>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    <tr th:each="u : ${users}">
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.username}"></td>
+        <td th:text="${u.email}"></td>
+        <td th:text="${u.role}"></td>
+        <td th:text="${u.active ? 'Active' : 'Inactive'}"></td>
+        <td>
+            <a th:href="@{/admin/hq-users/edit(id=${u.id})}">
+                Edit
+            </a>
+            |
+            <a th:href="@{/admin/hq-users/toggle(id=${u.id})}">
+                <span th:text="${u.active ? 'Deactivate' : 'Activate'}"></span>
+            </a>
+            |
+            <a th:href="@{/admin/hq-users/delete(id=${u.id})}"
+               onclick="return confirm('Are you sure you want to delete this user?');">
+                Delete
+            </a>
+        </td>
+    </tr>
+</table>
+
+<br>
+<a th:href="@{/admin/dashboard}">
+    Back to Dashboard
+</a>
+
+</body>
+</html>
