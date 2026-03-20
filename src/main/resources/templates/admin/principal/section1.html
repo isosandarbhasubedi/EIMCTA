@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Section 1 - Personal & Family Info</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    
+    <!-- Nepali Datepicker CSS -->
+    <link href="https://nepalidatepicker.sajanmaharjan.com.np/v5/nepali.datepicker/css/nepali.datepicker.v5.0.6.min.css" rel="stylesheet" type="text/css"/>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+
+<h4>Section 1A - Personal Information</h4>
+<hr>
+
+<form th:action="@{/admin/principal/{id}/section/1(id=${principal.user.id})}"
+      th:object="${principal}"
+      method="post">
+
+    <!-- ================= PERSONAL INFO ================= -->
+
+    <div class="row">
+ 
+        <div class="col-md-3 mb-3">
+            <label>Title</label>
+            <select th:field="*{personalInfo.title}" class="form-control">
+                <option value="">Select</option>
+                <option value="Mr.">Mr</option>
+                <option value="Mrs.">Mrs.</option>
+                <option value="Miss">Miss</option>
+                <option value="Ms.">Ms.</option>
+                <option value="Er.">Er.</option>
+                <option value="Dr.">Dr.</option>
+                <option value="Prof.">Prof.</option>
+            </select>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label>First Name</label>
+            <input type="text" th:field="*{personalInfo.firstName}" class="form-control">
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label>Surname</label>
+            <input type="text" th:field="*{personalInfo.surName}" class="form-control">
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label>Maiden Name</label>
+            <input type="text" th:field="*{personalInfo.maidenName}" class="form-control">
+        </div>
+
+            <div class="col-md-3 mb-3">
+            <label>Date of Birth (AD)</label>
+            <input type="date" th:field="*{personalInfo.dateOfBirth}" class="form-control">
+        </div>
+
+        <div class="col-md-3 mb-3">
+                    <label>Date of Birth (BS)</label>
+                    <div class="bs-date-wrapper">
+                        <input type="text"
+                               id="dateOfBirthNepali"
+                               th:field="*{personalInfo.dateOfBirthNepali}"
+                               class="form-control"
+                               placeholder="YYYY-MM-DD"
+                               maxlength="10">
+                        <span class="bs-calendar-icon">📅</span>
+                    </div>
+                </div>
+                
+           <div class="col-md-3 mb-3">
+            <label>Citizenship No</label>
+            <input type="text" th:field="*{personalInfo.citizenshipNumber}" class="form-control">
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label>Issued District</label>
+            <input type="text" th:field="*{personalInfo.issuedDistrict}" class="form-control">
+        </div>
+            
+            
+        <div class="col-md-3 mb-3">
+            <label>PAN Number</label>
+            <input type="text" th:field="*{personalInfo.panNumber}" class="form-control">
+        </div>
+        
+        
+        <div class="col-md-3 mb-3">
+            <label>SSF(If Available)</label>
+            <input type="text" th:field="*{personalInfo.ssf}" class="form-control">
+        </div>
+            
+        <div class="col-md-3 mb-3">
+            <label>Gender</label>
+            <select th:field="*{personalInfo.gender}" class="form-control">
+                <option value="">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+           
+        <div class="col-md-6 mb-3">
+            <label>Permanent Address</label>
+            <input type="text" th:field="*{personalInfo.permanentAddress}" class="form-control">
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label>Current Address</label>
+            <input type="text" th:field="*{personalInfo.currentAddress}" class="form-control">
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <label>Phone Number</label>
+            <input type="text" th:field="*{personalInfo.phoneNumber}" class="form-control">
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label>Emergency Contact</label>
+            <input type="text" th:field="*{personalInfo.emergencyContactNumber}" class="form-control">
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label>Social Media ID</label>
+            <input type="text" th:field="*{personalInfo.socialmediaId}" class="form-control">
+        </div>
+        
+        <div class="col-md-3 mb-3">
+    <label>Preferred Method of Communication</label>
+
+    <select name="personalInfo.preferredCommunication"
+            class="form-control"
+            id="communicationSelect"
+            onchange="handleCommunicationChange(this)">
+        <option value="">Select</option>
+        <option value="SMS">SMS</option>
+        <option value="Whatsapp">Whatsapp</option>
+        <option value="Email">Email</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <!-- Hidden text input -->
+    <input type="text"
+           name="personalInfo.preferredCommunication"
+           id="otherInput"
+           class="form-control mt-2"
+           placeholder="Enter preferred communication method"
+           style="display:none;" />
+</div>
+
+
+
+    </div>
+
+    <hr>
+    <h4>Section 1B - Family Information</h4>
+
+    <div class="row">
+
+        
+        <div class="col-md-3 mb-3">
+            <label>Marital Status</label>
+            <select th:field="*{familyInfo.maritalStatus}" class="form-control">
+                <option value="">Select</option>
+                <option value="Unmarried">Unmarried</option>
+                <option value="Married">Married</option>
+                <option value="Single Father/Mom">Single Father/Mom</option>
+                <option value="Divorced">Divorced</option>
+            </select>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label>Blood Group</label>
+            <input type="text" th:field="*{familyInfo.bloodGroup}" class="form-control">
+        </div>
+
+        
+        
+        <div class="col-md-3 mb-3">
+            <label>Name of Spouse</label>
+            <input type="text" th:field="*{familyInfo.spouseName}" class="form-control">
+        </div>
+        
+ 
+        <div class="col-md-3 mb-3">
+            <label>Number of Children</label>
+            <select th:field="*{familyInfo.childrenNumber}" class="form-control">
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="10+">10+</option>
+            </select>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <label>Number of Dependent</label>
+            <select th:field="*{familyInfo.dependentNumber}" class="form-control">
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="10+">10+</option>
+            </select>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+    <label>Active Earners</label>
+
+    <select name="familyInfo.activeEarners"
+            class="form-control"
+            id="activeEarnersSelect"
+            onchange="handleEarnersChange(this)">
+        <option value="">Select</option>
+        <option value="Husband/Wife">Husband/Wife</option>
+        <option value="Brother">Brother</option>
+        <option value="Sister">Sister</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <!-- Hidden text input -->
+    <input type="text"
+           name="familyInfo.activeEarners"
+           id="otherActiveInput"
+           class="form-control mt-2"
+           placeholder="Enter Active Earners"
+           style="display:none;" />
+</div>
+
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">
+        Save & Continue
+    </button>
+
+</form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Nepali Datepicker JS -->
+<script src="https://nepalidatepicker.sajanmaharjan.com.np/v5/nepali.datepicker/js/nepali.datepicker.v5.0.6.min.js" type="text/javascript"></script>
+<script>
+    function handleCommunicationChange(select) {
+        var otherInput = document.getElementById("otherInput");
+
+        if (select.value === "Other") {
+            otherInput.style.display = "block";
+            select.style.display = "none";
+            otherInput.focus();
+        }
+    }
+</script>
+<script>
+    function handleEarnersChange(select) {
+        var otherActiveInput = document.getElementById("otherActiveInput");
+
+        if (select.value === "Other") {
+            otherActiveInput.style.display = "block";
+            select.style.display = "none";
+            otherActiveInput.focus();
+        }
+    }
+</script>
+<script>
+$(document).ready(function () {
+    // Initialize Nepali Datepicker
+    const nepaliDateInput = $('#dateOfBirthNepali');
+    nepaliDateInput.nepaliDatePicker({
+        ndpYear: true,
+        ndpMonth: true,
+        dateFormat: 'yyyy-mm-dd',
+        ndpTriggerButton: false
+    });
+
+    // Emoji click opens calendar
+    $('.bs-calendar-icon').click(function () {
+        nepaliDateInput.focus();
+    });
+
+    // Auto-insert dashes while typing (YYYY-MM-DD)
+    nepaliDateInput.on('input', function () {
+        let val = this.value.replace(/\D/g, '');
+        if (val.length >= 4) val = val.slice(0, 4) + '-' + val.slice(4);
+        if (val.length >= 7) val = val.slice(0, 7) + '-' + val.slice(7, 9);
+        this.value = val;
+    });
+});
+</script>
+</body>
+</html>

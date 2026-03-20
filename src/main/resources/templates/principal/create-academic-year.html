@@ -1,0 +1,62 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+<head>
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/create-academic-year.css}">
+</th:block>
+</head>
+<body>
+
+<div th:with="activePage='createacademic'">
+
+<div th:fragment="content">
+
+<h1 class="page-title">Create Academic Year</h1>
+
+<div class="center-container">
+
+<div class="form-card">
+
+<div class="form-header">
+<h2>New Academic Year</h2>
+<a class="back-btn" th:href="@{/principal/show/academic-years}">← View/Manage Academic Year</a>
+</div>
+
+<form th:action="@{/principal/academic-years/create}"
+      method="post"
+      th:object="${academicYear}"
+      class="form-body">
+
+<label>Academic Year Name</label>
+
+<input type="text"
+       th:field="*{name}"
+       placeholder="Example: 2026-2027"
+       required>
+
+<button type="submit" class="submit-btn">
+Create Academic Year
+</button>
+<div th:if="${errorMessage}" style="color:red; font-weight:600; margin-bottom:10px;">
+    <span th:text="${errorMessage}"></span>
+</div>
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script>
+console.log("Create Academic Year Page Loaded");
+</script>
+</th:block>
+</body>
+</html>

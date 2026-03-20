@@ -1,72 +1,46 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
-<body>
-    <header>
-        <h1>Super Admin Dashboard</h1>
-        <a th:href="@{/logout}">Logout</a>
-    </header>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: layout(~{::section})}">
 
-    <main>
-    <a th:href="@{/admin/audit-logs}">+ Audit Log</a>
-     <a th:href="@{/admin/province-audit-logs}">+ Province Audit Log</a>
-     <a th:href="@{/admin/school-audit-logs}">+ School Audit Log</a>
-     <a th:href="@{/admin/school-user-audit-logs}">+ School User Audit Log</a>
-    <a th:href="@{/admin/hq/users/create}">+ Create HQ Users</a>
-     <a th:href="@{/admin/hq-users}">
-    Manage HQ Users
-</a>
+<section>
 
-      <a th:href="@{/admin/hq-users/deleted}">
-    View Deleted HQ Users
-</a>
+    <div class="ad-header">
+        <h1>Welcome! Mr.Shaildendra Kharel</h1>
+    </div>
 
-     <a th:href="@{/admin/province-users/create}">+ Create Province Users</a>
-    <a th:href="@{/admin/province-users}">
-    Manage Province Users
-</a>
-<a th:href="@{/admin/provinces/create}">
-         + Add Province
-      </a>
-      <a th:href="@{/admin/province-users/deleted}">
-    View Deleted Province Users
-</a>
-      
+    <div class="ad-card">
         <h2>Schools</h2>
-        <a th:href="@{/admin/schools/create}">+ Create New School</a>
-      
-      <a th:href="@{/admin/provinces}">
-         View Provinces
-      </a>
-      
 
-        <table border="1">
+        <table class="ad-table">
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>School Name</th>
-                    <th>Address</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
+            <tr>
+                <th>ID</th>
+                <th>School Name</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
             </thead>
             <tbody>
-                <tr th:each="school : ${schools}">
-                    <td th:text="${school.id}"></td>
-                    <td th:text="${school.name}"></td>
-                    <td th:text="${school.address}"></td>
-                    
-                    <td th:text="${school.active} ? 'Active' : 'Inactive'"></td>
-                    <td>
-                        <a th:href="@{|/admin/schools/${school.id}/users/create|}">Add User</a>
-                    </td>
-                </tr>
+            <tr th:each="school : ${schools}">
+                <td th:text="${school.id}"></td>
+                <td th:text="${school.name}"></td>
+                <td th:text="${school.address}"></td>
+                <td>
+                <span th:if="${school.active}" class="ad-badge ad-badge-active">Active</span>
+                <span th:unless="${school.active}" class="ad-badge ad-badge-inactive">Inactive</span>
+                </td>
+                <td>
+                    <a th:href="@{|/admin/schools/${school.id}/users/create|}"
+                    class="ad-btn ad-btn-primary">
+                    Add User
+                     </a>
+                </td>
+            </tr>
             </tbody>
         </table>
-    </main>
-</body>
+
+    </div>
+
+</section>
 </html>

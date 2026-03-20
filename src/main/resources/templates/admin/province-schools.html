@@ -1,119 +1,116 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: layout(~{::section})}">
+
 <head>
     <meta charset="UTF-8">
     <title>Schools in Province</title>
-    <style>
-        /* Simple color coding for status */
-        .active {
-            color: green;
-            font-weight: bold;
-        }
-        .restricted {
-            color: red;
-            font-weight: bold;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        a.button {
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            color: white;
-        }
-
-        a.enable {
-            background-color: green;
-        }
-
-        a.restrict {
-            background-color: red;
-        }
-
-        a.view {
-            background-color: #007bff;
-        }
-    </style>
 </head>
+
 <body>
 
-<h2>Schools in Province: <span th:text="${province.name}"></span></h2>
-<a th:href="@{/admin/provinces}">Back to Provinces List</a>
-<br><br>
+<section class="ad-province-schools-section">
 
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Logo</th>
-            <th>School Name</th>
-            <th>Address</th>
-            <th>Email</th>
-            <th>Mobile</th>
-            <th>Status</th>
-            <th>View Users</th>
-            <th>Manage</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="school : ${schools}">
-           
-            <td th:text="${school.id}"></td>
-            <td>
-                <img th:if="${school.logo != null}"
-                     th:src="@{'/uploads/' + ${school.logo}}"
-                     width="60" height="60"/>
+    <div class="ad-province-schools-card">
 
-                <span th:if="${school.logo == null}">No Logo</span>
-            </td>
-            <td th:text="${school.name}"></td>
-            <td th:text="${school.address}"></td>
-            <td th:text="${school.email}"></td>
-            <td th:text="${school.mobileNumber}"></td>
-            <td th:text="${school.active ? 'Active' : 'Restricted'}"
-                th:classappend="${school.active ? 'active' : 'restricted'}">
-            </td>
-            <td>
-                <a th:href="@{'/admin/schools/' + ${school.id} + '/users'}" class="button view">View Users</a>
-            </td>
-           <td>
-    <a th:if="${school.active}" 
-       th:href="@{'/admin/schools/restrict/' + ${school.id}}" 
-       class="button restrict"
-       onclick="return confirm('Are you sure you want to restrict this school? All its users will be blocked.')">
-       Restrict
-    </a>
+        <!-- Header -->
+        <div class="ad-province-schools-header">
+            <h2>
+                Schools in Province:
+                <span th:text="${province.name}"></span>
+            </h2>
 
-    <a th:if="${!school.active}" 
-       th:href="@{'/admin/schools/enable/' + ${school.id}}" 
-       class="button enable"
-       onclick="return confirm('Are you sure you want to enable this school? All its users will be able to log in.')">
-       Enable
-    </a>
-    
-     <a th:href="@{'/admin/schools/edit/' + ${school.id}}" 
-       class="button view">
-       Edit
-    </a>
-</td>
+            <a th:href="@{/admin/provinces}"
+               class="ad-province-schools-btn-back">
+                ← Back to Provinces
+            </a>
+        </div>
 
-        </tr>
-    </tbody>
-</table>
+        <!-- Table -->
+        <div class="ad-province-schools-table-wrapper">
+            <table class="ad-province-schools-table">
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Logo</th>
+                    <th>School Name</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Status</th>
+                    <th>Users</th>
+                    <th>Manage</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="school : ${schools}">
+
+                    <td th:text="${school.id}"></td>
+
+                    <td>
+                        <img th:if="${school.logo != null}"
+                             th:src="@{'/uploads/' + ${school.logo}}"
+                             class="ad-province-schools-logo"/>
+
+                        <span th:if="${school.logo == null}"
+                              class="ad-province-schools-no-logo">
+                              No Logo
+                        </span>
+                    </td>
+
+                    <td th:text="${school.name}"></td>
+                    <td th:text="${school.address}"></td>
+                    <td th:text="${school.email}"></td>
+                    <td th:text="${school.mobileNumber}"></td>
+
+                    <td>
+                        <span th:text="${school.active ? 'Active' : 'Restricted'}"
+                              th:classappend="${school.active ? ' ad-province-schools-status-active' : ' ad-province-schools-status-restricted'}"
+                              class="ad-province-schools-status">
+                        </span>
+                    </td>
+
+                    <td>
+                        <a th:href="@{'/admin/schools/' + ${school.id} + '/users'}"
+                           class="ad-province-schools-btn-view">
+                            View Users
+                        </a>
+                    </td>
+
+                    <td class="ad-province-schools-actions">
+
+                        <a th:if="${school.active}"
+                           th:href="@{'/admin/schools/restrict/' + ${school.id}}"
+                           class="ad-province-schools-btn-restrict"
+                           onclick="return confirm('Restrict this school? All users will be blocked.')">
+                           Restrict
+                        </a>
+
+                        <a th:if="${!school.active}"
+                           th:href="@{'/admin/schools/enable/' + ${school.id}}"
+                           class="ad-province-schools-btn-enable"
+                           onclick="return confirm('Enable this school? Users can log in.')">
+                           Enable
+                        </a>
+
+                        <a th:href="@{'/admin/schools/edit/' + ${school.id}}"
+                           class="ad-province-schools-btn-edit">
+                           Edit
+                        </a>
+
+                    </td>
+
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+</section>
 
 </body>
 </html>

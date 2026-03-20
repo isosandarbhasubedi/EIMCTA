@@ -1,96 +1,115 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+     th:replace="~{admin/admin-layout :: layout(~{::section})}">
 <head>
+    <meta charset="UTF-8">
     <title>Audit Logs</title>
 </head>
 <body>
 
-<h2>System Audit Logs</h2>
+<section class="admin-hq-log-card">
 
-<a th:href="@{/admin/dashboard}">
-    Back to Dashboard
-</a>
+    <div class="page-header">
+        <h1>HQ Logs</h1>
+        <a th:href="@{/admin/dashboard}" class="back-btn">
+            Back to Dashboard
+        </a>
+    </div>
 
-<br><br>
+    <!-- 🔎 FILTER SECTION -->
+    <div class="filter-container">
+        <form th:action="@{/admin/audit-logs}" method="get">
 
-<!-- 🔎 FILTER SECTION -->
-<form th:action="@{/admin/audit-logs}" method="get">
+            <div class="filter-group">
+                <label>Filter by Action</label>
 
-    <label><b>Filter by Action:</b></label>
+                <select name="action">
+                    <option value="">-- Show All --</option>
 
-    <select name="action">
+                    <option value="CREATE_USER"
+                            th:selected="${selectedAction == 'CREATE_USER'}">
+                        CREATE_USER
+                    </option>
 
-        <option value="">-- Show All --</option>
+                    <option value="EDIT_USER_PROFILE"
+                            th:selected="${selectedAction == 'EDIT_USER_PROFILE'}">
+                        EDIT_USER_PROFILE
+                    </option>
 
-        <option value="CREATE_USER"
-                th:selected="${selectedAction == 'CREATE_USER'}">
-            CREATE_USER
-        </option>
+                    <option value="ROLE_CHANGED"
+                            th:selected="${selectedAction == 'ROLE_CHANGED'}">
+                        ROLE_CHANGED
+                    </option>
 
-        <option value="EDIT_USER_PROFILE"
-                th:selected="${selectedAction == 'EDIT_USER_PROFILE'}">
-            EDIT_USER_PROFILE
-        </option>
+                    <option value="DELETE_USER"
+                            th:selected="${selectedAction == 'DELETE_USER'}">
+                        DELETE_USER
+                    </option>
 
-        <option value="ROLE_CHANGED"
-                th:selected="${selectedAction == 'ROLE_CHANGED'}">
-            ROLE_CHANGED
-        </option>
+                    <option value="USER_ACTIVATED"
+                            th:selected="${selectedAction == 'USER_ACTIVATED'}">
+                        USER_ACTIVATED
+                    </option>
 
-        <option value="DELETE_USER"
-                th:selected="${selectedAction == 'DELETE_USER'}">
-            DELETE_USER
-        </option>
+                    <option value="USER_DEACTIVATED"
+                            th:selected="${selectedAction == 'USER_DEACTIVATED'}">
+                        USER_DEACTIVATED
+                    </option>
 
-        <option value="USER_ACTIVATED"
-                th:selected="${selectedAction == 'USER_ACTIVATED'}">
-            USER_ACTIVATED
-        </option>
+                    <option value="RESTORE_USER"
+                            th:selected="${selectedAction == 'RESTORE_USER'}">
+                        RESTORE_USER
+                    </option>
+                </select>
 
-        <option value="USER_DEACTIVATED"
-                th:selected="${selectedAction == 'USER_DEACTIVATED'}">
-            USER_DEACTIVATED
-        </option>
+                <button type="submit" class="filter-btn">
+                    Filter
+                </button>
+            </div>
 
-        <option value="RESTORE_USER"
-                th:selected="${selectedAction == 'RESTORE_USER'}">
-            RESTORE_USER
-        </option>
+        </form>
+    </div>
 
-    </select>
+    <!-- 📋 AUDIT TABLE -->
+    <div class="table-responsive">
+        <table class="admin-table">
 
-    <button type="submit">Filter</button>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Action</th>
+                    <th>Entity</th>
+                    <th>Entity ID</th>
+                    <th>Performed By</th>
+                    <th>Time</th>
+                    <th>Details</th>
+                    <th>IP Address</th>
+                </tr>
+            </thead>
 
-</form>
+            <tbody>
+                <tr th:each="log : ${logs}">
+                    <td th:text="${log.id}"></td>
+                    <td th:text="${log.action}"></td>
+                    <td th:text="${log.entityType}"></td>
+                    <td th:text="${log.entityId}"></td>
+                    <td th:text="${log.performedBy}"></td>
+                    <td th:text="${log.performedAt}"></td>
+                    <td th:text="${log.details}"></td>
+                    <td th:text="${log.ipAddress}"></td>
+                </tr>
 
-<br><br>
+                <tr th:if="${#lists.isEmpty(logs)}">
+                    <td colspan="8" style="text-align:center;">
+                        No audit logs found.
+                    </td>
+                </tr>
+            </tbody>
 
-<!-- 📋 AUDIT TABLE -->
-<table border="1">
+        </table>
+    </div>
 
-    <tr>
-        <th>ID</th>
-        <th>Action</th>
-        <th>Entity</th>
-        <th>Entity ID</th>
-        <th>Performed By</th>
-        <th>Time</th>
-        <th>Details</th>
-        <th>IP address</th>
-    </tr>
-
-    <tr th:each="log : ${logs}">
-        <td th:text="${log.id}"></td>
-        <td th:text="${log.action}"></td>
-        <td th:text="${log.entityType}"></td>
-        <td th:text="${log.entityId}"></td>
-        <td th:text="${log.performedBy}"></td>
-        <td th:text="${log.performedAt}"></td>
-        <td th:text="${log.details}"></td>
-        <td th:text="${log.ipAddress}"></td>
-    </tr>
-
-</table>
+</section>
 
 </body>
 </html>

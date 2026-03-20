@@ -30,8 +30,8 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/verify-otp", "/uploads/**", "/about", "/css/**", "/js/**", "/img/**",
-                                 "/reset-password", "/forgot-password", "/register", "/login").permitAll()
+                .requestMatchers("/","/vendor/**", "/verify-otp", "/uploads/**", "/about", "/css/**", "/js/**", "/images/**",
+                                 "/reset-password", "/forgot-password", "/register", "/register-organization", "/login", "/contact").permitAll()
                 .requestMatchers("/admin/**").hasRole("SUPER_ADMIN")
                 .requestMatchers("/hr/**").hasRole("HR")
                 .requestMatchers("/account/**").hasRole("ACCOUNT")
@@ -44,6 +44,7 @@ public class SecurityConfig {
                 .requestMatchers("/coordinator/**").hasRole("COORDINATOR")
                 .requestMatchers("/deo/**").hasRole("DEO")
                 .requestMatchers("/educator/**").hasRole("EDUCATOR")
+                .requestMatchers("/learner/**").hasRole("LEARNER")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -68,6 +69,7 @@ public class SecurityConfig {
             	            case "ROLE_COORDINATOR" -> response.sendRedirect("/coordinator/dashboard");
             	            case "ROLE_DEO" -> response.sendRedirect("/deo/dashboard");
             	            case "ROLE_EDUCATOR" -> response.sendRedirect("/educator/dashboard");
+            	            case "ROLE_LEARNER" -> response.sendRedirect("/learner/dashboard");
             	        }
             	    })
             	)

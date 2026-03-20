@@ -1,0 +1,78 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+    <link rel="stylesheet" th:href="@{/css/principal/unit.css}">
+    <!-- Include FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</th:block>
+<body>
+<div th:with="activePage='unit'">
+
+    <div th:fragment="content">
+
+        <h2 class="page-title">Units Management</h2>
+
+        <!-- Display messages -->
+        <div th:if="${success}" class="alert-success">
+            <p th:text="${success}"></p>
+        </div>
+        <div th:if="${error}" class="alert-error">
+            <p th:text="${error}"></p>
+        </div>
+
+        <!-- Search Form -->
+        <form th:action="@{/principal/units/search}" method="get" class="search-form">
+            <input type="text"
+                   name="keyword"
+                   placeholder="Search units..."
+                   th:value="${keyword}">
+            <button type="submit">Search</button>
+            <a th:href="@{/principal/units}">Reset</a>
+        </form>
+
+        <!-- Table Card -->
+        <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Unit Name</th>
+                    <th>Subject</th>
+                    <th>Section</th>
+                    <th>Class</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="unit : ${units}">
+                    <td th:text="${unit.name}"></td>
+                    <td th:text="${unit.subject.name}"></td>
+                    <td th:text="${unit.subject.section.name}"></td>
+                    <td th:text="${unit.subject.section.classRoom.name}"></td>
+                    <td>
+                        <a th:href="@{/principal/units/edit/{id}(id=${unit.id})}"
+                           class="action-btn edit-btn">
+                           <i class="fa fa-pen"></i> Edit
+                        </a>
+                        <a th:href="@{/principal/units/delete/{id}(id=${unit.id})}"
+                           class="action-btn delete-btn"
+                           onclick="return confirm('Delete this unit?')">
+                           <i class="fa fa-trash"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+    <!-- Add page-specific JS if needed -->
+</th:block>
+</body>
+</html>

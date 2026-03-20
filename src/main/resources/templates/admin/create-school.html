@@ -1,71 +1,91 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: layout(~{::section})}">
+
 <head>
     <meta charset="UTF-8">
     <title>Create School</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
-    <header>
-        <h1>Create School</h1>
-        <a th:href="@{/admin/dashboard}">Back to Dashboard</a>
-    </header>
 
-    <div class="form-container">
-        <form th:action="@{/admin/schools/create}" th:object="${school}" method="post" enctype="multipart/form-data">
-            
-            <div>
-                <label>School Name:</label>
-                <input type="text" th:field="*{name}" placeholder="Enter school name" required />
+<section class="ad-school-create-section">
+
+    <div class="ad-school-create-card">
+
+        <h2 class="ad-school-create-title">Create School</h2>
+
+        <form th:action="@{/admin/schools/create}"
+              th:object="${school}"
+              method="post"
+              enctype="multipart/form-data"
+              class="ad-school-create-form">
+
+            <div class="ad-school-create-grid">
+
+                <div class="ad-school-create-group">
+                    <label>School Name</label>
+                    <input type="text" th:field="*{name}" required />
+                </div>
+
+                <div class="ad-school-create-group">
+                    <label>Email</label>
+                    <input type="email" th:field="*{email}" />
+                </div>
+
+                <div class="ad-school-create-group">
+                    <label>Address</label>
+                    <input type="text" th:field="*{address}" required />
+                </div>
+
+                <div class="ad-school-create-group">
+                    <label>Mobile Number</label>
+                    <input type="text" th:field="*{mobileNumber}" />
+                </div>
+
+                <div class="ad-school-create-group">
+                    <label>Landline Number</label>
+                    <input type="text" th:field="*{landlineNumber}" />
+                </div>
+
+                <div class="ad-school-create-group">
+                    <label>Social Media URL</label>
+                    <input type="text" th:field="*{socialMediaURL}" />
+                </div>
+
+                <div class="ad-school-create-group">
+                    <label>Province</label>
+                    <select th:field="*{province}" required>
+                        <option value="">Select Province</option>
+                        <option th:each="prov : ${provinces}"
+                                th:value="${prov.id}"
+                                th:text="${prov.name}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="ad-school-create-group">
+                    <label>School Logo</label>
+                    <input type="file" name="logoFile" />
+                </div>
+
             </div>
 
-            <div>
-                <label>Address:</label>
-                <input type="text" th:field="*{address}" placeholder="Enter address" required />
+            <div class="ad-school-create-buttons">
+                <button type="submit" class="ad-school-create-btn-primary">
+                    Create School
+                </button>
+
             </div>
 
-            <div>
-                <label>Email:</label>
-                <input type="email" th:field="*{email}" placeholder="Enter email" />
-            </div>
-
-            <div>
-                <label>Mobile Number:</label>
-                <input type="text" th:field="*{mobileNumber}" placeholder="Enter mobile number" />
-            </div>
-
-            <div>
-                <label>Landline Number:</label>
-                <input type="text" th:field="*{landlineNumber}" placeholder="Enter landline number" />
-            </div>
-
-            <div>
-                <label>Social Media URL:</label>
-                <input type="text" th:field="*{socialMediaURL}" placeholder="Enter social media link" />
-            </div>
-
-            <div>
-                <label>Province:</label>
-                <select th:field="*{province}" required>
-                    <option value="">Select Province</option>
-                    <option th:each="prov : ${provinces}" th:value="${prov.id}" th:text="${prov.name}"></option>
-                </select>
-            </div>
-
-            <div>
-                <label>School Logo:</label>
-                <input type="file" name="logoFile" />
-            </div>
-
-            <div>
-                <button type="submit">Create School</button>
-            </div>
-
-            <div th:if="${error}">
-                <p style="color:red;" th:text="${error}"></p>
+            <div th:if="${error}" class="ad-school-create-error">
+                <span th:text="${error}"></span>
             </div>
 
         </form>
+
     </div>
+
+</section>
 </body>
 </html>

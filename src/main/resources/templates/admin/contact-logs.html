@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: layout(~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Audit Log</title>
+</head>
+
+<body>
+
+<section class="ad-audit-section">
+
+    <!-- Header -->
+    <div class="ad-audit-header">
+        <h1>Contact Status Log</h1>
+    </div>
+
+    <!-- Filter Form -->
+    <form th:action="@{/admin/contacts/logs}"
+          method="get"
+          class="ad-audit-filter-form">
+
+        <label>Filter by To Status:</label>
+
+        <select name="toStatus">
+            <option value="">-- Show All --</option>
+            <option th:each="s : ${statuses}"
+                    th:value="${s}"
+                    th:text="${s}"
+                    th:selected="${s == selectedStatus}">
+            </option>
+        </select>
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Table Card -->
+    <div class="ad-audit-card">
+        <div class="ad-audit-table-wrapper">
+            <table class="ad-audit-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Contact ID</th>
+                    <th>Changed By</th>
+                    <th>From Status</th>
+                    <th>To Status</th>
+                    <th>Changed At</th>
+                    <th>Performed At</th>
+                    <th>IP Address</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="log : ${logs}">
+                    <td th:text="${log.id}"></td>
+                    <td th:text="${log.contactId}"></td>
+                    <td th:text="${log.changedBy}"></td>
+
+                    <td>
+                        <span class="ad-badge"
+                              th:text="${log.fromStatus}"
+                              th:classappend="
+                                ${log.fromStatus.name() == 'PENDING'} ? ' ad-pending' :
+                                (${log.fromStatus.name() == 'ON_PROGRESS'} ? ' ad-progress' :
+                                (${log.fromStatus.name() == 'COMPLETED'} ? ' ad-completed' : ''))">
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="ad-badge"
+                              th:text="${log.toStatus}"
+                              th:classappend="
+                                ${log.toStatus.name() == 'PENDING'} ? ' ad-pending' :
+                                (${log.toStatus.name() == 'ON_PROGRESS'} ? ' ad-progress' :
+                                (${log.toStatus.name() == 'COMPLETED'} ? ' ad-completed' : ''))">
+                        </span>
+                    </td>
+
+                    <td th:text="${log.changedAt}"></td>
+                    <td th:text="${log.performedAt}"></td>
+                    <td th:text="${log.ipAddress}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

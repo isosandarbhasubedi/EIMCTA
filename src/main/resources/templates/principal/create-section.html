@@ -1,0 +1,79 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/create-section.css}">
+</th:block>
+
+<div th:with="activePage='createsection'">
+
+<div th:fragment="content">
+
+<h1 class="page-title">Create Section</h1>
+
+<div class="center-container">
+
+<div class="form-card">
+
+<div class="form-header">
+<h2>New Section</h2>
+
+<a class="back-btn" th:href="@{/principal/sections}">
+← Back
+</a>
+
+</div>
+
+<form th:action="@{/principal/sections/create}"
+      th:object="${section}"
+      method="post"
+      class="form-body">
+
+<label>Select Classroom</label>
+
+<select name="classRoomId" required>
+
+<option value="">Select Classroom</option>
+
+<option th:each="c : ${classrooms}"
+        th:value="${c.id}"
+        th:text="${c.name}">
+</option>
+
+</select>
+
+
+<label>Section Name</label>
+
+<input type="text"
+       th:field="*{name}"
+       placeholder="Example: A"
+       required>
+
+
+<button type="submit" class="submit-btn">
+Create Section
+</button>
+<div th:if="${errorMessage}" style="color:red; font-weight:600; margin-bottom:10px;">
+    <span th:text="${errorMessage}"></span>
+</div>
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script>
+console.log("Create Section Loaded");
+</script>
+</th:block>
+
+</html>

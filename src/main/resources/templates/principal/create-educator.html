@@ -8,7 +8,7 @@
 <h1>Create Educator</h1>
 <a th:href="@{./dashboard}">Back to Dashboard</a>
 
-<form th:action="@{./educators/create}" th:object="${user}" method="post">
+<form th:action="@{/principal/educators/create}" th:object="${user}" method="post">
     <input type="text" th:field="*{username}" placeholder="Full Name" required />
     <input type="email" th:field="*{email}" placeholder="Email" required />
     <input type="password" th:field="*{password}" placeholder="Password" required />

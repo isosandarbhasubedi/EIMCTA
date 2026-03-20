@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(content)">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <!-- Nepali Date Picker CSS -->
+    </head>
+
+<body class="ad-body">
+
+<div class="ad-wrapper">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="ad-sidebar">
+
+        <div class="ad-logo">
+            <h2>Super Admin</h2>
+        </div>
+
+        <nav class="ad-menu">
+            
+            <p class="ad-section">Dashboard</p>
+            <a th:href="@{/admin/dashboard}">School Dashboard</a>
+            
+            
+            <p class="ad-section">Registrations</p>
+            <a th:href="@{/admin/registrations}">Registration Request</a>
+            <a th:href="@{/admin/registrations/logs}">Registration Log</a>
+
+            <p class="ad-section">Contacts</p>
+            <a th:href="@{/admin/contacts}">Contact Message</a>
+            <a th:href="@{/admin/contacts/logs}">Contact Log</a>
+
+            <p class="ad-section">Logs</p>
+            <a th:href="@{/admin/audit-logs}">Head Office Log</a>
+            <a th:href="@{/admin/province-audit-logs}">Province Log</a>
+            <a th:href="@{/admin/school-audit-logs}">School Log</a>
+            <a th:href="@{/admin/school-user-audit-logs}">School User Log</a>
+
+            <p class="ad-section">HQ Users</p>
+            <a th:href="@{/admin/hq/users/create}">Create HQ User</a>
+            <a th:href="@{/admin/hq-users}">Manage HQ Users</a>
+            <a th:href="@{/admin/hq-users/deleted}">Deleted HQ Users</a>
+
+            <p class="ad-section">Province Users</p>
+            <a th:href="@{/admin/province-users/create}">Create Province User</a>
+            <a th:href="@{/admin/province-users}">Manage Province Users</a>
+            <a th:href="@{/admin/province-users/deleted}">Deleted Province Users</a>
+
+            <p class="ad-section">Provinces</p>
+            <a th:href="@{/admin/provinces/create}">Add Province</a>
+            <a th:href="@{/admin/provinces}">View School with Provinces</a>
+
+            <p class="ad-section">Schools</p>
+            <a th:href="@{/admin/schools/create}">Create School</a>
+
+        </nav>
+
+        <div class="ad-logout">
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+
+    </aside>
+
+    <!-- ================= CONTENT ================= -->
+    <main class="ad-content">
+
+        <div th:replace="${content}"></div>
+   </main>
+
+</div>
+</html>

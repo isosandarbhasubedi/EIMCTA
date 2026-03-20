@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+<th:block th:fragment="pageCss">
+    <style>
+       </style>
+</th:block>
+<body>
+<div th:with="activePage='learners'">
+
+<div th:fragment="content" class="container mt-4">
+<div class="container mt-4">
+
+    <h3>Section 1: Learner Basic Details</h3>
+
+    <form th:action="@{/principal/learners/section/1/save}" 
+          th:object="${details}" method="post">
+
+        <input type="hidden" th:field="*{learner.id}" />
+
+        <!-- Name -->
+        <div class="mb-3">
+            <label>Name</label>
+            <input type="text" th:field="*{name}" class="form-control" required />
+        </div>
+
+        <!-- DOB -->
+        <div class="mb-3">
+            <label>Date of Birth</label>
+            <input type="date" th:field="*{dateOfBirth}" class="form-control" required />
+        </div>
+
+        <!-- Gender -->
+        <div class="mb-3">
+            <label>Gender</label>
+            <select th:field="*{gender}" class="form-control">
+                <option value="">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <!-- Grade -->
+        <div class="mb-3">
+            <label>Grade Applied For</label>
+            <input type="text" th:field="*{gradeAppliedFor}" class="form-control" />
+        </div>
+
+        <!-- Address -->
+        <div class="mb-3">
+            <label>Current Address</label>
+            <textarea th:field="*{currentAddress}" class="form-control"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label>Permanent Address</label>
+            <textarea th:field="*{permanentAddress}" class="form-control"></textarea>
+        </div>
+
+        <!-- Previous School -->
+        <div class="mb-3">
+            <label>Previous School Name</label>
+            <input type="text" th:field="*{previousSchoolName}" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Previous School Address</label>
+            <textarea th:field="*{previousSchoolAddress}" class="form-control"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label>Reason for Leaving</label>
+            <textarea th:field="*{reasonForLeaving}" class="form-control"></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-success">
+            Save & Continue
+        </button>
+
+    </form>
+
+</div>
+</div>
+</div>
+<th:block th:fragment="pageJs">
+<script>
+console.log("Academic Years Page Loaded");
+</script>
+</th:block>
+</body>
+</html>

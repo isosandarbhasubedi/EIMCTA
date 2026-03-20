@@ -1,0 +1,3114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.ad-content {
+    flex: 1;
+    background: #f4f6f9;
+    padding: 30px;
+    overflow-y: auto;    /* scrollable content */
+    min-height: 100vh;
+}
+
+/* Layout */
+.ad-wrapper {
+    display: flex;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+
+/* Sidebar */
+.ad-sidebar {
+    width: 260px;
+    background: #0d47a1;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: sticky;      /* keeps sidebar visible */
+    top: 0;                /* stick to top */
+    height: 100vh;         /* full viewport height */
+    overflow-y: auto;      /* scroll inside sidebar if needed */
+}
+
+/* Optional: scrollbar style for sidebar */
+.ad-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ad-sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 3px;
+}
+
+.ad-logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ad-menu {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.ad-section {
+    margin-top: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    opacity: 0.7;
+}
+
+.ad-menu a {
+    display: block;
+    padding: 8px 10px;
+    margin-top: 5px;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.ad-menu a:hover {
+    background: #1565c0;
+}
+
+.ad-logout a {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: #c62828;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+}
+
+.ad-logout a:hover {
+    background: #b71c1c;
+}
+
+/* ================= DASHBOARD HEADER ================= */
+
+.ad-header {
+    margin-bottom: 25px;
+    margin-top :20px;
+}
+
+.ad-header h1 {
+    font-size: 26px;
+    font-weight: 600;
+    color: #0d47a1;
+}
+
+
+/* ================= CARDS ================= */
+
+.ad-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+    
+}
+
+.ad-stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    transition: 0.3s;
+
+}
+
+.ad-stat-card:hover {
+    transform: translateY(-4px);
+}
+
+.ad-stat-card h3 {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.ad-stat-card h2 {
+    font-size: 24px;
+    color: #0d47a1;
+}
+
+
+/* ================= CARD CONTAINER ================= */
+
+.ad-card {
+    background: #f1e5d0;;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    
+}
+
+
+/* ================= TABLE ================= */
+
+.ad-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+
+}
+
+.ad-table th {
+    background: #1565c0;
+    color: white;
+    font-weight: 500;
+    padding: 12px;
+    text-align: left;
+}
+
+.ad-table td {
+    padding: 12px;
+    border-bottom: 1px solid #1565c0;
+}
+
+.ad-table tr:hover {
+    background: #f5f9ff;
+}
+
+
+/* ================= STATUS BADGES ================= */
+
+.ad-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.ad-badge-active {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.ad-badge-inactive {
+    background: #ffebee;
+    color: #c62828;
+}
+
+
+/* ================= ACTION BUTTON ================= */
+
+.ad-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-block;
+    transition: 0.2s;
+}
+
+.ad-btn-primary {
+    background: #1565c0;
+    color: white;
+}
+
+.ad-btn-primary:hover {
+    background: #0d47a1;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+    .ad-wrapper {
+        flex-direction: column;
+    }
+
+    .ad-sidebar {
+        width: 100%;
+        height: auto;
+    }
+
+    .ad-content {
+        padding: 15px;
+    }
+
+}
+
+/* =========================================
+   CREATE USER PAGE (Centered + Toggle)
+   Prefix: ad-cu-
+   ========================================= */
+
+/* ===============================
+   CREATE USER PAGE (acu prefix)
+================================= */
+
+.acu-page {
+    padding: 40px;
+    min-height: 100vh;
+}
+
+.acu-header {
+    margin-bottom: 30px;
+}
+
+.acu-header h1 {
+    font-size: 26px;
+    font-weight: 600;
+    margin-left :460px;
+}
+
+/* This fixes touching sidebar issue */
+.acu-center-wrapper {
+    display: flex;
+    justify-content: center;   /* horizontal center */
+    align-items: center;       /* vertical center */
+    min-height: calc(100vh - 180px);
+  
+}
+
+/* Card */
+.acu-card {
+    background: #1565c0;
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+/* Form group */
+.acu-form-group {
+    margin-bottom: 20px;
+}
+
+.acu-form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.acu-form-group input,
+.acu-form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* Button */
+.acu-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #2c3e50;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.acu-btn:hover {
+    background: #1a252f;
+}
+
+/* Error */
+.acu-error {
+    margin-top: 15px;
+    color: red;
+    font-size: 14px;
+}
+
+/* Password visibility */
+.acu-password-wrapper {
+    position: relative;
+}
+
+.acu-password-wrapper input {
+    padding-right: 40px;
+}
+
+.acu-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* ======================================
+   ADMIN REGISTRATION REQUESTS (arr-)
+====================================== */
+
+/* =============================
+   Registration Requests Styles
+============================= */
+.arr-header {
+    margin-bottom: 20px;
+    color : #0b3d91;
+}
+
+.arr-filter-form {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left : 400px;
+}
+
+.arr-filter-form select,
+.arr-filter-form button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #0b3d91;
+}
+
+/* Card Wrapper */
+.arr-table-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Card */
+.arr-card {
+    background: #f1e5d0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Columns */
+.arr-card-columns {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.arr-col {
+    flex: 1;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Row inside columns */
+.arr-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.arr-label {
+    font-weight: bold;
+    min-width: 140px;
+    color: black;
+}
+
+.arr-value {
+    flex: 1;
+    word-break: break-word;
+    color: black;
+}
+
+/* Card footer (update status) */
+.arr-card-footer {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.arr-card-footer select {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #0b3d91;
+}
+
+.arr-card-footer button {
+    padding: 5px 15px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.arr-card-footer button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+    .arr-card-columns {
+        flex-direction: column;
+    }
+}
+
+/* =============================
+   Registration Status Audit Log
+   Prefix: rsa-
+============================= */
+.rsa-header {
+    margin-bottom: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #0d47a1;
+}
+
+/* Filter Form */
+.rsa-filter-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 15px 20px;
+    background-color: #0b3d91;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    flex-wrap: wrap;
+}
+
+.rsa-filter-form label {
+    font-weight: 600;
+    color: white;
+}
+
+.rsa-filter-form select {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    font-size: 14px;
+    min-width: 180px;
+    outline: none;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.rsa-filter-form select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+}
+
+.rsa-filter-form button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #0d47a1;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.rsa-filter-form button:hover {
+    background-color: #1565c0;
+}
+
+/* Table Wrapper */
+.rsa-table-wrapper {
+    overflow-x: auto;
+    border-radius: 10px;
+}
+
+/* Table */
+.rsa-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f1e5d0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.rsa-table th, .rsa-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #0d47a1;
+}
+
+.rsa-table th {
+    background-color: #0d47a1;
+    color: white;
+}
+
+.rsa-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Status Badges */
+.rsa-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.rsa-pending {
+    background-color: #ffc107;
+}
+
+.rsa-on-progress {
+    background-color: #17a2b8;
+}
+
+.rsa-completed {
+    background-color: #28a745;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .rsa-filter-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .rsa-filter-form select,
+    .rsa-filter-form button {
+        width: 100%;
+    }
+
+    .rsa-table th,
+    .rsa-table td {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+}
+
+/* =========================
+   Contact Page - Prefix: ad-contact-
+============================ */
+
+/* =========================
+   Contact Page - Prefix: ad-contact-
+============================ */
+
+/* ===============================
+   CONTACT PAGE STYLES
+=============================== */
+
+/* Section & Card */
+.ad-contact-section {
+    padding: 20px;
+}
+
+.ad-contact-card {
+    background: #f1e5d0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    overflow-x: auto;
+}
+
+/* Header */
+.ad-contact-header h1 {
+    margin-bottom: 20px;
+    color: #0b3d91;
+}
+
+/* Filter Form */
+.ad-contact-filter-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.ad-contact-filter-form label {
+    font-weight: 600;
+    color: #0b3d91;
+}
+
+.ad-contact-filter-form select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #0b3d91;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    min-width: 180px;
+}
+
+.ad-contact-filter-form select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.15);
+}
+
+.ad-contact-filter-form button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ad-contact-filter-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Table Styles */
+.ad-contact-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ad-contact-table th,
+.ad-contact-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.ad-contact-table th {
+    background-color: #0d47a1;
+    color: white;
+    text-align: center;
+}
+
+.ad-contact-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Update Form in Table */
+.ad-contact-update-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ad-contact-update-form select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    font-size: 14px;
+}
+
+.ad-contact-update-form button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ad-contact-update-form button:hover {
+    background-color: #218838;
+}
+
+/* ===============================
+   RESPONSIVE TABLE AS CARDS
+=============================== */
+@media (max-width: 768px) {
+    .ad-contact-table,
+    .ad-contact-table thead,
+    .ad-contact-table tbody,
+    .ad-contact-table th,
+    .ad-contact-table td,
+    .ad-contact-table tr {
+        display: block;
+        width: 100%;
+    }
+
+    .ad-contact-table thead tr {
+        display: none; /* hide headers */
+    }
+
+    .ad-contact-table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+        white-space: normal;
+    }
+
+    .ad-contact-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #495057;
+        margin-right: 10px;
+        flex: 1;
+    }
+
+    /* Make update form stack vertically */
+    .ad-contact-update-form {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 5px;
+    }
+
+    .ad-contact-update-form select,
+    .ad-contact-update-form button {
+        width: 100%;
+        margin-top: 5px;
+    }
+}
+
+/* ===============================
+  Contact AUDIT PAGE
+================================== */
+
+.ad-audit-section {
+    padding: 25px;
+    background: #f1e5d0;
+}
+
+.ad-audit-header h1 {
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #0b3d91;
+}
+
+/* ===============================
+   FILTER FORM
+================================== */
+
+.ad-audit-filter-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 18px 20px;
+    background: #0b3d91;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+    flex-wrap: wrap;
+    color:white;
+}
+
+.ad-audit-filter-form label {
+    font-weight: 600;
+}
+
+.ad-audit-filter-form select {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid #f1e5d0;
+    min-width: 180px;
+}
+
+.ad-audit-filter-form button {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    background: #0d6efd;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ad-audit-filter-form button:hover {
+    background: #0b5ed7;
+}
+
+/* ===============================
+   CARD
+================================== */
+
+/* ===============================
+   CARD FIX
+================================== */
+
+.ad-audit-card {
+    background: #f1e5d0;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;        /* prevent visual overflow */
+}
+
+/* ===============================
+   TABLE WRAPPER
+================================== */
+
+.ad-audit-table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;        /* scroll only if needed */
+}
+
+/* ===============================
+   TABLE PROPER FIT
+================================== */
+
+.ad-audit-table {
+    width: 100%;             /* never exceed card width */
+    border-collapse: collapse;
+    table-layout: fixed;     /* IMPORTANT: prevents expansion */
+}
+
+/* Cells */
+.ad-audit-table th,
+.ad-audit-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #0d47a1;
+
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;     /* allow text wrapping */
+}
+
+/* Header */
+.ad-audit-table th {
+    background: #0d47a1;
+    color: white;
+}
+
+
+.ad-audit-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+/* ===============================
+   BADGES
+================================== */
+
+.ad-badge {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+    min-width: 90px;
+}
+
+.ad-pending {
+    background: #ffc107;
+    color: #212529;
+}
+
+.ad-progress {
+    background: #0dcaf0;
+    color: white;
+}
+
+.ad-completed {
+    background: #198754;
+    color: white;
+}
+
+/* ===============================
+   RESPONSIVE
+================================== */
+
+@media (max-width: 992px) {
+
+    .ad-audit-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .ad-audit-filter-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ad-audit-filter-form select,
+    .ad-audit-filter-form button {
+        width: 100%;
+    }
+}
+
+
+/* ================================
+   ADMIN HQ LOG PAGE
+================================== */
+
+.admin-hq-log-card {
+    padding: 30px 20px;
+    background-color: #f1e5d0;
+}
+
+/* Header */
+.admin-hq-log-card .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.admin-hq-log-card .page-header h1 {
+    font-size: 1.8rem;
+    color: #0b3d91;
+}
+
+.admin-hq-log-card .back-btn {
+    padding: 7px 14px;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.admin-hq-log-card .back-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Filter Section */
+.admin-hq-log-card .filter-container {
+    background: #0b3d91;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    color : white;
+}
+
+.admin-hq-log-card .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-hq-log-card .filter-group label {
+    font-weight: 600;
+}
+
+.admin-hq-log-card select {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+}
+
+.admin-hq-log-card .filter-btn {
+    padding: 8px 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-hq-log-card .filter-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Table */
+.admin-hq-log-card .table-responsive {
+    overflow-x: auto;
+}
+
+.admin-hq-log-card .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f1e5d0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.admin-hq-log-card .admin-table th,
+.admin-hq-log-card .admin-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #0b3d91;
+    text-align: left;
+    font-size: 14px;
+}
+
+.admin-hq-log-card .admin-table th {
+    background-color: #0b3d91;
+    color: white;
+}
+
+.admin-hq-log-card .admin-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+/* ================================
+   ADMIN PROVINCE LOG PAGE
+================================== */
+
+.admin-province-log-card {
+    padding: 30px 20px;
+    background-color: #f1e5d0;
+}
+
+/* Header */
+.admin-province-log-card .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.admin-province-log-card .page-header h1 {
+    font-size: 1.8rem;
+    color: #0b3d91;
+}
+
+.admin-province-log-card .back-btn {
+    padding: 7px 14px;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.admin-province-log-card .back-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Filter Section */
+.admin-province-log-card .filter-container {
+    background: #0b3d91;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    color:white;
+}
+
+.admin-province-log-card .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-province-log-card select {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+}
+
+.admin-province-log-card .filter-btn {
+    padding: 8px 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-province-log-card .filter-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Table */
+.admin-province-log-card .table-responsive {
+    overflow-x: auto;
+}
+
+.admin-province-log-card .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f1e5d0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.admin-province-log-card .admin-table th,
+.admin-province-log-card .admin-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #0b3d91;
+    text-align: left;
+    font-size: 14px;
+}
+
+.admin-province-log-card .admin-table th {
+    background-color: #0b3d91;
+    color: white;
+}
+
+.admin-province-log-card .admin-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+/* ================================
+   ADMIN SCHOOL LOG PAGE
+================================== */
+.admin-school-log-card {
+    padding: 30px 20px;
+    background-color: #f1e5d0;
+}
+
+/* Header */
+.admin-school-log-card .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.admin-school-log-card .page-header h1 {
+    font-size: 1.8rem;
+    color: #0b3d91;
+}
+
+.admin-school-log-card .back-btn {
+    padding: 7px 14px;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.admin-school-log-card .back-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Filter Section */
+.admin-school-log-card .filter-container {
+    background: #0b3d91;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    color:white;
+}
+
+.admin-school-log-card .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-school-log-card select {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+}
+
+.admin-school-log-card .filter-btn {
+    padding: 8px 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-school-log-card .filter-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Table */
+.admin-school-log-card .table-responsive {
+    overflow-x: auto;
+}
+
+.admin-school-log-card .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f1e5d0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.admin-school-log-card .admin-table th,
+.admin-school-log-card .admin-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #0b3d91;
+    text-align: left;
+    font-size: 14px;
+}
+
+.admin-school-log-card .admin-table th {
+    background-color: #0b3d91;
+    color: white;
+}
+
+.admin-school-log-card .admin-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+/* ==========================================
+   ADMIN SCHOOL USER AUDIT LOG PAGE
+========================================== */
+
+.admin-school-user-log-card {
+    padding: 30px 20px;
+    background-color: #f1e5d0;
+}
+
+/* Header */
+.admin-school-user-log-card .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.admin-school-user-log-card .page-header h1 {
+    font-size: 1.8rem;
+    color: #0b3d91;
+}
+
+.admin-school-user-log-card .back-btn {
+    padding: 7px 14px;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.admin-school-user-log-card .back-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Filter Section */
+.admin-school-user-log-card .filter-container {
+    background: #0b3d91;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    color : white;
+}
+
+.admin-school-user-log-card .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.admin-school-user-log-card select {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    min-width: 220px;
+}
+
+.admin-school-user-log-card .filter-btn {
+    padding: 8px 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-school-user-log-card .filter-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Table */
+.admin-school-user-log-card .table-responsive {
+    overflow-x: auto;
+}
+
+.admin-school-user-log-card .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f1e5d0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.admin-school-user-log-card .admin-table th,
+.admin-school-user-log-card .admin-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f1e5d0;
+    text-align: left;
+    font-size: 14px;
+}
+
+.admin-school-user-log-card .admin-table th {
+    background-color: #0b3d91;
+    color: white;
+}
+
+.admin-school-user-log-card .admin-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* ================================
+   CREATE COMPANY USER PAGE
+================================== */
+
+.create-company-user-card {
+    padding: 40px 20px;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+}
+
+.create-company-user-card .page-header {
+    position: absolute;
+    top: 20px;
+    margin-left: 10px;
+}
+
+.create-company-user-card .page-header h1 {
+    font-size: 1.8rem;
+    color: #0b3d91;
+}
+
+
+
+/* Form Card */
+.create-company-user-card .form-container {
+    background-color: #f1e5d0;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Form Groups */
+.create-company-user-card .form-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.create-company-user-card label {
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.create-company-user-card input,
+.create-company-user-card select {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.create-company-user-card input:focus,
+.create-company-user-card select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Password Wrapper */
+.create-company-user-card .password-wrapper {
+    position: relative;
+}
+
+.create-company-user-card .password-wrapper input {
+    width: 100%;
+    padding-right: 60px;
+}
+
+.create-company-user-card .toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 13px;
+    color: #007bff;
+    font-weight: 500;
+}
+
+/* Button */
+.create-company-user-card .form-actions {
+    margin-top: 20px;
+}
+
+.create-company-user-card .create-btn {
+    padding: 10px 18px;
+    background-color: #0b3d91;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+    margin-left: 150px;
+}
+
+.create-company-user-card .create-btn:hover {
+    background-color: #218838;
+}
+
+/* ================================
+   HQ USERS PAGE
+================================== */
+
+.hq-users-card {
+    padding: 30px 20px;
+    background-color: #f8f9fa;
+}
+
+/* Header */
+.hq-users-card .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.hq-users-card .page-header h1 {
+    font-size: 1.5rem;
+    color: #0b3d91;
+}
+
+.hq-users-card .header-actions a {
+    margin-left: 10px;
+}
+
+.hq-users-card .deleted-btn {
+    padding: 7px 14px;
+    background-color: #17a2b8;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.hq-users-card .deleted-btn:hover {
+    background-color: #138496;
+}
+
+.hq-users-card .back-btn {
+    padding: 7px 14px;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.hq-users-card .back-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Table */
+.hq-users-card .table-responsive {
+    overflow-x: auto;
+}
+
+.hq-users-card .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f1e5d0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.hq-users-card .admin-table th,
+.hq-users-card .admin-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #0b3d91;
+    text-align: left;
+}
+
+.hq-users-card .admin-table th {
+    background-color: #0b3d91;
+    color: white;
+}
+
+.hq-users-card .admin-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Status Badges */
+.hq-users-card .status-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.hq-users-card .status-badge.active {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.hq-users-card .status-badge.inactive {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Action links */
+.hq-users-card .action-cell {
+    white-space: nowrap;
+}
+
+.hq-users-card .action-link {
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.hq-users-card .edit-link {
+    color: #007bff;
+}
+
+.hq-users-card .toggle-link {
+    color: #ffc107;
+}
+
+.hq-users-card .delete-link {
+    color: #dc3545;
+}
+
+.hq-users-card .action-link:hover {
+    text-decoration: underline;
+}
+
+/* Vertical Pipe */
+.hq-users-card .action-pipe {
+    margin: 0 6px;
+    color: #999;
+}
+
+/* ================================
+   EDIT HQ USER PAGE
+================================== */
+
+.edit-hq-user-card {
+    padding: 40px 20px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    border-radius: 15px;
+}
+
+/* Header */
+.edit-hq-user-card .page-header {
+    position: absolute;
+    top: 20px;
+  
+}
+
+.edit-hq-user-card .page-header h1 {
+    font-size: 1.8rem;
+    color: #0b3d91;
+}
+
+.edit-hq-user-card .back-btn {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 6px 14px;
+    background-color: #0b3d91;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.edit-hq-user-card .back-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Form Card */
+.edit-hq-user-card .form-container {
+    background-color: #f1e5d0;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Form Fields */
+.edit-hq-user-card .form-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-hq-user-card label {
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.edit-hq-user-card input,
+.edit-hq-user-card select {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.edit-hq-user-card input:focus,
+.edit-hq-user-card select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button */
+.edit-hq-user-card .form-actions {
+    margin-top: 20px;
+}
+
+.edit-hq-user-card .update-btn {
+    padding: 10px 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+    margin-left: 170px;
+}
+
+.edit-hq-user-card .update-btn:hover {
+    background-color: #0056b3;
+}
+
+
+/* ================================
+   DELETED HQ USERS PAGE
+================================== */
+
+.deleted-hq-users-card {
+    padding: 30px 20px;
+    background-color: #f1e5d0;
+}
+
+/* Header */
+.deleted-hq-users-card .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.deleted-hq-users-card .page-header h1 {
+    font-size: 1.8rem;
+    color: #0b3d91;
+}
+
+.deleted-hq-users-card .back-btn {
+    padding: 7px 14px;
+    background-color: #0b3d91;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.deleted-hq-users-card .back-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Table */
+.deleted-hq-users-card .table-responsive {
+    overflow-x: auto;
+}
+
+.deleted-hq-users-card .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.deleted-hq-users-card .admin-table th,
+.deleted-hq-users-card .admin-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #0b3d91;
+    text-align: left;
+}
+
+.deleted-hq-users-card .admin-table th {
+    background-color: #0b3d91;
+    color: white;
+}
+
+.deleted-hq-users-card .admin-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Restore Button */
+.deleted-hq-users-card .restore-btn {
+    padding: 6px 12px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.deleted-hq-users-card .restore-btn:hover {
+    background-color: #218838;
+}
+
+/* =================================
+   CREATE PROVINCE USER PAGE
+================================= */
+
+.ad-province-user-create-section {
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.ad-province-user-create-card {
+    width: 100%;
+    max-width: 650px;
+    background: #f1e5d0;
+    padding: 40px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.ad-province-user-create-header {
+    margin-bottom: 30px;
+}
+
+.ad-province-user-create-header h2 {
+    margin: 0;
+}
+
+/* FORM */
+
+.ad-province-user-create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ad-province-user-create-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ad-province-user-create-group label {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.ad-province-user-create-group input,
+.ad-province-user-create-group select {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #0b3d91;
+    font-size: 14px;
+    transition: border 0.2s ease;
+}
+
+.ad-province-user-create-group input:focus,
+.ad-province-user-create-group select:focus {
+    outline: none;
+    border-color: #0d6efd;
+}
+
+/* PASSWORD WRAPPER */
+
+.ad-province-user-create-password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.ad-province-user-create-password-wrapper input {
+    width: 100%;
+    padding-right: 70px;
+}
+
+/* TOGGLE BUTTON */
+
+.ad-province-user-create-toggle {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    color: #0d6efd;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.ad-province-user-create-toggle:hover {
+    text-decoration: underline;
+}
+
+/* BUTTONS */
+
+.ad-province-user-create-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.ad-province-user-create-btn-primary {
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: none;
+    background-color: #0d6efd;
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.ad-province-user-create-btn-primary:hover {
+    background-color: #0b5ed7;
+}
+
+.ad-province-user-create-btn-secondary {
+    padding: 10px 18px;
+    border-radius: 6px;
+    background-color: #f1f3f5;
+    text-decoration: none;
+    color: #333;
+    display: inline-flex;
+    align-items: center;
+}
+
+.ad-province-user-create-btn-secondary:hover {
+    background-color: #e2e6ea;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+    .ad-province-user-create-card {
+        padding: 25px;
+    }
+
+    .ad-province-user-create-actions {
+        flex-direction: column;
+    }
+
+    .ad-province-user-create-btn-primary,
+    .ad-province-user-create-btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ===============================
+   Province Users Page
+   Prefix: admin-province-users
+================================== */
+
+/* Card & Table */
+.admin-province-users-card {
+    background: #f1e5d0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    overflow-x: auto; /* horizontal scroll only on small screens */
+}
+
+.admin-province-users-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
+
+.admin-province-users-table th,
+.admin-province-users-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #0b3d91;
+    text-align: center;
+}
+
+.admin-province-users-table th {
+    background-color: #0b3d91;
+    color: white;
+}
+
+.admin-province-users-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Status badges */
+.admin-province-users-card .badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    color: white;
+}
+
+.admin-province-users-card .active-badge {
+    background-color: #28a745;
+}
+
+.admin-province-users-card .inactive-badge {
+    background-color: #dc3545;
+}
+
+/* Action buttons */
+.admin-province-users-card .btn {
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 13px;
+    margin: 0 2px;
+}
+
+
+.admin-province-users-card .btn-edit {
+    background-color: #007bff;
+}
+
+.admin-province-users-card .btn-toggle {
+    background-color: #17a2b8;
+}
+
+.admin-province-users-card .btn-delete {
+    background-color: #dc3545;
+}
+
+.admin-province-users-card .btn:hover {
+    opacity: 0.85;
+}
+
+/* Alert */
+.admin-province-users-section .alert {
+    color: #dc3545;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+/* Header with Add button */
+.admin-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.admin-section-header .btn-add {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.admin-section-header .btn-add:hover {
+    opacity: 0.85;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-province-users-table {
+        min-width: 600px;
+    }
+    
+    .admin-province-users-card .btn-toggle {
+    margin-top : 10px;
+}
+}
+
+
+/* ================================
+   DELETED PROVINCE USERS PAGE
+================================== */
+
+/* Page container */
+.deleted-province-users-card {
+    padding: 20px;
+    background-color: #f1e5d0;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Page header */
+.deleted-province-users-card .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.deleted-province-users-card .page-header h1 {
+    font-size: 1.8rem;
+    color: #0b3d91;
+}
+
+.deleted-province-users-card .back-btn {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.deleted-province-users-card .back-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Table wrapper for responsive */
+.deleted-province-users-card .table-responsive {
+    overflow-x: auto;
+}
+
+/* Table styles */
+.deleted-province-users-card table.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    min-width: 800px; /* Prevent collapsing too much */
+}
+
+.deleted-province-users-card table.admin-table th,
+.deleted-province-users-card table.admin-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #0b3d91;
+}
+
+.deleted-province-users-card table.admin-table th {
+    background-color: #0b3d91;
+    color: white;
+    font-weight: 600;
+}
+
+.deleted-province-users-card table.admin-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Action buttons */
+.deleted-province-users-card .admin-table a.btn {
+    padding: 6px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    margin-right: 6px;
+    display: inline-block;
+}
+
+.deleted-province-users-card .admin-table a.restore-btn {
+    background-color: #28a745;
+    transition: 0.3s;
+}
+
+.deleted-province-users-card .admin-table a.restore-btn:hover {
+    background-color: #218838;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .deleted-province-users-card .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .deleted-province-users-card table.admin-table {
+        min-width: 600px;
+    }
+}
+
+
+/* ================================
+   EDIT PROVINCE USER PAGE
+================================== */
+
+.edit-province-user-card {
+    padding: 20px;
+    background-color: #0b3d91;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Header */
+.edit-province-user-card .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.edit-province-user-card .page-header h1 {
+    font-size: 1.8rem;
+    color: #f1e5d0;
+}
+
+.edit-province-user-card .back-btn {
+    padding: 8px 16px;
+    background-color: #f1e5d0;
+    color: black;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.edit-province-user-card .back-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Form Container */
+.edit-province-user-card .form-container {
+    background-color: #f1e5d0;
+    padding: 25px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto; /* This centers horizontally */
+}
+
+/* Form Groups */
+.edit-province-user-card .form-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-province-user-card .form-group label {
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #343a40;
+}
+
+.edit-province-user-card .form-group input,
+.edit-province-user-card .form-group select {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.edit-province-user-card .form-group input:focus,
+.edit-province-user-card .form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button */
+.edit-province-user-card .form-actions {
+    margin-top: 20px;
+}
+
+.edit-province-user-card .update-btn {
+    padding: 10px 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 500;
+    margin-left: 200px;
+}
+
+.edit-province-user-card .update-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .edit-province-user-card .form-container {
+        max-width: 100%;
+    }
+}
+
+/* ===============================
+   CREATE PROVINCE PAGE
+================================== */
+
+.ad-province-section {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.ad-province-container {
+    width: 100%;
+    max-width: 600px;
+}
+
+.ad-province-card {
+    background: #0d47a1;
+    padding: 35px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.ad-province-card h2 {
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+}
+
+/* ===============================
+   FORM
+================================== */
+
+.ad-province-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ad-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ad-form-group label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.ad-form-group input {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.ad-form-group input:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(13,110,253,0.2);
+}
+
+/* ===============================
+   BUTTONS
+================================== */
+
+.ad-form-buttons {
+    display: flex;
+    gap: 15px;
+    text-align: center;
+    justify-content: center;
+}
+
+.ad-btn-primary {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background: #0d6efd;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    justify-content: center;
+    text-align: center;
+}
+
+.ad-btn-primary:hover {
+    background: #0b5ed7;
+}
+
+
+
+/* ===============================
+   ERROR MESSAGE
+================================== */
+
+.ad-error {
+    color: #dc3545;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ===============================
+   RESPONSIVE
+================================== */
+
+@media (max-width: 768px) {
+
+    .ad-form-buttons {
+        flex-direction: column;
+    }
+
+    .ad-btn-primary,
+    .ad-btn-secondary {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+}
+
+
+/* ===============================
+   PROVINCE LIST PAGE
+================================== */
+
+.ad-province-list-section {
+    padding: 30px;
+}
+
+.ad-province-list-card {
+    background: #f1e5d0;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* HEADER */
+
+.ad-province-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.ad-province-list-header h2 {
+    font-weight: 600;
+}
+
+/* CREATE BUTTON */
+
+.ad-province-list-btn-create {
+    padding: 8px 16px;
+    background: #0d6efd;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.ad-province-list-btn-create:hover {
+    background: #0b5ed7;
+}
+
+/* TABLE */
+
+.ad-province-list-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.ad-province-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.ad-province-list-table th,
+.ad-province-list-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #0d6efd;
+    word-wrap: break-word;
+}
+
+.ad-province-list-table th {
+    background: #0d6efd;
+    color: white;
+}
+
+.ad-province-list-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+/* LINKS */
+
+.ad-province-list-link-view {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.ad-province-list-link-view:hover {
+    text-decoration: underline;
+}
+
+/* ACTION BUTTONS */
+
+.ad-province-list-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.ad-province-list-btn-edit {
+    padding: 5px 12px;
+    background: #ffc107;
+    color: #212529;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.ad-province-list-btn-edit:hover {
+    background: #e0a800;
+}
+
+.ad-province-list-btn-delete {
+    padding: 5px 12px;
+    background: #dc3545;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.ad-province-list-btn-delete:hover {
+    background: #c82333;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .ad-province-list-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .ad-province-list-actions {
+        flex-direction: column;
+    }
+}
+
+
+/* ===============================
+   EDIT PROVINCE PAGE
+================================== */
+
+.ad-province-edit-section {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    background : #f1e5d0;
+}
+
+.ad-province-edit-card {
+    width: 100%;
+    max-width: 600px;
+    background: #0b3d91;
+    padding: 35px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* HEADER */
+
+.ad-province-edit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.ad-province-edit-header h2 {
+    font-weight: 600;
+}
+
+/* BACK BUTTON */
+
+.ad-province-edit-btn-back {
+    text-decoration: none;
+    font-size: 14px;
+    color: #198754;
+    font-weight: 500;
+}
+
+.ad-province-edit-btn-back:hover {
+    text-decoration: underline;
+}
+
+/* FORM */
+
+.ad-province-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ad-province-edit-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ad-province-edit-group label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.ad-province-edit-group input {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.ad-province-edit-group input:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(13,110,253,0.2);
+}
+
+/* UPDATE BUTTON */
+
+.ad-province-edit-btn-update {
+    padding: 10px 25px;
+    border-radius: 8px;
+    border: none;
+    background: #198754;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    justify-content: center;
+}
+
+.ad-province-edit-btn-update:hover {
+    background: #157347;
+}
+
+/* ERROR */
+
+.ad-province-edit-error {
+    margin-top: 15px;
+    color: #dc3545;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .ad-province-edit-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .ad-province-edit-card {
+        padding: 25px;
+    }
+}
+
+
+/* ===============================
+   SCHOOLS IN PROVINCE PAGE
+================================== */
+
+.ad-province-schools-section {
+    padding: 30px;
+}
+
+.ad-province-schools-card {
+    background: #f1e5d0;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* HEADER */
+
+.ad-province-schools-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.ad-province-schools-header h2 {
+    font-weight: 600;
+}
+
+.ad-province-schools-btn-back {
+    text-decoration: none;
+    color: #0d6efd;
+    font-weight: 500;
+}
+
+.ad-province-schools-btn-back:hover {
+    text-decoration: underline;
+}
+
+/* TABLE */
+
+.ad-province-schools-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.ad-province-schools-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.ad-province-schools-table th,
+.ad-province-schools-table td {
+    padding: 12px;
+    border-bottom: 1px solid #0b3d91;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.ad-province-schools-table th {
+    background: #0b3d91;
+    color: white;
+}
+
+.ad-province-schools-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+/* LOGO */
+
+.ad-province-schools-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.ad-province-schools-no-logo {
+    color: #6c757d;
+    font-size: 13px;
+}
+
+/* STATUS */
+
+.ad-province-schools-status {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.ad-province-schools-status-active {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.ad-province-schools-status-restricted {
+    background: #f8d7da;
+    color: #842029;
+}
+
+/* ACTION BUTTONS */
+
+.ad-province-schools-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.ad-province-schools-btn-view {
+    background: #0d6efd;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.ad-province-schools-btn-edit {
+    background: #ffc107;
+    color: #212529;
+    padding: 5px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.ad-province-schools-btn-restrict {
+    background: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.ad-province-schools-btn-enable {
+    background: #198754;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 992px) {
+
+    .ad-province-schools-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .ad-province-schools-actions {
+        flex-direction: column;
+    }
+}
+
+
+/* ===============================
+   EDIT SCHOOL PAGE
+================================== */
+
+.ad-school-edit-section {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.ad-school-edit-card {
+    width: 100%;
+    max-width: 1000px;
+    background: #f1e5d0;
+    padding: 35px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* HEADER */
+
+.ad-school-edit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.ad-school-edit-btn-back {
+    text-decoration: none;
+    color: #0d6efd;
+    font-weight: 500;
+}
+
+.ad-school-edit-btn-back:hover {
+    text-decoration: underline;
+}
+
+/* GRID */
+
+.ad-school-edit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 30px;
+}
+
+/* FORM GROUP */
+
+.ad-school-edit-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ad-school-edit-group label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.ad-school-edit-group input,
+.ad-school-edit-group select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.ad-school-edit-group input:focus,
+.ad-school-edit-group select:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(13,110,253,0.2);
+}
+
+/* LOGO PREVIEW */
+
+.ad-school-edit-logo-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ad-school-edit-logo {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* BUTTON */
+
+.ad-school-edit-buttons {
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.ad-school-edit-btn-update {
+    padding: 10px 25px;
+    border-radius: 8px;
+    border: none;
+    background: #198754;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    justify-content: center;
+}
+
+.ad-school-edit-btn-update:hover {
+    background: #157347;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 992px) {
+    .ad-school-edit-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ad-school-edit-card {
+        padding: 25px;
+    }
+
+    .ad-school-edit-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+}
+
+
+/* =================================
+   SCHOOL USERS PAGE
+================================= */
+
+.ad-school-users-section {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.ad-school-users-card {
+    width: 100%;
+    max-width: 1200px;
+    background: #0b3d91;
+    padding: 35px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* HEADER */
+
+.ad-school-users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    color: #f1e5d0;
+}
+
+.ad-school-users-btn-back {
+    text-decoration: none;
+    color: #f1e5d0;
+    font-weight: 500;
+}
+
+.ad-school-users-btn-back:hover {
+    text-decoration: underline;
+}
+
+/* BLOCKS */
+
+.ad-school-users-block {
+    margin-bottom: 40px;
+}
+
+.ad-school-users-block h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #f1e5d0;
+}
+
+/* TABLE WRAPPER (prevents overflow) */
+
+.ad-school-users-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* TABLE */
+
+.ad-school-users-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.ad-school-users-table th,
+.ad-school-users-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #f1e5d0;
+    text-align: left;
+    background: #f1e5d0;
+}
+
+.ad-school-users-table th {
+    background: #f1e5d0;
+    font-weight: 600;
+}
+
+.ad-school-users-table tr:hover {
+    background: #f1f3f5;
+}
+
+.ad-school-users-empty {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 992px) {
+    .ad-school-users-card {
+        padding: 25px;
+    }
+
+    .ad-school-users-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}
+
+/* ===============================
+   CREATE SCHOOL (SCOPED)
+================================== */
+
+.ad-school-create-section {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    background: #0b3d91;
+}
+
+.ad-school-create-card {
+    width: 100%;
+    max-width: 1000px;
+    background: #f1e5d0;
+    padding: 35px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.ad-school-create-title {
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: #2c3e50;
+    justify-content: center;
+}
+
+/* GRID */
+
+.ad-school-create-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 30px;
+}
+
+/* FORM GROUP */
+
+.ad-school-create-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ad-school-create-group label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.ad-school-create-group input,
+.ad-school-create-group select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.ad-school-create-group input:focus,
+.ad-school-create-group select:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(13,110,253,0.2);
+}
+
+/* BUTTONS */
+
+.ad-school-create-buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.ad-school-create-btn-primary {
+    padding: 10px 25px;
+    border-radius: 8px;
+    border: none;
+    background: #0d6efd;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ad-school-create-btn-primary:hover {
+    background: #0b5ed7;
+}
+
+/* ERROR */
+
+.ad-school-create-error {
+    margin-top: 15px;
+    color: #dc3545;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 992px) {
+
+    .ad-school-create-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ad-school-create-buttons {
+        flex-direction: column;
+    }
+
+    .ad-school-create-btn-primary,
+    .ad-school-create-btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+}

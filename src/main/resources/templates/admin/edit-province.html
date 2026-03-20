@@ -1,33 +1,59 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: layout(~{::section})}">
+
 <head>
     <meta charset="UTF-8">
     <title>Edit Province</title>
 </head>
+
 <body>
 
-<h2>Edit Province</h2>
+<section class="ad-province-edit-section">
 
-<a th:href="@{/admin/provinces}">Back to Province List</a>
+    <div class="ad-province-edit-card">
 
-<form th:action="@{'/admin/provinces/update/' + ${province.id}}"
-      th:object="${province}"
-      method="post">
+        <!-- Header -->
+        <div class="ad-province-edit-header">
+            <h2>Edit Province</h2>
 
-    <div>
-        <label>Province Name:</label>
-        <input type="text" th:field="*{name}" required />
+            <a th:href="@{/admin/provinces}"
+               class="ad-province-edit-btn-back">
+                ← Back to List
+            </a>
+        </div>
+
+        <!-- Form -->
+        <form th:action="@{'/admin/provinces/update/' + ${province.id}}"
+              th:object="${province}"
+              method="post"
+              class="ad-province-edit-form">
+
+            <div class="ad-province-edit-group">
+                <label>Province Name</label>
+                <input type="text"
+                       th:field="*{name}"
+                       placeholder="Enter province name"
+                       required />
+            </div>
+
+            <div class="ad-province-edit-buttons">
+                <button type="submit"
+                        class="ad-province-edit-btn-update">
+                    Update Province
+                </button>
+            </div>
+
+            <div th:if="${error}"
+                 class="ad-province-edit-error">
+                <span th:text="${error}"></span>
+            </div>
+
+        </form>
+
     </div>
 
-    <br>
-
-    <button type="submit">Update Province</button>
-
-    <div th:if="${error}">
-        <p style="color:red;" th:text="${error}"></p>
-    </div>
-
-</form>
+</section>
 
 </body>
 </html>

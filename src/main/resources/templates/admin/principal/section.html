@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Principal Section</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+
+<h4>Section [[${sectionNumber}]]</h4>
+<hr>
+
+<form th:action="@{/admin/principal/{id}/section/{sec}(id=${principal.user.id}, sec=${sectionNumber})}"
+      method="post">
+
+    <!-- SAMPLE FIELD -->
+    <div class="mb-3">
+        <label class="form-label">Sample Field</label>
+        <input type="text" class="form-control" required>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Save & Continue
+    </button>
+
+</form>
+
+</body>
+</html>

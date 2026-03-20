@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/edit-classroom.css}">
+</th:block>
+<body>
+<div th:with="activePage='classroom'">
+
+<div th:fragment="content">
+
+<h1 class="page-title">Edit Classroom</h1>
+
+<div class="center-container">
+
+<div class="form-card">
+
+<div class="form-header">
+<h2>Update Classroom</h2>
+<a class="back-btn" th:href="@{/principal/classrooms}">
+← Back
+</a>
+</div>
+
+<form th:action="@{/principal/classrooms/edit/{id}(id=${classRoom.id})}"
+      method="post"
+      class="form-body">
+<div th:if="${errorMessage}" style="color:red; font-weight:600; margin-bottom:10px;">
+    <span th:text="${errorMessage}"></span>
+</div>
+<label>Class Name</label>
+
+<input type="text"
+       name="name"
+       th:value="${classRoom.name}"
+       required>
+
+<button type="submit" class="save-btn">
+Save Changes
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script>
+console.log("Edit Classroom Loaded");
+</script>
+</th:block>
+</body>
+</html>

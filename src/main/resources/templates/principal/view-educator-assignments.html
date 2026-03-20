@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/educator-assignment.css}">
+</th:block>
+<body>
+<div th:with="activePage='educators'">
+
+<div th:fragment="content">
+
+    <!-- Header -->
+    <div class="header-row">
+        <h2 class="page-title">Educator Assignments</h2>
+        <a th:href="@{/principal/dashboard}" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <!-- Search -->
+    <div class="search-card">
+        <form th:action="@{/principal/educator-assignments/search}" method="get" class="search-form">
+                <input type="text" name="keyword" placeholder="Search educator by name" th:value="${keyword}" />
+            <button type="submit" class="search-btn">Search</button>
+            <a th:href="@{/principal/educator-assignments}" class="reset-btn">Reset</a>
+        </form>
+    </div>
+
+    <!-- Table -->
+    <div class="card table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Educator</th>
+                    <th>Subject</th>
+                    <th>Section</th>
+                    <th>Classroom</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="a : ${assignments}">
+                    <td th:text="${a.educator.username}"></td>
+                    <td th:text="${a.subject.name}"></td>
+                    <td th:text="${a.section.name}"></td>
+                    <td th:text="${a.section.classRoom.name}"></td>
+                    <td>
+                        <span th:classappend="${a.restricted} ? 'badge badge-restricted' : 'badge badge-active'"
+                              th:text="${a.restricted} ? 'Restricted' : 'Active'">
+                        </span>
+                    </td>
+                    <td>
+                        <form th:action="@{/principal/educator-assignment/toggle-restriction/{id}(id=${a.id})}" method="post">
+                            <button type="submit" class="btn btn-toggle"
+                                th:text="${a.restricted} ? 'Unrestrict' : 'Restrict'">
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <a th:href="@{/principal/educator-assignment/delete/{id}(id=${a.id})}"
+                           onclick="return confirm('Are you sure you want to delete this assignment?')"
+                           class="btn btn-delete">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</div>
+
+
+<th:block th:fragment="pageJs">
+<script>
+</script>
+</th:block>
+</body>
+</html>

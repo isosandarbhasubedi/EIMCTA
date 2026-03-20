@@ -16,6 +16,7 @@ public enum Role {
     COORDINATOR,
     DEO,
     EDUCATOR,
+    LEARNER,
 
     // ===== Company Internal =====
     HR,

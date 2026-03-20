@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Principal Section 2 - Education</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="container mt-5">
+
+<h3>Section 2: Educational Qualifications</h3>
+<hr>
+
+<form th:action="@{/admin/principal/{userId}/section/2(userId=${principal.user.id})}" 
+      th:object="${principal}" method="post">
+
+    <table class="table table-bordered" id="educationTable">
+        <thead class="table-light">
+            <tr>
+                <th>Highest Qualification</th>
+                <th>Specialized In</th>
+                <th>Completion Year</th>
+                <th>Board</th>
+                <th>Institution Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Existing educations -->
+            <tr th:each="edu, iterStat : ${principal.educations}" th:id="'row-'+${iterStat.index}">
+                <td><input type="text" th:field="*{educations[__${iterStat.index}__].highestQualification}" class="form-control" required></td>
+                <td><input type="text" th:field="*{educations[__${iterStat.index}__].specializedIn}" class="form-control"></td>
+                <td><input type="text" th:field="*{educations[__${iterStat.index}__].completionYear}" class="form-control"></td>
+                <td><input type="text" th:field="*{educations[__${iterStat.index}__].board}" class="form-control"></td>
+                <td><input type="text" th:field="*{educations[__${iterStat.index}__].institutionName}" class="form-control"></td>
+                <td><button type="button" class="btn btn-danger removeRow">Remove</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-secondary mb-3" id="addRowBtn">+ Add Education</button>
+    <br>
+    <button type="submit" class="btn btn-primary">Save & Continue →</button>
+</form>
+
+<script>
+$(document).ready(function () {
+
+    let index = $('#educationTable tbody tr').length;
+
+    // Add Row
+    $('#addRowBtn').click(function () {
+
+        const rowHtml = `
+            <tr>
+                <td><input type="text" class="form-control highestQualification" required></td>
+                <td><input type="text" class="form-control specializedIn"></td>
+                <td><input type="text" class="form-control completionYear"></td>
+                <td><input type="text" class="form-control board"></td>
+                <td><input type="text" class="form-control institutionName"></td>
+                <td><button type="button" class="btn btn-danger removeRow">Remove</button></td>
+            </tr>
+        `;
+
+        $('#educationTable tbody').append(rowHtml);
+    });
+
+    // Remove Row
+    $(document).on('click', '.removeRow', function () {
+        $(this).closest('tr').remove();
+    });
+
+    // 🔥 IMPORTANT: Re-index before submit
+    $('form').submit(function () {
+
+        $('#educationTable tbody tr').each(function (i, row) {
+
+            $(row).find('.highestQualification')
+                .attr('name', `educations[${i}].highestQualification`);
+
+            $(row).find('.specializedIn')
+                .attr('name', `educations[${i}].specializedIn`);
+
+            $(row).find('.completionYear')
+                .attr('name', `educations[${i}].completionYear`);
+
+            $(row).find('.board')
+                .attr('name', `educations[${i}].board`);
+
+            $(row).find('.institutionName')
+                .attr('name', `educations[${i}].institutionName`);
+        });
+
+    });
+
+});
+</script>
+
+</body>
+</html>

@@ -1,33 +1,54 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: layout(~{::section})}">
+
 <head>
     <meta charset="UTF-8">
     <title>Create Province</title>
 </head>
+
 <body>
 
-<h2>Create Province</h2>
+<section class="ad-province-section">
 
-<a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+    <div class="ad-province-container">
 
-<form th:action="@{/admin/provinces/create}" 
-      th:object="${province}" 
-      method="post">
+        <div class="ad-province-card">
 
-    <div>
-        <label>Province Name:</label>
-        <input type="text" th:field="*{name}" required />
+            <h2>Create Province</h2>
+
+            <form th:action="@{/admin/provinces/create}"
+                  th:object="${province}"
+                  method="post"
+                  class="ad-province-form">
+
+                <div class="ad-form-group">
+                    <label>Province Name</label>
+                    <input type="text"
+                           th:field="*{name}"
+                           placeholder="Enter province name"
+                           required />
+                </div>
+
+                <div class="ad-form-buttons">
+                    <button type="submit" class="ad-btn-primary">
+                        Add Province
+                    </button>
+
+                    
+                </div>
+
+                <div th:if="${error}" class="ad-error">
+                    <span th:text="${error}"></span>
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
 
-    <div>
-        <button type="submit">Add Province</button>
-    </div>
-
-    <div th:if="${error}">
-        <p style="color:red;" th:text="${error}"></p>
-    </div>
-
-</form>
+</section>
 
 </body>
 </html>

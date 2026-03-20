@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<th:block th:fragment="pageCss">
+    <style>
+        .section-card {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .locked {
+            background-color: #f5f5f5;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .active {
+            border-left: 5px solid #007bff;
+            background-color: #e9f3ff;
+        }
+
+        .completed {
+            border-left: 5px solid #28a745;
+            background-color: #eafaf1;
+        }
+
+        .progress {
+            height: 20px;
+        }
+    </style>
+</th:block>
+
+<body>
+<div th:with="activePage='learners'">
+
+<div th:fragment="content" class="container mt-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Learner Profile</h2>
+        <a th:href="@{/principal/enrollments}" class="btn btn-secondary">← Back</a>
+    </div>
+
+    <!-- Learner Info -->
+    <div class="card p-3 mb-3">
+        <h5 th:text="${learner.user.username}"></h5>
+        <p th:text="${learner.user.email}"></p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress mb-4">
+        <div class="progress-bar bg-success"
+             role="progressbar"
+             th:style="'width:' + (${learner.currentSection} * 12.5) + '%'">
+        </div>
+    </div>
+
+    <!-- Sections -->
+
+    <!-- Section 1 -->
+    <!-- Section 1 Card -->
+<div class="section-card"
+     th:classappend="${learner.currentSection == 1} ? 'active' :
+                     (${learner.currentSection > 1} ? 'completed' : 'locked')">
+
+    <span>1. Learner Basic Details</span>
+
+    <a th:href="${learner.currentSection > 1} ? 
+        @{/principal/learners/section/edit/1/{id}(id=${learner.id})} : 
+        @{/principal/learners/section/1/{id}(id=${learner.id})}"
+       class="btn btn-primary"
+       th:text="${learner.currentSection > 1} ? 'Edit' : 'Open'">
+    </a>
+</div>
+
+    <!-- Section 2 -->
+    <div class="section-card"
+         th:classappend="${learner.currentSection == 2} ? 'active' :
+                        (${learner.currentSection > 2} ? 'completed' : 'locked')">
+
+        <span>2. Academic Performance</span>
+
+        <a th:href="${learner.currentSection >= 2} ? 
+            @{/principal/learners/section/2/{id}(id=${learner.id})} : '#'"
+           class="btn btn-primary">
+            Open
+        </a>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section-card"
+         th:classappend="${learner.currentSection == 3} ? 'active' :
+                        (${learner.currentSection > 3} ? 'completed' : 'locked')">
+
+        <span>3. Parent/Guardian Details</span>
+
+        <a th:href="${learner.currentSection >= 3} ? 
+            @{/learners/section/3/{id}(id=${learner.id})} : '#'"
+           class="btn btn-primary">
+            Open
+        </a>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="section-card"
+         th:classappend="${learner.currentSection == 4} ? 'active' :
+                        (${learner.currentSection > 4} ? 'completed' : 'locked')">
+
+        <span>4. Siblings Details</span>
+
+        <a th:href="${learner.currentSection >= 4} ? 
+            @{/learners/section/4/{id}(id=${learner.id})} : '#'"
+           class="btn btn-primary">
+            Open
+        </a>
+    </div>
+
+    <!-- Section 5 -->
+    <div class="section-card"
+         th:classappend="${learner.currentSection == 5} ? 'active' :
+                        (${learner.currentSection > 5} ? 'completed' : 'locked')">
+
+        <span>5. Health & Residential</span>
+
+        <a th:href="${learner.currentSection >= 5} ? 
+            @{/learners/section/5/{id}(id=${learner.id})} : '#'"
+           class="btn btn-primary">
+            Open
+        </a>
+    </div>
+
+    <!-- Section 6 -->
+    <div class="section-card"
+         th:classappend="${learner.currentSection == 6} ? 'active' :
+                        (${learner.currentSection > 6} ? 'completed' : 'locked')">
+
+        <span>6. Additional Facilities</span>
+
+        <a th:href="${learner.currentSection >= 6} ? 
+            @{/learners/section/6/{id}(id=${learner.id})} : '#'"
+           class="btn btn-primary">
+            Open
+        </a>
+    </div>
+
+    <!-- Section 7 -->
+    <div class="section-card"
+         th:classappend="${learner.currentSection == 7} ? 'active' :
+                        (${learner.currentSection > 7} ? 'completed' : 'locked')">
+
+        <span>7. Consents</span>
+
+        <a th:href="${learner.currentSection >= 7} ? 
+            @{/learners/section/7/{id}(id=${learner.id})} : '#'"
+           class="btn btn-primary">
+            Open
+        </a>
+    </div>
+
+    <!-- Section 8 -->
+    <div class="section-card"
+         th:classappend="${learner.currentSection == 8} ? 'active' :
+                        (${learner.isCompleted} ? 'completed' : 'locked')">
+
+        <span>8. Attachments</span>
+
+        <a th:href="${learner.currentSection >= 8} ? 
+            @{/learners/section/8/{id}(id=${learner.id})} : '#'"
+           class="btn btn-primary">
+            Open
+        </a>
+    </div>
+
+</div>
+</div>
+</body>
+<th:block th:fragment="pageJs">
+<script>
+console.log("Academic Years Page Loaded");
+</script>
+</th:block>
+</html>

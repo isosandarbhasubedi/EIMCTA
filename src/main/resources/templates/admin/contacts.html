@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: layout(~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Messages</title>
+</head>
+
+<body>
+<section class="ad-contact-section">
+
+    <div class="ad-contact-header">
+        <h1>Contact Messages</h1>
+    </div>
+
+    <!-- Filter Form -->
+    <form th:action="@{/admin/contacts}" method="get" class="ad-contact-filter-form">
+        <label>Filter by Status:</label>
+        <select name="status">
+            <option value="">-- Show All --</option>
+            <option value="PENDING" th:selected="${selectedAction == 'PENDING'}">PENDING</option>
+            <option value="ON_PROGRESS" th:selected="${selectedAction == 'ON_PROGRESS'}">ON_PROGRESS</option>
+            <option value="COMPLETED" th:selected="${selectedAction == 'COMPLETED'}">COMPLETED</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Messages Table -->
+    <div class="ad-contact-card">
+        <table class="ad-contact-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Contact Number</th>
+            <th>Address</th>
+            <th>Message</th>
+            <th>Update Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="cons : ${contacts}">
+            <td data-label="ID" th:text="${cons.id}"></td>
+            <td data-label="Name" th:text="${cons.name}"></td>
+            <td data-label="Email" th:text="${cons.email}"></td>
+            <td data-label="ContactNumber" th:text="${cons.contactNumber}"></td>
+            <td data-label="Address" th:text="${cons.Address}"></td>
+            <td data-label="Message" th:text="${cons.message}"></td>
+            <td data-label="Update Status">
+                <form th:action="@{/admin/contacts/update-status/{id}(id=${cons.id})}" 
+                      method="post" class="ad-contact-update-form">
+                    <select name="status">
+                        <option th:each="s : ${statuses}"
+                                th:value="${s}"
+                                th:text="${s}"
+                                th:selected="${s == cons.status}">
+                        </option>
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+    </div>
+
+</section>
+</body>
+</html>

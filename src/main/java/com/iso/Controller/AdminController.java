@@ -3,9 +3,11 @@ package com.iso.Controller;
 import com.iso.Model.*;
 import com.iso.Repository.*;
 import com.iso.Service.AuditService;
+import com.iso.Service.PrincipalAttachmentService;
 import com.iso.Service.ProvinceAuditService;
 import com.iso.Service.SchoolAuditService;
 import com.iso.Service.SchoolUserAuditService;
+import com.iso.Service.SchoolUserEditAuditLogService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -15,13 +17,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +50,13 @@ public class AdminController {
     private final SchoolAuditService schoolAuditService;
     private final SchoolUserAuditService schoolUserAuditService;
     private final SchoolUserAuditLogRepository schoolUserAuditLogRepository;
+    private final OrganizationRegistrationRepository organizationRegistrationRepository;
+    private final RegistrationStatusAuditLogRepository registrationStatusAuditLogRepository;
+    private final ContactMessageRepository contactMessageRepository;
+    private final ContactStatusAuditLogRepository contactStatusAuditLogRepository;
+    private final PrincipalRepository principalRepository;
+    private final PrincipalAttachmentService attachmentService;
+    private final SchoolUserEditAuditLogService schoolusereditauditLogService;
 
 
     public AdminController(SchoolRepository schoolRepo,
@@ -57,7 +70,14 @@ public class AdminController {
                            SchoolAuditLogRepository schoolAuditLogRepository,
                            SchoolAuditService schoolAuditService,
                            SchoolUserAuditService schoolUserAuditService,
-                           SchoolUserAuditLogRepository schoolUserAuditLogRepository
+                           SchoolUserAuditLogRepository schoolUserAuditLogRepository,
+                           OrganizationRegistrationRepository organizationRegistrationRepository,
+                           RegistrationStatusAuditLogRepository registrationStatusAuditLogRepository,
+                           ContactMessageRepository contactMessageRepository,
+                           ContactStatusAuditLogRepository contactStatusAuditLogRepository,
+                           PrincipalRepository principalRepository,
+                           PrincipalAttachmentService attachmentService,
+                           SchoolUserEditAuditLogService schoolusereditauditLogService
                            ) {
         this.schoolRepo = schoolRepo;
         this.userRepo = userRepo;
@@ -70,7 +90,14 @@ public class AdminController {
         this.schoolAuditLogRepository = schoolAuditLogRepository;
         this.schoolAuditService = schoolAuditService;
         this.schoolUserAuditService = schoolUserAuditService;
-        this.schoolUserAuditLogRepository = schoolUserAuditLogRepository;        
+        this.schoolUserAuditLogRepository = schoolUserAuditLogRepository; 
+        this.organizationRegistrationRepository = organizationRegistrationRepository;
+        this.registrationStatusAuditLogRepository = registrationStatusAuditLogRepository;
+        this.contactMessageRepository = contactMessageRepository;
+        this.contactStatusAuditLogRepository = contactStatusAuditLogRepository;
+        this.principalRepository = principalRepository;
+        this.attachmentService = attachmentService;
+        this.schoolusereditauditLogService = schoolusereditauditLogService;
     }
 
 
@@ -80,9 +107,182 @@ public class AdminController {
     // 🔹 Admin Dashboard
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
-    	
+    	model.addAttribute("title", "Dashboard");
+
+       
+
         model.addAttribute("schools", schoolRepo.findAll());
         return "admin/dashboard";
+    }
+    
+ // ===============================
+    // View All Registrations
+    // ===============================
+    @GetMapping("/registrations")
+    public String viewAllRegistrations(
+            @RequestParam(required = false) RegistrationStatus status,
+            Model model) {
+
+        List<OrganizationRegistration> registrations;
+
+        if (status != null) {
+            registrations = organizationRegistrationRepository
+                    .findByStatusOrderByPerformedAtDesc(status);
+        } else {
+            registrations = organizationRegistrationRepository
+                    .findAllByOrderByPerformedAtDesc();
+        }
+
+        model.addAttribute("registrations", registrations);
+        model.addAttribute("selectedAction", status);
+        model.addAttribute("statuses", RegistrationStatus.values());
+
+        return "admin/registrations";
+    }
+    
+    
+    // ===============================
+    // Update Status
+    // ===============================
+    @PostMapping("/registrations/update-status/{id}")
+    public String updateStatus(
+            @PathVariable Long id,
+            @RequestParam RegistrationStatus status,
+            Principal principal,
+            HttpServletRequest request) {
+
+        OrganizationRegistration registration =
+                organizationRegistrationRepository.findById(id).orElseThrow();
+
+        RegistrationStatus oldStatus = registration.getStatus();
+
+        String ipAddress = request.getRemoteAddr();
+        
+        // Only log if status actually changes
+        if (!oldStatus.equals(status)) {
+
+            registration.setStatus(status);
+            organizationRegistrationRepository.save(registration);
+
+            // 🔹 Create log entry
+            RegistrationStatusAuditLog log = new RegistrationStatusAuditLog();
+            log.setRegistrationId(registration.getId());
+            log.setChangedBy(principal.getName()); // logged-in admin username
+            log.setFromStatus(oldStatus);
+            log.setToStatus(status);
+            log.setPerformedAt(registration.getPerformedAt());
+            log.setIpAddress(ipAddress);
+
+            registrationStatusAuditLogRepository.save(log);
+        }
+        
+       
+        
+        
+        return "redirect:/admin/registrations";
+    }
+    
+    
+    
+    
+    @GetMapping("/registrations/logs")
+    public String viewLogs(Model model,
+    		@RequestParam(required = false) RegistrationStatus toStatus
+    		) {
+    	 List<RegistrationStatusAuditLog> logs;
+
+    	    if (toStatus != null) {
+    	        logs = registrationStatusAuditLogRepository
+    	                .findByToStatusOrderByChangedAtDesc(toStatus);
+    	    } else {
+    	        logs = registrationStatusAuditLogRepository
+    	                .findAllByOrderByChangedAtDesc();
+    	    }
+
+    	    model.addAttribute("logs", logs);
+    	    model.addAttribute("selectedStatus", toStatus);
+    	    model.addAttribute("statuses", RegistrationStatus.values());
+      return "admin/registration-logs";
+    }
+    
+    @GetMapping("/contacts")
+    public String viewAllContacts(
+            @RequestParam(required = false) ContactStatus status,
+            Model model) {
+
+        List<ContactMessage> contacts;
+
+        if (status != null) {
+            contacts = contactMessageRepository
+                    .findByStatusOrderByPerformedAtDesc(status);
+        } else {
+        	contacts = contactMessageRepository
+                    .findAllByOrderByPerformedAtDesc();
+        }
+
+        model.addAttribute("contacts", contacts);
+        model.addAttribute("selectedAction", status);
+        model.addAttribute("statuses", ContactStatus.values());
+
+        return "admin/contacts";
+    }
+    
+    @PostMapping("/contacts/update-status/{id}")
+    public String updateContactStatus(
+            @PathVariable Long id,
+            @RequestParam ContactStatus status,
+            Principal principal,
+            HttpServletRequest request) {
+
+        ContactMessage contact =
+                contactMessageRepository.findById(id).orElseThrow();
+
+        ContactStatus oldStatus = contact.getStatus();
+
+        String ipAddress = request.getRemoteAddr();
+        
+        // Only log if status actually changes
+        if (!oldStatus.equals(status)) {
+
+            contact.setStatus(status);
+            contactMessageRepository.save(contact);
+
+            // 🔹 Create log entry
+           ContactStatusAuditLog log = new ContactStatusAuditLog();
+            log.setContactId(contact.getId());
+            log.setChangedBy(principal.getName()); // logged-in admin username
+            log.setFromStatus(oldStatus);
+            log.setToStatus(status);
+            log.setPerformedAt(contact.getPerformedAt());
+            log.setIpAddress(ipAddress);
+
+            contactStatusAuditLogRepository.save(log);
+        }
+        
+       
+        
+        
+        return "redirect:/admin/contacts";
+    }
+    
+    @GetMapping("/contacts/logs")
+    public String viewContactLogs(Model model,
+    		@RequestParam(required = false) ContactStatus toStatus
+    		) {
+    	 List<ContactStatusAuditLog> logs;
+
+    	    if (toStatus != null) {
+    	        logs = contactStatusAuditLogRepository
+    	                .findByToStatusOrderByChangedAtDesc(toStatus);
+    	    } else {
+    	        logs = contactStatusAuditLogRepository
+    	                .findAllByOrderByChangedAtDesc();
+    	    }
+
+    	    model.addAttribute("logs", logs);
+    	    model.addAttribute("selectedStatus", toStatus);
+    	    model.addAttribute("statuses", ContactStatus.values());
+      return "admin/contact-logs";
     }
     
     @GetMapping("/audit-logs")
@@ -153,7 +353,7 @@ public class AdminController {
                         + ", email: " + user.getEmail()
         );
 
-        return "redirect:/admin/hq/users/create";
+        return "redirect:/admin/hq-users";
     }
     
     @GetMapping("/hq-users")
@@ -911,13 +1111,36 @@ public class AdminController {
         School school = schoolRepo.findById(schoolId)
                 .orElseThrow(() -> new RuntimeException("School not found"));
 
+        // 1️⃣ Prepare User
         user.setRole(role);
         user.setSchool(school);
         user.setPassword(encoder.encode(user.getPassword()));
+        user.setActive(true);
+        user.setDeleted(false);
 
         userRepo.save(user);
 
-        // 🔥 SCHOOL USER AUDIT LOG
+        // 2️⃣ Create Role-Specific Profile
+        switch (role) {
+
+            case PRINCIPAL -> {
+                com.iso.Model.Principal principal = new com.iso.Model.Principal();
+                principal.setUser(user);
+                principal.setSchoolName(school.getName());
+                
+             // 🔥 IMPORTANT PART (INITIALIZE PROGRESS)
+                principal.setCurrentSection(1);      // Section 1 open
+                principal.setCompletedSection(0);    // Nothing completed
+                principal.setFormCompleted(false);   // Not finished
+                
+                principalRepository.save(principal);
+            }
+
+            
+            default -> throw new IllegalStateException("Unexpected role: " + role);
+        }
+
+        // 3️⃣ SCHOOL USER AUDIT LOG
         schoolUserAuditService.log(
                 "CREATE_USER",
                 user.getId(),
@@ -932,7 +1155,800 @@ public class AdminController {
 
         return "redirect:/admin/dashboard";
     }
+    
+    // Progress page
+    @GetMapping("/principal/{userId}/progress")
+    public String showProgress(@PathVariable Long userId, Model model) {
 
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        model.addAttribute("principal", principal);
+        return "admin/principal/progress";
+    }
+
+    
+    @GetMapping("/principal/{userId}/section/1")
+    public String loadSection1(@PathVariable Long userId, Model model) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        // 🔐 Security
+        if (principal.isFormCompleted() ||
+            principal.getCurrentSection() != 1) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        // ✅ VERY IMPORTANT (Initialize Embedded Objects)
+        if (principal.getPersonalInfo() == null) {
+            principal.setPersonalInfo(new PrincipalPersonalInfo());
+        }
+
+        if (principal.getFamilyInfo() == null) {
+            principal.setFamilyInfo(new PrincipalFamilyInfo());
+        }
+
+        model.addAttribute("principal", principal);
+        return "admin/principal/section1";
+    }
+    
+    @PostMapping("/principal/{userId}/section/1")
+    public String submitSection1(@PathVariable Long userId,
+                                 @ModelAttribute com.iso.Model.Principal formPrincipal) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        if (principal.getCurrentSection() != 1) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        // ✅ SAVE EMBEDDED OBJECTS
+        principal.setPersonalInfo(formPrincipal.getPersonalInfo());
+        principal.setFamilyInfo(formPrincipal.getFamilyInfo());
+
+        // ✅ UPDATE PROGRESS
+        principal.setCompletedSection(1);
+        principal.setCurrentSection(2);
+
+        principalRepository.save(principal);
+
+        return "redirect:/admin/principal/" + userId + "/progress";
+    }
+    
+    @GetMapping("/principal/{userId}/section/1/edit")
+    public String editSection1(@PathVariable Long userId, Model model) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        model.addAttribute("principal", principal);
+        model.addAttribute("editMode", true);
+        
+        
+
+        return "admin/principal/section1-edit";
+    }
+    
+    
+    
+    @PostMapping("/principal/{userId}/section/1/edit")
+    public String updateSection1(@PathVariable Long userId,
+                                 @ModelAttribute("principal") com.iso.Model.Principal formPrincipal,
+                                 Principal loggedUser,
+                                 HttpServletRequest request) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        User performer = userRepo.findByEmail(loggedUser.getName());
+        User targetUser = principal.getUser();
+        String details = schoolusereditauditLogService.generateSection1ChangeDetails(principal, formPrincipal);
+        
+        // Update Embedded Personal Info
+        principal.setPersonalInfo(formPrincipal.getPersonalInfo());
+
+        // Update Embedded Family Info
+        principal.setFamilyInfo(formPrincipal.getFamilyInfo());
+
+        // Reset workflow
+        principal.setFormCompleted(false);
+        principal.setPrincipalApproved(false);
+        principal.setCurrentSection(7);
+
+        principalRepository.save(principal);
+        
+        // Log audit
+        if (!details.isBlank()) {
+        	schoolusereditauditLogService.log(
+                    performer.getEmail(),
+                    targetUser.getEmail(),
+                    "PRINCIPAL",
+                    "EDIT_SECTION_1",
+                    details,
+                    request.getRemoteAddr()
+            );
+        }
+
+
+        return "redirect:/admin/principal/" + userId + "/progress";
+    }
+    
+    
+    
+    
+    @GetMapping("/principal/{userId}/section/2")
+    public String loadSection2(@PathVariable Long userId, Model model) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        // 🔐 Security: prevent manual URL access
+        if (principal.isFormCompleted() ||
+            principal.getCurrentSection() != 2) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        // ✅ VERY IMPORTANT: Initialize List if null
+        if (principal.getEducations() == null || principal.getEducations().isEmpty()) {
+            principal.setEducations(new ArrayList<>());
+            principal.getEducations().add(new PrincipalEducation()); // At least 1 row
+        }
+
+        model.addAttribute("principal", principal);
+        return "admin/principal/section2"; // Your Thymeleaf template for Section 2
+    }
+    
+    
+    @PostMapping("/principal/{userId}/section/2")
+    public String submitSection2(
+            @PathVariable Long userId,
+            @ModelAttribute("principal") com.iso.Model.Principal formPrincipal) {
+
+        // 🔹 Fetch the principal
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        // 🔐 Security: Only allow if current section is 2
+        if (principal.getCurrentSection() != 2) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        // 🔹 Clear old education records safely
+        if (principal.getEducations() != null) {
+            principal.getEducations().clear();
+        } else {
+            principal.setEducations(new ArrayList<>());
+        }
+
+        // 🔹 Add new education records from form
+        if (formPrincipal.getEducations() != null) {
+            for (PrincipalEducation edu : formPrincipal.getEducations()) {
+
+                // Ignore empty rows
+                if (edu.getHighestQualification() != null &&
+                    !edu.getHighestQualification().isBlank()) {
+
+                    edu.setPrincipal(principal); // IMPORTANT: link to principal
+                    principal.getEducations().add(edu);
+                }
+            }
+        }
+
+        // 🔹 Update section progress
+        principal.setCompletedSection(2);
+        principal.setCurrentSection(3);
+
+        // 🔹 Save principal with updated education info
+        principalRepository.save(principal);
+
+        return "redirect:/admin/principal/" + userId + "/progress";
+    }
+    
+    @GetMapping("/principal/{userId}/section/2/edit")
+    public String EditSection2(@PathVariable Long userId, Model model) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        
+
+        // ✅ VERY IMPORTANT: Initialize List if null
+        if (principal.getEducations() == null || principal.getEducations().isEmpty()) {
+            principal.setEducations(new ArrayList<>());
+            principal.getEducations().add(new PrincipalEducation()); // At least 1 row
+        }
+
+        model.addAttribute("principal", principal);
+        model.addAttribute("editMode", true);
+        return "admin/principal/section2-edit"; // Your Thymeleaf template for Section 2
+    }
+    
+    
+    @PostMapping("/principal/{userId}/section/2/edit")
+    public String submitEditSection2(
+            @PathVariable Long userId,
+            @ModelAttribute("principal") com.iso.Model.Principal formPrincipal,
+            Principal loggedUser,
+            HttpServletRequest request) {
+
+        // 🔹 Fetch the principal
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        User performer = userRepo.findByEmail(loggedUser.getName());
+        User targetUser = principal.getUser();
+        String details = schoolusereditauditLogService.generateSection2ChangeDetails(
+                principal.getEducations(),
+                formPrincipal.getEducations()
+        );
+        
+        List<PrincipalEducation> oldList = principal.getEducations();
+        List<PrincipalEducation> newList = formPrincipal.getEducations();
+
+        // Remove deleted educations
+        oldList.removeIf(oldEdu ->
+            newList.stream().noneMatch(newEdu ->
+                newEdu.getId() != null && newEdu.getId().equals(oldEdu.getId())
+            )
+        );
+
+        // Attach principal to new rows
+        for (PrincipalEducation edu : newList) {
+            edu.setPrincipal(principal);
+        }
+        
+        
+        
+        // 🔹 Clear old education records safely
+        if (principal.getEducations() != null) {
+            principal.getEducations().clear();
+        } else {
+            principal.setEducations(new ArrayList<>());
+        }
+
+        // 🔹 Add new education records from form
+        if (formPrincipal.getEducations() != null) {
+            for (PrincipalEducation edu : formPrincipal.getEducations()) {
+
+                // Ignore empty rows
+                if (edu.getHighestQualification() != null &&
+                    !edu.getHighestQualification().isBlank()) {
+
+                    edu.setPrincipal(principal); // IMPORTANT: link to principal
+                    principal.getEducations().add(edu);
+                }
+            }
+        }
+
+        // 🔹 Update section progress
+     // Reset workflow
+        principal.setFormCompleted(false);
+        principal.setPrincipalApproved(false);
+        principal.setCurrentSection(7);
+
+        // 🔹 Save principal with updated education info
+        principalRepository.save(principal);
+        
+     // Log audit
+        if (!details.isBlank()) {
+        	schoolusereditauditLogService.log(
+                    performer.getEmail(),
+                    targetUser.getEmail(),
+                    "PRINCIPAL",
+                    "EDIT_SECTION_2",
+                    details,
+                    request.getRemoteAddr()
+            );
+        }
+
+        return "redirect:/admin/principal/" + userId + "/progress";
+    }
+    
+    
+ // 🔹 Load Section 3 (Work Experience)
+    @GetMapping("/principal/{userId}/section/3")
+    public String loadSection3(@PathVariable Long userId, Model model) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        // 🔐 Security: only current section can be accessed
+        if (principal.isFormCompleted() || principal.getCurrentSection() != 3) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        // ✅ Initialize list if null
+        if (principal.getWorkExperiences() == null) {
+            principal.setWorkExperiences(new ArrayList<>());
+        }
+
+        model.addAttribute("principal", principal);
+        return "admin/principal/section3";
+    }
+
+    // 🔹 Submit Section 3 (Work Experience)
+    @PostMapping("/principal/{userId}/section/3")
+    public String submitSection3(@PathVariable Long userId,
+                                 @ModelAttribute("principal") com.iso.Model.Principal formPrincipal) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        if (principal.getCurrentSection() != 3) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        // Clear old work experiences
+        principal.getWorkExperiences().clear();
+
+        if (formPrincipal.getWorkExperiences() != null) {
+            for (PrincipalWorkExperience exp : formPrincipal.getWorkExperiences()) {
+                if (exp.getGrade() != null && !exp.getGrade().isBlank()) {
+                    exp.setPrincipal(principal); // VERY IMPORTANT
+                    principal.getWorkExperiences().add(exp);
+                }
+            }
+        }
+
+        // Update progress
+        principal.setCompletedSection(3);
+        principal.setCurrentSection(4);
+        principalRepository.save(principal);
+
+        return "redirect:/admin/principal/" + userId + "/progress";
+    }
+    
+ // 🔹 Load Edit Section 3 (Work Experience)
+    @GetMapping("/principal/{userId}/section/3/edit")
+    public String loadEditSection3(@PathVariable Long userId, Model model) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        
+
+        // ✅ Initialize list if null
+        if (principal.getWorkExperiences() == null) {
+            principal.setWorkExperiences(new ArrayList<>());
+        }
+
+        model.addAttribute("principal", principal);
+        return "admin/principal/section3-edit";
+    }
+
+    // 🔹 Submit Updated Section 3 (Work Experience)
+    @PostMapping("/principal/{userId}/section/3/edit")
+    public String submitEditSection3(@PathVariable Long userId,
+                                     @ModelAttribute("principal") com.iso.Model.Principal formPrincipal) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        List<PrincipalWorkExperience> newList = new ArrayList<>();
+
+        if (formPrincipal.getWorkExperiences() != null) {
+
+            for (PrincipalWorkExperience exp : formPrincipal.getWorkExperiences()) {
+
+                if (exp.getGrade() != null && !exp.getGrade().isBlank()) {
+
+                    exp.setPrincipal(principal);
+
+                    if (exp.getTools() == null) {
+                        exp.setTools(new ArrayList<>());
+                    }
+
+                    newList.add(exp);
+                }
+            }
+        }
+
+        principal.getWorkExperiences().clear();
+        principal.getWorkExperiences().addAll(newList);
+
+        // 🔹 Update section progress
+        // Reset workflow
+           principal.setFormCompleted(false);
+           principal.setPrincipalApproved(false);
+           principal.setCurrentSection(7);
+
+        principalRepository.save(principal);
+
+        return "redirect:/admin/principal/" + userId + "/progress";
+    }
+    
+    
+    @GetMapping("/principal/{userId}/section/4")
+    public String loadSection4(@PathVariable Long userId, Model model) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        // 🔐 Security
+        if (principal.isFormCompleted() ||
+            principal.getCurrentSection() != 4) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        if (principal.getCurrentJob() == null) {
+            PrincipalCurrentJob job = new PrincipalCurrentJob();
+            job.setPrincipal(principal);
+            principal.setCurrentJob(job);
+        }
+
+        if (principal.getCurrentJob().getJobDetails() == null ||
+            principal.getCurrentJob().getJobDetails().isEmpty()) {
+
+            principal.getCurrentJob().getJobDetails().add(new PrincipalCurrentJobDetail());
+        }
+
+        model.addAttribute("principal", principal);
+
+        return "admin/principal/section4";
+    }
+    
+    
+    @PostMapping("/principal/{userId}/section/4")
+    public String submitSection4(@PathVariable Long userId,
+                                 @ModelAttribute("principal") com.iso.Model.Principal formPrincipal) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        if (principal.getCurrentSection() != 4) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        PrincipalCurrentJob formJob = formPrincipal.getCurrentJob();
+
+        PrincipalCurrentJob job = principal.getCurrentJob();
+        if (job == null) {
+            job = new PrincipalCurrentJob();
+            job.setPrincipal(principal);
+        }
+
+        // Save single fields
+        job.setWorkingHours(formJob.getWorkingHours());
+
+        // Clear old details
+        job.getJobDetails().clear();
+
+        if (formJob.getJobDetails() != null) {
+            for (PrincipalCurrentJobDetail detail : formJob.getJobDetails()) {
+
+                if (detail.getPeriodNumber() != null &&
+                    !detail.getPeriodNumber().isBlank()) {
+
+                    detail.setCurrentJob(job);
+                    job.getJobDetails().add(detail);
+                }
+            }
+        }
+
+        principal.setCurrentJob(job);
+
+        principal.setCompletedSection(4);
+        principal.setCurrentSection(5);
+
+        principalRepository.save(principal);
+
+        return "redirect:/admin/principal/" + userId + "/progress";
+    }
+    
+    
+    @GetMapping("/principal/{userId}/section/5")
+    public String loadSection5(@PathVariable Long userId, Model model) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        // 🔐 Security
+        if (principal.isFormCompleted() ||
+            principal.getCurrentSection() != 5) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        if (principal.getCapabilityRating() == null) {
+            PrincipalCapabilityRating rating = new PrincipalCapabilityRating();
+            rating.setPrincipal(principal);
+            principal.setCapabilityRating(rating);
+        }
+
+        model.addAttribute("principal", principal);
+
+        return "admin/principal/section5";
+    }
+     
+    
+    @PostMapping("/principal/{userId}/section/5")
+    public String submitSection5(@PathVariable Long userId,
+                                 @ModelAttribute("principal") com.iso.Model.Principal formPrincipal) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        if (principal.getCurrentSection() != 5) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        PrincipalCapabilityRating formRating = formPrincipal.getCapabilityRating();
+
+        PrincipalCapabilityRating rating = principal.getCapabilityRating();
+        if (rating == null) {
+            rating = new PrincipalCapabilityRating();
+            rating.setPrincipal(principal);
+        }
+
+        // Copy values
+        rating.setVoiceGesture(formRating.getVoiceGesture());
+        rating.setPhonetics(formRating.getPhonetics());
+        rating.setFluencyNepali(formRating.getFluencyNepali());
+        rating.setFluencyEnglish(formRating.getFluencyEnglish());
+        rating.setClarity(formRating.getClarity());
+        rating.setModulation(formRating.getModulation());
+        rating.setIdiolectUse(formRating.getIdiolectUse());
+        rating.setHearingCapacity(formRating.getHearingCapacity());
+        rating.setHandwriting(formRating.getHandwriting());
+        rating.setGrammar(formRating.getGrammar());
+        rating.setSentenceStructure(formRating.getSentenceStructure());
+        rating.setWiritngSpeed(formRating.getWiritngSpeed());
+        rating.setVocabularyUsage(formRating.getVocabularyUsage());
+        rating.setSentenceFormation(formRating.getSentenceFormation());
+        rating.setVisibility(formRating.getVisibility());
+        rating.setListening(formRating.getListening());
+        rating.setTemperament(formRating.getTemperament());
+        rating.setLeadershipSkills(formRating.getLeadershipSkills());
+        rating.setTeamwork(formRating.getTeamwork());
+        rating.setPresentationSkills(formRating.getPresentationSkills());
+        rating.setCommunicationSkills(formRating.getCommunicationSkills());
+        rating.setNegotiationSkills(formRating.getNegotiationSkills());
+        rating.setProblemSolvingSkills(formRating.getProblemSolvingSkills());
+        rating.setMotivationalSkills(formRating.getMotivationalSkills());
+        rating.setPunctuality(formRating.getPunctuality());
+        rating.setClassroomTimemanagement(formRating.getClassroomTimemanagement());
+        rating.setOpeningclosingofClass(formRating.getOpeningclosingofClass());
+        rating.setLearnersagCapacity(formRating.getLearnersagCapacity());
+        rating.setUsingFormattiveassessment(formRating.getUsingFormattiveassessment());
+        rating.setUseworksheetHw(formRating.getUseworksheetHw());
+        rating.setUsesocialmediaLearners(formRating.getUsesocialmediaLearners());
+        rating.setUseLearningaids(formRating.getUseLearningaids());
+        rating.setScoreCw(formRating.getScoreCw());
+        rating.setScoreHw(formRating.getScoreHw());
+        rating.setScoreUnitassessment(formRating.getScoreUnitassessment());
+        rating.setUseTeachingaids(formRating.getUseTeachingaids());
+        rating.setKnowledge(formRating.getKnowledge());
+        rating.setUnderstanding(formRating.getUnderstanding());
+        rating.setApplication(formRating.getApplication());
+        rating.setHigherAbility(formRating.getHigherAbility());
+        rating.setSocialmediaHandling(formRating.getSocialmediaHandling());
+        rating.setRecordKeeping(formRating.getRecordKeeping());
+        rating.setImplementationCorporatepolicies(formRating.getImplementationCorporatepolicies());
+        rating.setConsumingRestrictedelements(formRating.getConsumingRestrictedelements());
+        rating.setPersonalHygiene(formRating.getPersonalHygiene());
+
+        principal.setCapabilityRating(rating);
+
+        // ✅ FINAL STEP
+        principal.setCompletedSection(5);
+        principal.setCurrentSection(6);
+
+        principalRepository.save(principal);
+
+        return "redirect:/admin/principal/" + userId + "/progress";
+    }
+    
+    
+    @GetMapping("/principal/{userId}/section/6")
+    public String loadSection6(@PathVariable Long userId, Model model) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        // 🔐 Security Check
+        if (principal.isFormCompleted() ||
+            principal.getCurrentSection() != 6) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        // Initialize list if null (important for Thymeleaf)
+        if (principal.getAttachments() == null) {
+            principal.setAttachments(new ArrayList<>());
+        }
+
+        model.addAttribute("principal", principal);
+
+        return "admin/principal/section6";
+    }
+       
+
+    @PostMapping("/principal/{userId}/section/6")
+    public String saveSection6(
+            @PathVariable Long userId,
+
+            @RequestParam("photoFile") MultipartFile photoFile,
+            @RequestParam("citizenshipFile") MultipartFile citizenshipFile,
+            @RequestParam("cvFile") MultipartFile cvFile,
+            @RequestParam("educationCertificates") MultipartFile[] educationCertificates,
+            @RequestParam("experienceLetters") MultipartFile[] experienceLetters,
+            @RequestParam("trainingFiles") MultipartFile[] trainingFiles,
+            @RequestParam("swotFiles") MultipartFile[] swotFiles,
+            @RequestParam("recommendationFile") MultipartFile recommendationFile
+
+    ) throws IOException {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        String uploadDir = "uploads/principals/" + userId + "/";
+
+        // Use service to save files
+        attachmentService.saveSingleFile(photoFile, principal, AttachmentType.PHOTO, uploadDir);
+        attachmentService.saveSingleFile(citizenshipFile, principal, AttachmentType.CITIZENSHIP, uploadDir);
+        attachmentService.saveSingleFile(cvFile, principal, AttachmentType.CV, uploadDir);
+        attachmentService.saveSingleFile(recommendationFile, principal, AttachmentType.RECOMMENDATION_LETTER, uploadDir);
+
+        attachmentService.saveMultipleFiles(educationCertificates, principal, AttachmentType.EDUCATIONAL_CERTIFICATE, uploadDir);
+        attachmentService.saveMultipleFiles(experienceLetters, principal, AttachmentType.EXPERIENCE_LETTER, uploadDir);
+        attachmentService.saveMultipleFiles(trainingFiles, principal, AttachmentType.TRAINING_CERTIFICATE, uploadDir);
+        attachmentService.saveMultipleFiles(swotFiles, principal, AttachmentType.SWOT_RESEARCH, uploadDir);
+
+        // Move to next section
+     // ✅ FINAL STEP
+        principal.setCompletedSection(6);
+        principal.setCurrentSection(7);
+        principalRepository.save(principal);
+
+        return "redirect:/admin/principal/" + userId + "/section/7";
+    }
+    
+    @GetMapping("/principal/{userId}/section/7")
+    public String loadSection7(@PathVariable Long userId, Model model) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        // Security
+        if (principal.isFormCompleted() || principal.getCurrentSection() != 7) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        // Prevent null errors
+        if (principal.getCurrentJob() == null) {
+            principal.setCurrentJob(new PrincipalCurrentJob());
+        }
+        
+        
+        if (principal.getCapabilityRating() == null) {
+            principal.setCapabilityRating(new PrincipalCapabilityRating());
+        }
+
+        model.addAttribute("principal", principal);
+
+        return "admin/principal/section7";
+    }
+    
+    @PostMapping("/principal/{userId}/section/7")
+    public String submitSection7(@PathVariable Long userId) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        if (principal.getCurrentSection() != 7) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        // Admin finished filling form
+        principal.setCompletedSection(7);
+
+        // Waiting for principal approval
+        principal.setCurrentSection(0);
+
+        principalRepository.save(principal);
+
+        return "redirect:/admin/principal/" + userId + "/progress";
+    }
+    
+    @PostMapping("/principal/{userId}/approve-form")
+    public String approvePrincipalForm(@PathVariable Long userId) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        principal.setFormCompleted(true);
+
+        principalRepository.save(principal);
+
+        return "redirect:/admin/principal/" + userId + "/progress";
+    }
+    
+    @GetMapping("/principal/{userId}/section/{sectionNumber}")
+    public String loadSection(@PathVariable Long userId,
+                              @PathVariable int sectionNumber,
+                              Model model) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        // 🔐 Security check
+        if (principal.isFormCompleted() ||
+            sectionNumber != principal.getCurrentSection()) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        // ✅ Initialize embedded objects for section 1
+        if (sectionNumber == 1) {
+
+            if (principal.getPersonalInfo() == null) {
+                principal.setPersonalInfo(new PrincipalPersonalInfo());
+            }
+
+            if (principal.getFamilyInfo() == null) {
+                principal.setFamilyInfo(new PrincipalFamilyInfo());
+            }
+
+            model.addAttribute("principal", principal);
+            return "admin/principal/section1";
+        }
+
+        return "redirect:/admin/principal/" + userId + "/progress";
+    }
+    
+    @PostMapping("/principal/{userId}/section/{sectionNumber}")
+    public String submitSection(
+            @PathVariable Long userId,
+            @PathVariable int sectionNumber) {
+
+        com.iso.Model.Principal principal = principalRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Principal not found"));
+
+        // 🔐 SECURITY CHECK
+        if (sectionNumber != principal.getCurrentSection()) {
+            return "redirect:/admin/principal/" + userId + "/progress";
+        }
+
+        // Mark completed
+        principal.setCompletedSection(sectionNumber);
+
+        if (sectionNumber < 7) {
+            principal.setCurrentSection(sectionNumber + 1);
+        } else {
+            principal.setFormCompleted(true);
+        }
+
+        principalRepository.save(principal);
+
+        return "redirect:/admin/principal/" + userId + "/progress";
+    }
+
+    
+    
+   
     
     @GetMapping("/schools/edit/{id}")
     public String showEditSchoolForm(@PathVariable Long id, Model model) {
@@ -998,6 +2014,15 @@ public class AdminController {
             .append(existingSchool.getAddress())
             .append("' to '")
             .append(updatedSchool.getAddress())
+            .append("'. ")
+            .append(" by: " + authentication.getName());
+        }
+        
+        if (!existingSchool.getLandlineNumber().equals(updatedSchool.getLandlineNumber())) {
+            changes.append("Landline Number changed. ")
+            .append(existingSchool.getLandlineNumber())
+            .append("' to '")
+            .append(updatedSchool.getLandlineNumber())
             .append("'. ")
             .append(" by: " + authentication.getName());
         }

@@ -1,103 +1,157 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: layout(~{::section})}">
+
 <head>
     <meta charset="UTF-8">
     <title>School Users</title>
 </head>
+
 <body>
 
-<h2>Users in School: <span th:text="${school.name}"></span></h2>
+<section class="ad-school-users-section">
 
-<a th:href="@{/admin/provinces}">Back to Provinces</a>
-<br><br>
+    <div class="ad-school-users-card">
 
-<!-- PRINCIPALS -->
-<h3>Principals</h3>
-<table border="1" cellpadding="10">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:if="${#lists.isEmpty(principals)}">
-            <td colspan="3">No principals found.</td>
-        </tr>
-        <tr th:each="user : ${principals}">
-            <td th:text="${user.id}"></td>
-            <td th:text="${user.username}"></td>
-            <td th:text="${user.email}"></td>
-        </tr>
-    </tbody>
-</table>
+        <!-- Header -->
+        <div class="ad-school-users-header">
+            <h2>
+                Users in School:
+                <span th:text="${school.name}"></span>
+            </h2>
 
-<!-- COORDINATORS -->
-<h3>Coordinators</h3>
-<table border="1" cellpadding="10">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:if="${#lists.isEmpty(coordinators)}">
-            <td colspan="3">No coordinators found.</td>
-        </tr>
-        <tr th:each="user : ${coordinators}">
-            <td th:text="${user.id}"></td>
-            <td th:text="${user.username}"></td>
-            <td th:text="${user.email}"></td>
-        </tr>
-    </tbody>
-</table>
+            <a th:href="@{/admin/provinces}"
+               class="ad-school-users-btn-back">
+                ← Back
+            </a>
+        </div>
 
-<!-- DEOs -->
-<h3>DEOs</h3>
-<table border="1" cellpadding="10">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:if="${#lists.isEmpty(deos)}">
-            <td colspan="3">No DEOs found.</td>
-        </tr>
-        <tr th:each="user : ${deos}">
-            <td th:text="${user.id}"></td>
-            <td th:text="${user.username}"></td>
-            <td th:text="${user.email}"></td>
-        </tr>
-    </tbody>
-</table>
+        <!-- PRINCIPALS -->
+        <div class="ad-school-users-block">
+            <h3>Principals</h3> 
+            <a th:href="@{/admin/principal/create/{schoolId}(schoolId=${school.id})}"
+           class="ad-school-users-btn-add">
+            + Add Principal
+        </a>
+            <div class="ad-school-users-table-wrapper">
+                <table class="ad-school-users-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Progress</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(principals)}">
+                            <td colspan="3" class="ad-school-users-empty">
+                                No principals found.
+                            </td>
+                        </tr>
+                        <tr th:each="user : ${principals}">
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.username}"></td>
+                            <td th:text="${user.email}"></td>
+                            <td>
+                       <a th:href="@{/admin/principal/{id}/progress(id=${user.id})}"
+   class="btn btn-sm btn-primary">
+    View Progress
+</a>
+                    </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-<!-- EDUCATORS -->
-<h3>Educators</h3>
-<table border="1" cellpadding="10">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:if="${#lists.isEmpty(educators)}">
-            <td colspan="3">No educators found.</td>
-        </tr>
-        <tr th:each="user : ${educators}">
-            <td th:text="${user.id}"></td>
-            <td th:text="${user.username}"></td>
-            <td th:text="${user.email}"></td>
-        </tr>
-    </tbody>
-</table>
+        <!-- COORDINATORS -->
+        <div class="ad-school-users-block">
+            <h3>Coordinators</h3>
+            <div class="ad-school-users-table-wrapper">
+                <table class="ad-school-users-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(coordinators)}">
+                            <td colspan="3" class="ad-school-users-empty">
+                                No coordinators found.
+                            </td>
+                        </tr>
+                        <tr th:each="user : ${coordinators}">
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.username}"></td>
+                            <td th:text="${user.email}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- DEOs -->
+        <div class="ad-school-users-block">
+            <h3>DEOs</h3>
+            <div class="ad-school-users-table-wrapper">
+                <table class="ad-school-users-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(deos)}">
+                            <td colspan="3" class="ad-school-users-empty">
+                                No DEOs found.
+                            </td>
+                        </tr>
+                        <tr th:each="user : ${deos}">
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.username}"></td>
+                            <td th:text="${user.email}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- EDUCATORS -->
+        <div class="ad-school-users-block">
+            <h3>Educators</h3>
+            <div class="ad-school-users-table-wrapper">
+                <table class="ad-school-users-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(educators)}">
+                            <td colspan="3" class="ad-school-users-empty">
+                                No educators found.
+                            </td>
+                        </tr>
+                        <tr th:each="user : ${educators}">
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.username}"></td>
+                            <td th:text="${user.email}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</section>
 
 </body>
 </html>

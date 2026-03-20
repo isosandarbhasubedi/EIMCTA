@@ -1,51 +1,101 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: layout(~{::section})}">
+
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Edit School</title>
 </head>
+
 <body>
-<form th:action="@{/admin/schools/edit/{id}(id=${school.id})}" 
-      th:object="${school}" 
-      method="post" 
-      enctype="multipart/form-data">
-   
-    <input type="hidden" th:field="*{id}" />
 
-    <label>School Name:</label>
-    <input type="text" th:field="*{name}" required />
+<section class="ad-school-edit-section">
 
-    <label>Address:</label>
-    <input type="text" th:field="*{address}" required />
+    <div class="ad-school-edit-card">
 
-    <label>Email:</label>
-    <input type="email" th:field="*{email}" required />
+        <!-- Header -->
+        <div class="ad-school-edit-header">
+            <h2>Edit School</h2>
 
-    <label>Mobile Number:</label>
-    <input type="text" th:field="*{mobileNumber}" required />
-    
-    <label>Landline Number:</label>
-    <input type="text" th:field="*{landlineNumber}" required />
+            <a th:href="@{/admin/provinces}"
+               class="ad-school-edit-btn-back">
+                ← Back
+            </a>
+        </div>
 
-    <label>Logo:</label>
-    <input type="file" name="logoFile" />
+        <!-- Form -->
+        <form th:action="@{/admin/schools/edit/{id}(id=${school.id})}"
+              th:object="${school}"
+              method="post"
+              enctype="multipart/form-data"
+              class="ad-school-edit-form">
 
-    <div th:if="${school.logo != null}">
-        <img th:src="@{'/uploads/' + ${school.logo}}" width="80" height="80" />
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="ad-school-edit-grid">
+
+                <div class="ad-school-edit-group">
+                    <label>School Name</label>
+                    <input type="text" th:field="*{name}" required />
+                </div>
+
+                <div class="ad-school-edit-group">
+                    <label>Email</label>
+                    <input type="email" th:field="*{email}" required />
+                </div>
+
+                <div class="ad-school-edit-group">
+                    <label>Address</label>
+                    <input type="text" th:field="*{address}" required />
+                </div>
+
+                <div class="ad-school-edit-group">
+                    <label>Mobile Number</label>
+                    <input type="text" th:field="*{mobileNumber}" required />
+                </div>
+
+                <div class="ad-school-edit-group">
+                    <label>Landline Number</label>
+                    <input type="text" th:field="*{landlineNumber}" required />
+                </div>
+
+                <div class="ad-school-edit-group">
+                    <label>Province</label>
+                    <select name="provinceId">
+                        <option th:each="province : ${provinces}"
+                                th:value="${province.id}"
+                                th:text="${province.name}"
+                                th:selected="${school.province != null and province.id == school.province.id}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="ad-school-edit-group">
+                    <label>Logo</label>
+                    <input type="file" name="logoFile" />
+                </div>
+
+                <div class="ad-school-edit-logo-preview"
+                     th:if="${school.logo != null}">
+                    <label>Current Logo</label>
+                    <img th:src="@{'/uploads/' + ${school.logo}}"
+                         class="ad-school-edit-logo"/>
+                </div>
+
+            </div>
+
+            <div class="ad-school-edit-buttons">
+                <button type="submit"
+                        class="ad-school-edit-btn-update">
+                    Update School
+                </button>
+            </div>
+
+        </form>
+
     </div>
 
-   <select name="provinceId">
-    <option th:each="province : ${provinces}"
-            th:value="${province.id}"
-            th:text="${province.name}"
-            th:selected="${school.province != null and province.id == school.province.id}">
-    </option>
-</select>
-
-    <br><br>
-    <button type="submit">Update School</button>
-</form>
-
+</section>
 
 </body>
 </html>

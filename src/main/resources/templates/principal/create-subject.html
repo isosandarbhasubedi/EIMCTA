@@ -1,0 +1,80 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/create-subject.css}">
+</th:block>
+<body>
+<div th:with="activePage='createsubject'">
+
+<div th:fragment="content">
+
+<h1 class="page-title">Create Subject</h1>
+
+<div class="center-container">
+
+<div class="form-card">
+
+<div class="form-header">
+<h2>New Subject</h2>
+
+<a class="back-btn" th:href="@{/principal/subjects}">
+← Back
+</a>
+
+</div>
+
+<form th:action="@{/principal/subjects/create}" method="post" class="form-body">
+<div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+<div th:if="${successMessage}" style="color:green; margin-bottom:10px;">
+    <p th:text="${successMessage}"></p>
+</div>
+<label>Select Class</label>
+
+<select id="classroomSelect" required>
+
+<option value="">Select Class</option>
+
+<option th:each="c : ${classrooms}"
+        th:value="${c.id}"
+        th:text="${c.name}">
+</option>
+
+</select>
+
+
+<label>Select Sections</label>
+
+<div id="sectionsContainer" class="sections-container">
+<!-- Sections will appear dynamically -->
+</div>
+
+
+<label>Subject Name</label>
+
+<input type="text" name="name" placeholder="Example: Mathematics" required>
+
+
+<button type="submit" class="submit-btn">
+Create Subject
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script th:src="@{/js/principal/create-subject.js}"></script>
+</th:block>
+</body>
+</html>

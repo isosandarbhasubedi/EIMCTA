@@ -46,6 +46,9 @@ public class School {
     @OneToMany(mappedBy = "school")
     private List<User> users;
     
+    @OneToMany(mappedBy = "school")
+    private List<ClassRoom> classes;
+    
     // getters & setters
 	public Long getId() {
 		return id;
@@ -119,7 +122,14 @@ public class School {
 	public void setProvince(Province province) {
 		this.province = province;
 	}
+	public List<ClassRoom> getClasses() {
+		return classes;
+	}
+	public void setClasses(List<ClassRoom> classes) {
+		this.classes = classes;
+	}
 
+	
    
     
     

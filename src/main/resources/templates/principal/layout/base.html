@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+<title>School System</title>
+
+<!-- GLOBAL CSS -->
+<link rel="stylesheet" th:href="@{/css/principal/global.css}">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- PAGE CSS -->
+<th:block th:replace="~{::pageCss}"></th:block>
+<script th:src="@{/js/sidebar.js}"></script>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div th:replace="~{/principal/fragments/sidebar :: sidebar(${activePage})}"></div>
+
+<div class="content">
+
+<!-- HEADER -->
+<!--<div th:replace="~{/principal/fragments/header :: header(${school.name})}"></div>-->
+
+<!-- PAGE CONTENT -->
+<div th:insert="~{::content}"></div>
+
+</div>
+
+<!-- GLOBAL JS -->
+
+<!-- PAGE JS -->
+<th:block th:replace="~{::pageJs}"></th:block>
+
+</body>
+
+</html>

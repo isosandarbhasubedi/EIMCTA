@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/learner-enrollment.css}">
+</th:block>
+<body>
+<div th:with="activePage='learners'">
+
+<div th:fragment="content">
+
+    <!-- Header -->
+    <div class="header-row">
+        <h2 class="page-title">Learner Enrollments</h2>
+        <a th:href="@{/principal/dashboard}" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <!-- Filters -->
+    <div class="card">
+        <div class="form-row">
+
+            <div class="form-group">
+                <label>Select Classroom</label>
+                <select id="classroomSelect">
+                    <option value="">Select Class</option>
+                    <option th:each="c : ${classrooms}"
+                            th:value="${c.id}"
+                            th:text="${c.name}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Select Section</label>
+                <select id="sectionSelect">
+                    <option value="">Select Section</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card">
+        <h3>Students List</h3>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Class</th>
+                        <th>Section</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentTable">
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script th:src="@{/js/principal/learner-enrollment.js}"></script>
+</th:block>
+</body>
+</html>

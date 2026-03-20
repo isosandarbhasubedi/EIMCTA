@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Educator Dashboard</title>
+</head>
+<body>
+
+<h1>Educator Dashboard - <span th:text="${school.name}"></span></h1>
+
+<a th:href="@{/logout}">Logout</a>
+<br><br>
+
+<a th:href="@{/educator/academic-years}">Academic Years</a>
+
+
+
+</body>
+</html>

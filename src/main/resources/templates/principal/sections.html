@@ -1,0 +1,99 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/manage-sections.css}">
+</th:block>
+<body>
+<div th:with="activePage='section'">
+
+<div th:fragment="content">
+
+<h1 class="page-title">Section Management</h1>
+
+<!-- Messages -->
+<div th:if="${success}" class="alert-success" th:text="${success}"></div>
+<div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+<!-- Search Bar -->
+<div class="search-bar">
+
+<form th:action="@{/principal/sections/search}" method="get">
+
+<input type="text"
+       name="keyword"
+       placeholder="Search sections..."
+       th:value="${keyword}">
+
+<button type="submit" class="btn-search">
+Search
+</button>
+
+<a th:href="@{/principal/sections}" class="btn-reset">
+Reset
+</a>
+
+</form>
+
+</div>
+
+<!-- Table Card -->
+<div class="table-card">
+
+<table class="dashboard-table">
+
+<thead>
+<tr>
+<th>#</th>
+<th>Section Name</th>
+<th>Class</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr th:each="section, stat : ${sections}">
+
+<td th:text="${stat.index + 1}"></td>
+
+<td th:text="${section.name}"></td>
+
+<td th:text="${section.classRoom.name}"></td>
+
+<td>
+
+<a class="btn-edit"
+   th:href="@{/principal/sections/edit/{id}(id=${section.id})}">
+Edit
+</a>
+
+<a class="btn-delete"
+   th:href="@{/principal/sections/delete/{id}(id=${section.id})}"
+   onclick="return confirm('Are you sure you want to delete this section?');">
+Delete
+</a>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script>
+console.log("Manage Sections Loaded");
+</script>
+</th:block>
+</body>
+</html>

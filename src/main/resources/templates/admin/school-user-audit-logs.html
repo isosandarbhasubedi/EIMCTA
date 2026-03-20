@@ -1,139 +1,116 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+     th:replace="~{admin/admin-layout :: layout(~{::section})}">
 <head>
-    <title>School User Audit Logs</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <style>
-        body {
-            font-size: 14px;
-        }
-
-        .container {
-            margin-top: 30px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 8px;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f4f4f4;
-        }
-
-        .filter-box {
-            margin-bottom: 20px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>School User Logs</title>
 </head>
 <body>
 
-<div class="container">
-    <h2>School User Audit Logs</h2>
+<section class="admin-school-user-log-card">
 
-    <!-- 🔎 Filter Section -->
-    <div class="filter-box">
+    <div class="page-header">
+        <h1>School User Logs</h1>
+        <a th:href="@{/admin/dashboard}" class="back-btn">Back to Dashboard</a>
+    </div>
+
+    <!-- 🔎 FILTER SECTION -->
+    <div class="filter-container">
         <form th:action="@{/admin/school-user-audit-logs}" method="get">
+            <div class="filter-group">
 
-            <label>Filter by Action:</label>
+                <label>Filter by Action</label>
 
-            <select name="action"
-                    class="form-control"
-                    style="width:250px; display:inline-block; margin-left:10px;">
+                <select name="action">
+                    <option value=""
+                            th:selected="${selectedAction == null or selectedAction == ''}">
+                        All
+                    </option>
 
-                <option value=""
-                        th:selected="${selectedAction == null or selectedAction == ''}">
-                    All
-                </option>
+                    <option value="CREATE_USER"
+                            th:selected="${selectedAction == 'CREATE_USER'}">
+                        CREATE_USER
+                    </option>
 
-                <option value="CREATE_USER"
-                        th:selected="${selectedAction == 'CREATE_USER'}">
-                    CREATE_USER
-                </option>
+                    <option value="EDIT_USER"
+                            th:selected="${selectedAction == 'EDIT_USER'}">
+                        EDIT_USER
+                    </option>
 
-                <option value="EDIT_USER"
-                        th:selected="${selectedAction == 'EDIT_USER'}">
-                    EDIT_USER
-                </option>
+                    <option value="ROLE_CHANGE"
+                            th:selected="${selectedAction == 'ROLE_CHANGE'}">
+                        ROLE_CHANGE
+                    </option>
 
-                <option value="ROLE_CHANGE"
-                        th:selected="${selectedAction == 'ROLE_CHANGE'}">
-                    ROLE_CHANGE
-                </option>
+                    <option value="ACTIVATE_USER"
+                            th:selected="${selectedAction == 'ACTIVATE_USER'}">
+                        ACTIVATE_USER
+                    </option>
 
-                <option value="ACTIVATE_USER"
-                        th:selected="${selectedAction == 'ACTIVATE_USER'}">
-                    ACTIVATE_USER
-                </option>
+                    <option value="DEACTIVATE_USER"
+                            th:selected="${selectedAction == 'DEACTIVATE_USER'}">
+                        DEACTIVATE_USER
+                    </option>
 
-                <option value="DEACTIVATE_USER"
-                        th:selected="${selectedAction == 'DEACTIVATE_USER'}">
-                    DEACTIVATE_USER
-                </option>
+                    <option value="DELETE_USER"
+                            th:selected="${selectedAction == 'DELETE_USER'}">
+                        DELETE_USER
+                    </option>
 
-                <option value="DELETE_USER"
-                        th:selected="${selectedAction == 'DELETE_USER'}">
-                    DELETE_USER
-                </option>
+                    <option value="RESTORE_USER"
+                            th:selected="${selectedAction == 'RESTORE_USER'}">
+                        RESTORE_USER
+                    </option>
+                </select>
 
-                <option value="RESTORE_USER"
-                        th:selected="${selectedAction == 'RESTORE_USER'}">
-                    RESTORE_USER
-                </option>
+                <button type="submit" class="filter-btn">
+                    Filter
+                </button>
 
-            </select>
-
-            <button type="submit"
-                    class="btn btn-primary"
-                    style="margin-left:10px;">
-                Filter
-            </button>
+            </div>
         </form>
     </div>
 
-    <!-- 📋 Audit Table -->
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Action</th>
-            <th>User ID</th>
-            <th>User Email</th>
-            <th>User Role</th>
-            <th>Performed By</th>
-            <th>IP Address</th>
-            <th>Details</th>
-            <th>Date & Time</th>
-        </tr>
-        </thead>
+    <!-- 📋 TABLE -->
+    <div class="table-responsive">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Action</th>
+                <th>User ID</th>
+                <th>User Email</th>
+                <th>User Role</th>
+                <th>Performed By</th>
+                <th>IP Address</th>
+                <th>Details</th>
+                <th>Date & Time</th>
+            </tr>
+            </thead>
 
-        <tbody>
-        <tr th:each="log : ${schoolUserAuditLogs}">
-            <td th:text="${log.id}"></td>
-            <td th:text="${log.action}"></td>
-            <td th:text="${log.userId}"></td>
-            <td th:text="${log.userEmail}"></td>
-            <td th:text="${log.userRole}"></td>
-            <td th:text="${log.performedBy}"></td>
-            <td th:text="${log.ipAddress}"></td>
-            <td th:text="${log.details}"></td>
-            <td th:text="${log.performedAt}"></td>
-        </tr>
+            <tbody>
+            <tr th:each="log : ${schoolUserAuditLogs}">
+                <td th:text="${log.id}"></td>
+                <td th:text="${log.action}"></td>
+                <td th:text="${log.userId}"></td>
+                <td th:text="${log.userEmail}"></td>
+                <td th:text="${log.userRole}"></td>
+                <td th:text="${log.performedBy}"></td>
+                <td th:text="${log.ipAddress}"></td>
+                <td th:text="${log.details}"></td>
+                <td th:text="${log.performedAt}"></td>
+            </tr>
 
-        <tr th:if="${#lists.isEmpty(schoolUserAuditLogs)}">
-            <td colspan="9" style="text-align:center;">
-                No audit logs found.
-            </td>
-        </tr>
-        </tbody>
-    </table>
+            <tr th:if="${#lists.isEmpty(schoolUserAuditLogs)}">
+                <td colspan="9" style="text-align:center;">
+                    No audit logs found.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-</div>
+</section>
 
 </body>
 </html>

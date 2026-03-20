@@ -46,5 +46,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     long countByProvinceAndRoleAndActiveTrue(Province province, Role role);
     
+    //In order for enrolling learners who are not enrolled
+    @Query("""
+    		SELECT u FROM User u
+    		WHERE u.school = :school
+    		AND u.role = :role
+    		AND u.id NOT IN (
+    		    SELECT le.learner.id
+    		    FROM LearnerEnrollment le
+    		    WHERE le.academicYear.id = :academicYearId
+    		)
+    		""")
+    		List<User> findNotEnrolledLearners(School school, Role role, Long academicYearId);
+    
     }
 

@@ -1,0 +1,63 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/edit-section.css}">
+</th:block>
+<body>
+<div th:with="activePage='classroom'">
+
+<div th:fragment="content">
+
+<h1 class="page-title">Edit Section</h1>
+
+<div class="center-container">
+
+<div class="form-card">
+
+<div class="form-header">
+<h2>Update Section</h2>
+<a class="back-btn" th:href="@{/principal/sections}">
+← Back
+</a>
+</div>
+
+<form th:action="@{/principal/sections/edit/{id}(id=${section.id})}"
+      method="post"
+      class="form-body">
+<div th:if="${errorMessage}" style="color:red;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+<div th:if="${successMessage}" style="color:green;">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<input type="text"
+       name="sectionName"
+       th:value="${section.name}"
+       required>
+
+<button type="submit" class="save-btn">
+Save Changes
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script>
+console.log("Edit Section Loaded");
+</script>
+</th:block>
+</body>
+</html>

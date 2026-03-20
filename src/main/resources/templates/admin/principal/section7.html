@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Review Principal Form</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container mt-5">
+
+<h2>Section 7 : Review Principal Form</h2>
+<hr>
+<h3>Principal Photo</h3>
+
+<div th:each="att : ${principal.attachments}">
+    
+    <!-- Show photo directly -->
+    <div th:if="${att.attachmentType.name() == 'PHOTO'}">
+
+        <img th:src="@{/files/view(path=${att.filePath})}"
+             style="width:200px;height:220px;border:1px solid #ccc;padding:5px;border-radius:6px;object-fit:cover;" />
+
+    </div>
+
+</div>
+<!-- PERSONAL INFO -->
+<h4>Personal Information</h4>
+<table class="table table-bordered">
+<tr><th>Full Name</th><td th:text="${principal.personalInfo.firstName}"></td></tr>
+
+<tr><th>Gender</th><td th:text="${principal.personalInfo.gender}"></td></tr>
+<tr><th>Address</th><td th:text="${principal.personalInfo.permanentAddress}"></td></tr>
+
+</table>
+
+
+<!-- FAMILY INFO -->
+<h4>Family Information</h4>
+<table class="table table-bordered">
+<tr><th>Spouse</th><td th:text="${principal.familyInfo.spouseName}"></td></tr>
+</table>
+
+
+<!-- EDUCATION -->
+<h4>Educational Qualification</h4>
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Qualification</th>
+<th>Specialized In</th>
+<th>Year</th>
+<th>Board</th>
+<th>Institution</th>
+</tr>
+</thead>
+
+<tbody>
+<tr th:each="edu : ${principal.educations}">
+<td th:text="${edu.highestQualification}"></td>
+<td th:text="${edu.specializedIn}"></td>
+<td th:text="${edu.completionYear}"></td>
+<td th:text="${edu.board}"></td>
+<td th:text="${edu.institutionName}"></td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- WORK EXPERIENCE -->
+<h4>Work Experience</h4>
+<table class="table table-bordered">
+
+<thead>
+<tr>
+<th>Grade</th>
+<th>Subjects</th>
+<th>Organization</th>
+<th>Start</th>
+<th>End</th>
+<th>Tools</th>
+</tr>
+</thead>
+
+<tbody>
+<tr th:each="exp : ${principal.workExperiences}">
+<td th:text="${exp.grade}"></td>
+<td th:text="${exp.subjects}"></td>
+<td th:text="${exp.organizationName}"></td>
+<td th:text="${exp.startDate}"></td>
+<td th:text="${exp.endDate}"></td>
+<td th:text="${exp.tools}"></td>
+</tr>
+</tbody>
+
+</table>
+
+
+<!-- CURRENT JOB -->
+<h4>Current Job</h4>
+
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Subject</th>
+<th>Period Number</th>
+<th>Learners Number</th>
+</tr>
+</thead>
+
+<tbody>
+<tr th:each="job : ${principal.currentJob.jobDetails}">
+<td th:text="${job.subject}"></td>
+<td th:text="${job.periodNumber}"></td>
+<td th:text="${job.learnersNumber}"></td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- CAPABILITY RATING -->
+<h4>Capability Rating</h4>
+
+<table class="table table-bordered">
+
+<tr>
+<th>Voice Gesture</th>
+<td th:text="${principal.capabilityRating.voiceGesture}"></td>
+</tr>
+
+<tr>
+<th>Fluency English</th>
+<td th:text="${principal.capabilityRating.fluencyEnglish}"></td>
+</tr>
+
+<tr>
+<th>Communication Skills</th>
+<td th:text="${principal.capabilityRating.communicationSkills}"></td>
+</tr>
+
+<tr>
+<th>Leadership Skills</th>
+<td th:text="${principal.capabilityRating.leadershipSkills}"></td>
+</tr>
+
+</table>
+
+
+<!-- ATTACHMENTS -->
+<h4>Attachments</h4>
+
+<h3>Documents</h3>
+
+<table border="1">
+<tr>
+    <th>Document Type</th>
+    <th>Action</th>
+</tr>
+
+<tr th:each="att : ${principal.attachments}"
+    th:if="${att.attachmentType.name() != 'PHOTO'}">
+
+    <td th:text="${att.attachmentType}"></td>
+
+    <td>
+        <a th:href="@{/files/view(path=${att.filePath})}" target="_blank">
+            View File
+        </a>
+    </td>
+
+</tr>
+
+</table>
+
+<hr>
+
+<form th:action="@{/admin/principal/{userId}/approve-form(userId=${principal.user.id})}" method="post">
+
+<button class="btn btn-success">
+Approve Form
+</button>
+
+</form>
+
+</body>
+</html>

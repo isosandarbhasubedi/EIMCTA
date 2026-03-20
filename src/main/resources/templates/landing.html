@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School ERP System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --primary-blue: #0b3d91;
+    --dark-yellow: #d4a017;
+    --light-brown: #f1e5d0;
+    --white: #ffffff;
+    --dark-text: #1c1c1c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: var(--light-brown);
+   
+    line-height: 1.6;
+}
+
+/* ================= NAVBAR ================= */
+nav {
+    background: var(--primary-blue);
+    color: var(--white);
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+nav h2 {
+    font-weight: 600;
+    color: var(--dark-yellow);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+nav ul li a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 400;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    color: var(--dark-yellow);
+}
+
+/* ================= HERO ================= */
+/* HERO LAYOUT */
+
+
+/* ================= LEFT SIDE ================= */
+
+/* ================= HERO SECTION ================= */
+
+.hero {
+    width: 100%;
+    padding: 100px 6%;
+    background: linear-gradient(135deg, #0b3d91 0%, #082c6b 100%);
+    color: var(--white);
+}
+
+.hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+/* =========================
+   LEFT SIDE
+========================= */
+.hero-left {
+    flex: 1;
+    max-width: 600px;
+}
+
+/* Small Tagline */
+.hero-left::before {
+    content: "EIMCTA";
+    display: inline-block;
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: var(--dark-yellow);
+    margin-bottom: 15px;
+
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUp 0.9s ease forwards;
+    animation-delay: 0.2s;
+}
+
+/* Main Heading */
+.hero-left h1 {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 25px;
+
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUp 0.9s ease forwards;
+    animation-delay: 0.4s;
+}
+
+/* Highlight Word */
+.hero-left h1 span {
+    color: var(--dark-yellow);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* Paragraph */
+.hero-left p {
+    font-size: 18px;
+    color: #dbeafe;
+    margin-bottom: 35px;
+    line-height: 1.7;
+    max-width: 520px;
+
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUp 0.9s ease forwards;
+    animation-delay: 0.6s;
+}
+
+/* Button */
+.hero-left button {
+    padding: 14px 34px;
+    border: 2px solid var(--dark-yellow);
+    border-radius: 50px;
+    background: var(--dark-yellow);
+    color: var(--dark-text);
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUp 0.9s ease forwards;
+    animation-delay: 0.8s;
+}
+
+/* Button Hover */
+.hero-left button:hover {
+    background: transparent;
+    color: var(--white);
+    transform: translateY(-4px);
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+/* Fade Up Animation */
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Glow Animation */
+@keyframes glow {
+    from { 
+        text-shadow: 0 0 5px rgba(212,160,23,0.4); 
+    }
+    to { 
+        text-shadow: 0 0 20px rgba(212,160,23,0.8); 
+    }
+}
+
+/* ================= RIGHT SIDE ================= */
+
+/* ================= ISO CIRCLE ================= */
+/* ================= ISO CIRCLE ================= */
+/* Container with dotted circle */
+/* ================= ISO CIRCLE ================= */
+/* Container */
+/* Container */
+.iso-circle {
+    position: relative;
+    width: 420px;
+    height: 420px;
+    margin: 50px auto;
+}
+
+/* ONLY this rotates */
+.dotted-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3.5px dashed #facc15;
+    animation: spin 15s linear infinite;
+}
+
+/* Rotation animation */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Center logo (fixed) */
+.iso-logo {
+    position: absolute;
+    width: 230px;
+    height: 230px;
+    background: white;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    z-index: 2;
+}
+
+.iso-logo img {
+    width: 80%;
+}
+
+/* Orbit items (fixed position) */
+.iso-item {
+    position: absolute;
+    width: 120px;
+    height: 70px;
+    line-height: 35px;
+    text-align: center;
+    background: var(--dark-yellow);
+    border-radius: 50px;
+    font-weight: 600;
+    color:black
+}
+
+/* Radius */
+:root { --radius: 205px; }
+
+/* Place items manually (fixed) */
+.iso-item:nth-of-type(1) { 
+    top: 50%; 
+    left: calc(50% + var(--radius));
+    transform: translate(-50%, -50%);
+}
+
+.iso-item:nth-of-type(2) { 
+    top: calc(50% - 178px);
+    left: calc(50% + 103px);
+    transform: translate(-50%, -50%);
+}
+
+.iso-item:nth-of-type(3) { 
+    top: calc(50% - 178px);
+    left: calc(50% - 103px);
+    transform: translate(-50%, -50%);
+}
+
+.iso-item:nth-of-type(4) { 
+    top: 50%;
+    left: calc(50% - var(--radius));
+    transform: translate(-50%, -50%);
+}
+
+.iso-item:nth-of-type(5) { 
+    top: calc(50% + 178px);
+    left: calc(50% - 103px);
+    transform: translate(-50%, -50%);
+}
+
+.iso-item:nth-of-type(6) { 
+    top: calc(50% + 178px);
+    left: calc(50% + 103px);
+    transform: translate(-50%, -50%);
+}
+section {
+    padding: 90px 60px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 34px;
+    margin-bottom: 40px;
+    color: var(--primary-blue);
+}
+
+/* ================= FEATURES ================= */
+/* ================= FEATURES ================= */
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* EXACTLY 4 per row */
+    gap: 30px;
+    
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .features {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Make anchor behave like card */
+.feature-card {
+     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
+    background: var(--white);
+    padding: 35px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border-top: 5px solid var(--dark-yellow);
+    cursor: pointer;
+}
+
+/* Hover effect */
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+}
+
+/* Subtitle styling */
+.feature-subtitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-yellow);
+    margin-bottom: 12px;
+}
+
+/* Title */
+.feature-card h3 {
+    margin: 15px 0 8px 0;
+    color: var(--primary-blue);
+    font-size: 18px;
+}
+
+/* Paragraph */
+.feature-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* Image container */
+.feature-image {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* Image styling */
+.feature-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+/* Zoom effect on hover */
+.feature-card:hover .feature-image img {
+    transform: scale(1.05);
+}
+
+/* Emoji badge */
+.iso-emoji {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 22px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 6px 10px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Button Styling */
+.more-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    background: var(--primary-blue);
+    color: var(--white);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: center;
+}
+
+/* Hover Effect */
+.more-btn:hover {
+    background: var(--dark-yellow);
+    color: var(--dark-text);
+    transform: translateY(-3px);
+}
+
+
+/* ===============================
+   SUCCESS POPUP
+================================== */
+
+/* ===============================
+   SUCCESS POPUP
+================================== */
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.popup-box {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    width: 350px;
+    animation: popupScale 3s ease-in-out;
+}
+
+.popup-box h3 {
+    margin-bottom: 15px;
+    color: #28a745;
+}
+
+.popup-box p {
+    margin-bottom: 20px;
+}
+
+.popup-box button {
+    padding: 8px 20px;
+    border: none;
+    background: #ffc107;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.popup-box button:hover {
+    background: #e0a800;
+}
+
+@keyframes popupScale {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+/* ================= REGISTER SECTION ================= */
+
+/* ================= REGISTER SECTION ================= */
+/* ===============================
+   REGISTER SECTION
+================================== */
+
+/* ======================================
+   REGISTER SECTION WITH CURVED RIGHT SIDE
+====================================== */
+
+.register-section {
+    position: relative;
+    padding: 80px 5%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Curved Blue Right Background */
+.register-section::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 55%;
+    height: 100%;
+    background: var(--primary-blue);
+
+    border-top-left-radius: 120px;
+    border-bottom-left-radius: 120px;
+
+    z-index: -1;
+}
+
+.register-container {
+    display: flex;
+    gap: 40px;
+    max-width: 1200px;
+    margin: auto;
+    align-items: stretch; /* makes both sides equal height */
+}
+
+/* ===============================
+   LEFT IMAGE
+================================== */
+
+.register-image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill ; /* prevents zoom */
+    border-radius: 20px;
+}
+
+/* ===============================
+   RIGHT FORM
+================================== */
+
+.register-form {
+    flex: 1;
+    background: var(--primary-blue);
+    padding: 40px;
+    border-radius: 20px;
+
+    /* Floating / 3D look */
+    box-shadow: 
+        0 25px 40px rgba(0,0,0,0.25),
+        0 10px 20px rgba(0,0,0,0.12);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.register-form:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+        0 35px 55px rgba(0,0,0,0.3),
+        0 15px 25px rgba(0,0,0,0.15);
+}
+
+.register-form h2 {
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--light-brown);
+}
+
+/* ===============================
+   FORM GRID LAYOUT
+================================== */
+
+.register-form form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 columns */
+    gap: 15px;
+    
+}
+
+/* Full width elements */
+.full-width {
+    grid-column: span 2;
+}
+
+/* ===============================
+   INPUT STYLING
+================================== */
+
+.register-form input,
+.register-form select,
+.register-form textarea {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.3); /* subtle white border */
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+    width: 100%;
+
+    /* Slightly lighter than background for readability */
+    background: rgba(255,255,255,0.1);
+
+}
+
+.register-form input::placeholder,
+.register-form textarea::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.register-form input:focus,
+.register-form select:focus,
+.register-form textarea:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.15);
+}
+
+/* ===============================
+   DIVIDER
+================================== */
+
+.register-form hr {
+    margin: 20px 0;
+    border: none;
+    height: 1px;
+   background: var(--light-brown);
+}
+
+/* ===============================
+   BUTTON
+================================== */
+
+.register-form button {
+    padding: 12px;
+    background: #facc15; /* yellow highlight for CTA */
+    color: var(--dark-text);
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.register-form button:hover {
+    background: #eab308;
+    transform: translateY(-2px);
+}
+
+
+/* ===============================
+   RESPONSIVE
+================================== */
+
+@media (max-width: 992px) {
+.register-form {
+        padding: 30px;
+    }
+    .register-container {
+        flex-direction: column;
+    }
+
+    .register-image img {
+        height: 350px;
+        object-fit: contain;
+    }
+
+    .register-form form {
+        grid-template-columns: 1fr; /* single column on mobile */
+    }
+
+    .full-width {
+        grid-column: span 1;
+    }
+}
+/* ================= ABOUT ================= */
+.about {
+     position: relative;
+   
+    overflow: hidden;
+    padding: 90px 60px;
+    z-index: 1;
+    color: var(--white);
+}
+/* Curved Blue Left Side */
+.about::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;   /* move to left */
+    width: 60%;
+    height: 100%;
+    background: var(--primary-blue);
+
+    clip-path: ellipse(80% 100% at 0% 50%);
+    z-index: -1;
+}
+.about .section-title {
+    color: var(--dark-yellow);
+}
+
+/* ================= CONTACT ================= */
+/* ===============================
+   CONTACT SECTION
+================================== */
+
+/* ==========================================
+   ISO CONTACT SECTION (NON-CONFLICTING)
+========================================== */
+
+#iso-contact {
+    padding: 90px 60px;
+}
+
+.iso-contact-container {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 50px;
+    align-items: center;
+}
+
+/* LEFT SIDE */
+
+.iso-contact-left {
+    padding: 40px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #0d6efd, #003366);
+    color: white;
+}
+
+.iso-contact-title {
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.iso-contact-intro {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    opacity: 0.95;
+}
+
+.iso-contact-info-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.iso-contact-info-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 15px;
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
+
+.iso-contact-info-item:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateX(6px);
+}
+
+.iso-contact-icon {
+    font-size: 22px;
+}
+
+/* RIGHT SIDE FORM */
+
+.iso-contact-right {
+background: linear-gradient(135deg, #0d6efd, #003366);
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.iso-contact-form-group {
+    margin-bottom: 18px;
+}
+
+.iso-contact-form-group input,
+.iso-contact-form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+     background: var(--primary-blue);
+     color: #ffffff;
+}
+.iso-contact-form input::placeholder,
+.iso-contact-form textarea::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.iso-contact-form-group input:focus,
+.iso-contact-form-group textarea:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.15);
+}
+
+.iso-contact-btn {
+    width: 100%;
+    padding: 12px;
+    background: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.iso-contact-btn:hover {
+    background: #003366;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 992px) {
+    .iso-contact-container {
+        grid-template-columns: 1fr;
+    }
+
+    .iso-contact-left {
+        text-align: center;
+    }
+}
+/* ================= FOOTER ================= */
+footer {
+    background: var(--primary-blue);
+    color: var(--white);
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:768px) {
+    nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    section {
+        padding: 60px 20px;
+    }
+}
+</style>
+</head>
+<body>
+
+<nav>
+    <h2>EIMCTA</h2>
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#iso-contact">Contact</a></li>
+        <li><a href="#register-section">Register</a></li>
+        <li><a href="/login">Login</a></li>
+    </ul>
+</nav>
+<div id="successPopup" class="popup-overlay" 
+     th:if="${successMessage}">
+
+    <div class="popup-box">
+        <h3>✅ Success!</h3>
+        <p th:text="${successMessage}"></p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+
+</div>
+<section class="hero" id="home">
+    <div class="hero-container">
+
+        <!-- LEFT SIDE -->
+        <div class="hero-left">
+            <h1>
+    Empowering Organizations Through 
+    <span>Technology</span>
+</h1>
+            <p>
+                Secure, transparent and centralized ERP platform
+                designed to support ISO-compliant Organizations / institutions.
+            </p>
+            <button onclick="scrollToSection('features')">
+                Explore Features
+            </button>
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="hero-right">
+   <div class="iso-circle">
+    <div class="dotted-ring"></div>
+    <div class="iso-logo">
+        <img th:src="@{/images/EimctaLogo.png}" alt="EIMCTA Logo">
+    </div>
+
+    <span class="iso-item">QMS (ISO 9001)</span>
+    <span class="iso-item">EOMS (ISO 21001)</span>
+    <span class="iso-item">EMS (ISO 14001)</span>
+    <span class="iso-item">OHSMS (ISO 45001)</span>
+    <span class="iso-item">ISMS (ISO 27001)</span>
+    <span class="iso-item">AND <br> MORE</span>
+</div>
+        </div>
+
+    </div>
+</section>
+<section id="features">
+    <h2 class="section-title">ISO Certifications & Standards</h2>
+
+    <div class="features">
+
+        <div class="feature-card" th:onclick="|window.location.href='@{/iso9001}'|">
+        
+            <div class="feature-image">
+                <img src="/images/featurecard.png" alt="ISO 9001">
+                <span class="iso-emoji">🏆</span>
+            </div>
+            <h3>ISO 9001:2015</h3>
+            <h4 class="feature-subtitle">Quality Management System</h4>
+            <p>Quality Management System ensuring structured processes and continuous improvement.</p>
+            <button class="more-btn"
+              th:onclick="|window.location.href='@{/iso9001}'|">
+              Click for More →
+           </button>
+        </div>
+
+        <div class="feature-card" th:onclick="|window.location.href='@{/iso45001}'|">
+            <div class="feature-image">
+                <img src="/images/featurecard.png" alt="ISO 45001">
+                <span class="iso-emoji">🛡️</span>
+            </div>
+            <h3>ISO 45001:2018</h3>
+            <h4 class="feature-subtitle">Occupational Health, Safety and Environment</h4>
+            <p>Occupational Health & Safety Management for safe and compliant institutions.</p>
+            <button class="more-btn"
+             th:onclick="|window.location.href='@{/iso45001}'|">
+             Click for More →
+           </button>
+        </div>
+
+        <div class="feature-card" th:onclick="|window.location.href='@{/iso22000}'|">
+            <div class="feature-image">
+                <img src="images/featurecard.png" alt="ISO 22000">
+                <span class="iso-emoji">🍽️</span>
+            </div>
+            <h3>ISO 22000 & HACCP</h3>
+            <h4 class="feature-subtitle">Food Safety Standard</h4>
+            <p>Food Safety Management ensuring hygienic and controlled institutional processes.</p>
+             <button class="more-btn"
+             th:onclick="|window.location.href='@{/iso2200}'|">
+             Click for More →
+            </button>
+        </div>
+
+        <div class="feature-card" th:onclick="|window.location.href='@{/iso21001}'|">
+            <div class="feature-image">
+                <img src="/images/featurecard.png" alt="ISO 21001">
+                <span class="iso-emoji">🎓</span>
+            </div>
+            <h3>ISO 21001:2018</h3>
+            <h4 class="feature-subtitle">Educational Organization Management System</h4>
+            <p>Educational Organization Management System for academic excellence.</p>
+            <button class="more-btn"
+             th:onclick="|window.location.href='@{/iso21001}'|">
+             Click for More →
+            </button>
+        </div>
+
+        <div class="feature-card" th:onclick="|window.location.href='@{/iso21001}'|">
+            <div class="feature-image">
+                <img src="images/featurecard.png" alt="ISO 21001 EOMS">
+                <span class="iso-emoji">🚀</span>
+            </div>
+            <h3>ISO 21001 : EOMS 2025</h3>
+            <h4 class="feature-subtitle">Educational Organization Management System</h4>
+            <p>Advanced EOMS framework aligned with 2025 compliance standards.</p>
+              <button class="more-btn"
+              th:onclick="|window.location.href='@{/iso21001}'|">
+              Click for More →
+           </button>
+        </div>
+        
+        <div class="feature-card" th:onclick="|window.location.href='@{/iso21001}'|">
+            <div class="feature-image">
+                <img src="images/featurecard.png" alt="ISO 21001 EOMS">
+                <span class="iso-emoji">🚀</span>
+            </div>
+            <h3>ISO 21001 : EOMS 2025</h3>
+            <h4 class="feature-subtitle">Educational Organization Management System</h4>
+            <p>Advanced EOMS framework aligned with 2025 compliance standards.</p>
+              <button class="more-btn"
+              th:onclick="|window.location.href='@{/iso21001}'|">
+              Click for More →
+           </button>
+        </div>
+        
+        <div class="feature-card" th:onclick="|window.location.href='@{/iso21001}'|">
+            <div class="feature-image">
+                <img src="images/featurecard.png" alt="ISO 21001 EOMS">
+                <span class="iso-emoji">🚀</span>
+            </div>
+            <h3>ISO 21001 : EOMS 2025</h3>
+            <h4 class="feature-subtitle">Educational Organization Management System</h4>
+            <p>Advanced EOMS framework aligned with 2025 compliance standards.</p>
+              <button class="more-btn"
+              th:onclick="|window.location.href='@{/iso21001}'|">
+              Click for More →
+           </button>
+        </div>
+        
+        <div class="feature-card" th:onclick="|window.location.href='@{/iso21001}'|">
+            <div class="feature-image">
+                <img src="images/featurecard.png" alt="ISO 21001 EOMS">
+                <span class="iso-emoji">🚀</span>
+            </div>
+            <h3>ISO 21001 : EOMS 2025</h3>
+            <h4 class="feature-subtitle">Educational Organization Management System</h4>
+            <p>Advanced EOMS framework aligned with 2025 compliance standards.</p>
+              <button class="more-btn"
+              th:onclick="|window.location.href='@{/iso21001}'|">
+              Click for More →
+           </button>
+        </div>
+
+    </div>
+</section>
+<!-- SUCCESS POPUP -->
+
+<section class="register-section" id="register-section">
+
+    <div class="register-container">
+
+        <!-- LEFT SIDE IMAGE -->
+        <div class="register-image">
+            <img src="/images/registerimage.jpeg" alt="Register Organization">
+        </div>
+
+        <!-- RIGHT SIDE FORM -->
+        <div class="register-form">
+            <h2>Register Your Organization</h2>
+
+           <form th:action="@{/register-organization}" 
+      th:object="${organization}" 
+      method="post">
+
+                <!-- Organization Info -->
+             <input type="text" th:field="*{organizationName}" class="full-width" placeholder="Organization Name" required>
+
+                <select th:field="*{organizationType}" class="full-width" required>
+
+    <option value="">Select Organization Type</option>
+
+    <option value="Public School">Public School</option>
+    <option value="Private School">Private School</option>
+    <option value="Hotel">Hotel</option>
+    <option value="Restaurant">Restaurant</option>
+    <option value="Hospital">Hospital</option>
+    <option value="Educational Institute">Educational Institute</option>
+    <option value="Manufacturing Industry">Manufacturing Industry</option>
+    <option value="Other">Other</option>
+
+</select>
+
+                <input type="text" th:field="*{organizationAddress}" placeholder="Organization Address" required>
+<input type="email" th:field="*{organizationEmail}" placeholder="Organization Email" required>
+
+<input type="text" th:field="*{organizationContactNumber}" placeholder="Organization Contact Number" required>
+<input type="text" th:field="*{organizationWebsite}" placeholder="Social Media(Optional)">
+
+<hr class="full-width">
+
+<input type="text" th:field="*{yourName}" placeholder="Your Full Name" required>
+<input type="text" th:field="*{yourAddress}" placeholder="Your Address" required>
+
+<input type="text" th:field="*{yourContactNumber}" placeholder="Your Contact Number" required>
+<input type="email" th:field="*{yourEmail}" placeholder="Your email" required>
+
+<button type="submit" class="full-width">Submit Registration</button>
+            </form>
+        </div>
+
+    </div>
+   
+ 
+</section>
+
+<section id="about" class="about">
+    <h2 class="section-title">About Our ERP</h2>
+    <p>
+        Our School ERP system is built to enhance productivity, improve transparency,
+        and provide secure access to educational management tools.
+    </p>
+</section>
+
+<section id="iso-contact">
+
+    <div class="iso-contact-container">
+
+        <div class="iso-contact-left">
+
+            <h2 class="iso-contact-title">CONTACT EIMCTA</h2>
+
+            <p class="iso-contact-intro">
+                We are here to assist you with ISO certification, compliance guidance,
+                and organizational excellence solutions.
+            </p>
+
+            <div class="iso-contact-info-box">
+
+                <div class="iso-contact-info-item">
+                    <span class="iso-contact-icon">📍</span>
+                    <div>
+                        <h4>Head Office Address</h4>
+                        <p>Bouddha, Kathmandu, Nepal</p>
+                    </div>
+                </div>
+
+                <div class="iso-contact-info-item">
+                    <span class="iso-contact-icon">📞</span>
+                    <div>
+                        <h4>Call Us</h4>
+                        <p>+977-00000001</p>
+                    </div>
+                </div>
+
+                <div class="iso-contact-info-item">
+                    <span class="iso-contact-icon">✉️</span>
+                    <div>
+                        <h4>Email Us</h4>
+                        <p>info@isoportal.com</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="iso-contact-right">
+
+           <form th:action="@{/contact}" 
+      th:object="${contactMessage}" 
+      method="post">
+
+    <div class="iso-contact-form-group">
+        <input type="text" th:field="*{name}" placeholder="Your Name" required>
+    </div>
+
+    <div class="iso-contact-form-group">
+        <input type="email" th:field="*{email}" placeholder="Your Email" required>
+    </div>
+
+    <div class="iso-contact-form-group">
+        <input type="text" th:field="*{address}" placeholder="Your Address">
+    </div>
+
+    <div class="iso-contact-form-group">
+        <input type="text" th:field="*{contactNumber}" placeholder="Your Contact Number">
+    </div>
+
+    <div class="iso-contact-form-group">
+        <textarea rows="5" th:field="*{message}" 
+                  placeholder="Your Message" required></textarea>
+    </div>
+
+    <button type="submit" class="iso-contact-btn">
+        Send Message
+    </button>
+
+</form>
+
+        </div>
+
+    </div>
+
+</section>
+<footer>
+    © 2026 School ERP System | All Rights Reserved
+</footer>
+
+
+<script>
+function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+
+function closePopup() {
+    document.getElementById("successPopup").style.display = "none";
+}
+
+// Auto close after 3 seconds
+setTimeout(function() {
+    let popup = document.getElementById("successPopup");
+    if (popup) {
+        popup.style.display = "none";
+    }
+}, 15000);
+</script>
+
+
+</body>
+</html>

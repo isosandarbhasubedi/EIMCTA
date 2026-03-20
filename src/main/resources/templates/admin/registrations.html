@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Organization Registration Requests</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+
+<body>
+<section>
+    <div class="arr-header">
+        <h1>Organization Registration Requests</h1>
+    </div>
+
+    <!-- Filter Form -->
+    <form th:action="@{/admin/registrations}" method="get" class="arr-filter-form">
+        <label><b>Filter by Status:</b></label>
+        <select name="status">
+            <option value="">-- Show All --</option>
+            <option value="PENDING" th:selected="${selectedAction == 'PENDING'}">PENDING</option>
+            <option value="ON_PROGRESS" th:selected="${selectedAction == 'ON_PROGRESS'}">ON_PROGRESS</option>
+            <option value="COMPLETED" th:selected="${selectedAction == 'COMPLETED'}">COMPLETED</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Registration Cards -->
+    <div class="arr-table-wrapper">
+        <div th:each="reg : ${registrations}" class="arr-card">
+            <div class="arr-card-columns">
+                <!-- Column 1 -->
+                <div class="arr-col">
+                    <div class="arr-row"><span class="arr-label">ID:</span> <span class="arr-value" th:text="${reg.id}"></span></div>
+                    <div class="arr-row"><span class="arr-label">Organization Name:</span> <span class="arr-value" th:text="${reg.organizationName}"></span></div>
+                    <div class="arr-row"><span class="arr-label">Organization Type:</span> <span class="arr-value" th:text="${reg.organizationType}"></span></div>
+                    <div class="arr-row"><span class="arr-label">Address:</span> <span class="arr-value" th:text="${reg.organizationAddress}"></span></div>
+                    <div class="arr-row"><span class="arr-label">Email:</span> <span class="arr-value" th:text="${reg.organizationEmail}"></span></div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="arr-col">
+                    <div class="arr-row"><span class="arr-label">Contact Number:</span> <span class="arr-value" th:text="${reg.organizationContactNumber}"></span></div>
+                    <div class="arr-row"><span class="arr-label">Website/Social:</span> <span class="arr-value" th:text="${reg.organizationWebsite}"></span></div>
+                    <div class="arr-row"><span class="arr-label">Person Name:</span> <span class="arr-value" th:text="${reg.yourName}"></span></div>
+                    <div class="arr-row"><span class="arr-label">Person Email:</span> <span class="arr-value" th:text="${reg.yourEmail}"></span></div>
+                    <div class="arr-row"><span class="arr-label">Person Contact:</span> <span class="arr-value" th:text="${reg.yourContactNumber}"></span></div>
+                    <div class="arr-row"><span class="arr-label">Status:</span> <span class="arr-value" th:text="${reg.status}"></span></div>
+                </div>
+            </div>
+
+            <!-- Update Status -->
+            <div class="arr-card-footer">
+                <form th:action="@{/admin/registrations/update-status/{id}(id=${reg.id})}" method="post">
+                    <select name="status">
+                        <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}" th:selected="${s == reg.status}"></option>
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

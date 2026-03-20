@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/learner-promotion.css}">
+</th:block>
+<body>
+<div th:with="activePage='learners'">
+
+<div th:fragment="content">
+
+    <div class="header-row">
+        <h2 class="page-title">Promote Learners</h2>
+        <a th:href="@{/principal/dashboard}" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <form th:action="@{/principal/learners/promote}" method="post">
+<div class="form-wrapper"> <!-- ✅ ADD THIS -->
+
+<div th:if="${errorMessage}" class="alert error">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+<div th:if="${successMessage}" class="alert success">
+    <p th:text="${successMessage}"></p>
+</div>
+
+        <!-- SOURCE -->
+        <div class="card">
+
+            <h3>Source</h3>
+
+            <div class="form-group">
+                <label>Select Classroom</label>
+                <select id="classroomSelect" required>
+                    <option value="">Select Classroom</option>
+                    <option th:each="c : ${classrooms}" th:value="${c.id}" th:text="${c.name}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Select Section</label>
+                <div id="sectionContainer" class="scroll-box"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Select Learners</label>
+
+                <div class="option-item">
+                    <input type="checkbox" id="selectAllLearners">
+                    <label for="selectAllLearners" style="display:inline;"> Select All Learners</label>
+                </div>
+
+                <div class="scroll-box">
+                    <div id="learnerContainer"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TARGET -->
+        <div class="card">
+
+            <h3>Promote To</h3>
+
+            <div class="form-group">
+                <label>Select Academic Year</label>
+                <select id="academicYearSelect" name="targetAcademicYearId" required>
+                    <option value="">Select Academic Year</option>
+                    <option th:each="y : ${academicYears}" th:value="${y.id}" th:text="${y.name}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Select Classroom</label>
+                <select id="targetClassroomSelect" required>
+                    <option value="">Select Classroom</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Select Section</label>
+                <div id="targetSectionContainer" class="scroll-box"></div>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn">Promote Learners</button>
+</div>
+    </form>
+</div>
+</div>
+
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script th:src="@{/js/principal/learner-promotion.js}"></script>
+</th:block>
+</body>
+</html>

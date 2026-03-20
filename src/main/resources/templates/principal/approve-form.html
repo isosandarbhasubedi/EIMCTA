@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Approve Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container mt-5">
+
+<h3>Principal Form Approval</h3>
+
+<div class="alert alert-warning">
+Please review your information before approving the form.
+</div>
+
+<form th:action="@{/principal/approve/{id}(id=${principal.id})}" method="post">
+
+    <button type="submit" class="btn btn-primary">
+        Approve Form
+    </button>
+
+</form>
+
+</body>
+</html>

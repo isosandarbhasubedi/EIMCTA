@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+<th:block th:fragment="pageCss">
+    <style>
+       </style>
+</th:block>
+<body>
+<div th:fragment="content" class="container mt-4">
+<div class="container mt-4">
+
+    <h3>Section 2: Academic Performance</h3>
+    <form th:action="@{/principal/learners/section/2/save}" 
+    th:object="${section2Dto}" 
+     method="post">
+
+        <!-- Hidden Learner ID -->
+        <input type="hidden" th:field="*{performance.learner.id}" />
+        <input type="hidden" th:field="*{entrance.learner.id}" />
+        <input type="hidden" th:field="*{rubrics.learner.id}" />
+
+        <!-- ===================== Part A: Past School Performance ===================== -->
+        <div class="card mb-4">
+            <h4>Part A: Past School Performance</h4>
+
+            <!-- Class Selection -->
+            <div class="mb-3">
+                <label>Select Class</label>
+                <input type="text" th:field="*{performance.className}" class="form-control"/>
+            </div>
+
+            <!-- Subjects Table -->
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Full Marks Theory</th>
+                        <th>Full Marks Practical</th>
+                        <th>Full Marks Total</th>
+                        <th>Obtained Theory</th>
+                        <th>Obtained Practical</th>
+                        <th>Obtained Total</th>
+                        <th>Percentage</th>
+                        <th>GPA</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="performanceSubjects" th:field="*{performance.subjectMarks}">
+    <tr th:each="subject, stat : *{performance.subjectMarks}">
+        <td><input type="text" th:field="*{[__${stat.index}__].subjectName}" class="form-control"/></td>
+        <td><input type="number" th:field="*{[__${stat.index}__].fullMarksTheory}" class="form-control"/></td>
+        <td><input type="number" th:field="*{[__${stat.index}__].fullMarksPractical}" class="form-control"/></td>
+        <td><input type="number" th:field="*{[__${stat.index}__].fullMarksTotal}" class="form-control"/></td>
+        <td><input type="number" th:field="*{[__${stat.index}__].obtainedMarksTheory}" class="form-control"/></td>
+        <td><input type="number" th:field="*{[__${stat.index}__].obtainedMarksPractical}" class="form-control"/></td>
+        <td><input type="number" th:field="*{[__${stat.index}__].obtainedMarksTotal}" class="form-control"/></td>
+        <td><input type="number" step="0.01" th:field="*{[__${stat.index}__].percentage}" class="form-control"/></td>
+        <td><input type="number" step="0.01" th:field="*{[__${stat.index}__].gpa}" class="form-control"/></td>
+        <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button></td>
+    </tr>
+</tbody>
+            </table>
+
+            <button type="button" class="btn btn-success mb-3" onclick="addSubjectRow()">Add Subject</button>
+        </div>
+
+        <!-- ===================== Part B: Entrance Score ===================== -->
+        <div class="card mb-4">
+    <h4>Part B: Interview / Entrance Score</h4>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th rowspan="2">Subject</th>
+
+            <th colspan="3">Knowledge (K)</th>
+            <th colspan="3">Understanding (U)</th>
+            <th colspan="3">Application (A)</th>
+            <th colspan="3">Higher Ability (HA)</th>
+
+            <th colspan="3">Total</th>
+            <th rowspan="2">Action</th>
+        </tr>
+        <tr>
+            <th>FM</th><th>OM</th><th>%</th>
+            <th>FM</th><th>OM</th><th>%</th>
+            <th>FM</th><th>OM</th><th>%</th>
+            <th>FM</th><th>OM</th><th>%</th>
+            <th>FM</th><th>OM</th><th>%</th>
+        </tr>
+        </thead>
+
+        <tbody id="entranceSubjects">
+        <tr th:each="sub, stat : *{entrance.subjects}">
+
+            <td><input type="text" th:field="*{entrance.subjects[__${stat.index}__].subjectName}" class="form-control"/></td>
+
+            <!-- K -->
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].kFull}" class="form-control"/></td>
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].kObtained}" class="form-control"/></td>
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].kPercentage}" class="form-control"/></td>
+
+            <!-- U -->
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].uFull}" class="form-control"/></td>
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].uObtained}" class="form-control"/></td>
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].uPercentage}" class="form-control"/></td>
+
+            <!-- A -->
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].aFull}" class="form-control"/></td>
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].aObtained}" class="form-control"/></td>
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].aPercentage}" class="form-control"/></td>
+
+            <!-- HA -->
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].haFull}" class="form-control"/></td>
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].haObtained}" class="form-control"/></td>
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].haPercentage}" class="form-control"/></td>
+
+            <!-- TOTAL -->
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].totalFull}" class="form-control" readonly/></td>
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].totalObtained}" class="form-control" readonly/></td>
+            <td><input type="number" th:field="*{entrance.subjects[__${stat.index}__].totalPercentage}" class="form-control" readonly/></td>
+
+            <td>
+                <button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-success" onclick="addEntranceSubject()">Add Subject</button>
+</div>
+
+        <!-- ===================== Part C: Rubrics Evaluation ===================== -->
+        <div class="card mb-4">
+            <h4>Part C: Others (Rubrics)</h4>
+
+            <div class="mb-3">
+                <label>Discipline</label>
+                <input type="number" th:field="*{rubrics.discipline}" class="form-control"/>
+            </div>
+            <div class="mb-3">
+                <label>Attitude</label>
+                <input type="number" th:field="*{rubrics.attitude}" class="form-control"/>
+            </div>
+            <div class="mb-3">
+                <label>Listening</label>
+                <input type="number" th:field="*{rubrics.listening}" class="form-control"/>
+            </div>
+            <div class="mb-3">
+                <label>Reading</label>
+                <input type="number" th:field="*{rubrics.reading}" class="form-control"/>
+            </div>
+            <div class="mb-3">
+                <label>Handwriting</label>
+                <input type="number" th:field="*{rubrics.handwriting}" class="form-control"/>
+            </div>
+            <div class="mb-3">
+                <label>Speaking</label>
+                <input type="number" th:field="*{rubrics.speaking}" class="form-control"/>
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-primary">Save & Continue</button>
+    </form>
+</div>
+</div>
+<th:block th:fragment="pageJs">
+<!-- ===================== JavaScript for Dynamic Rows ===================== -->
+<script>
+    function removeRow(btn){
+        const row = btn.closest('tr');
+        row.remove();
+    }
+
+    function addSubjectRow(){
+        const tableBody = document.getElementById('performanceSubjects'); // use ID
+        const index = tableBody.children.length;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td><input type="text" name="performance.subjectMarks[${index}].subjectName" class="form-control"/></td>
+            <td><input type="number" name="performance.subjectMarks[${index}].fullMarksTheory" class="form-control"/></td>
+            <td><input type="number" name="performance.subjectMarks[${index}].fullMarksPractical" class="form-control"/></td>
+            <td><input type="number" name="performance.subjectMarks[${index}].fullMarksTotal" class="form-control"/></td>
+            <td><input type="number" name="performance.subjectMarks[${index}].obtainedMarksTheory" class="form-control"/></td>
+            <td><input type="number" name="performance.subjectMarks[${index}].obtainedMarksPractical" class="form-control"/></td>
+            <td><input type="number" name="performance.subjectMarks[${index}].obtainedMarksTotal" class="form-control"/></td>
+            <td><input type="number" step="0.01" name="performance.subjectMarks[${index}].percentage" class="form-control"/></td>
+            <td><input type="number" step="0.01" name="performance.subjectMarks[${index}].gpa" class="form-control"/></td>
+            <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button></td>
+        `;
+        tableBody.appendChild(row);
+    }
+
+    function addEntranceSubject(){
+        const tableBody = document.getElementById('entranceSubjects');
+        const index = tableBody.children.length;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td><input type="text" name="entrance.subjects[${index}].subjectName" class="form-control"/></td>
+
+            <td><input type="number" name="entrance.subjects[${index}].kFull" class="form-control"/></td>
+            <td><input type="number" name="entrance.subjects[${index}].kObtained" class="form-control"/></td>
+            <td><input type="number" name="entrance.subjects[${index}].kPercentage" class="form-control"/></td>
+
+            <td><input type="number" name="entrance.subjects[${index}].uFull" class="form-control"/></td>
+            <td><input type="number" name="entrance.subjects[${index}].uObtained" class="form-control"/></td>
+            <td><input type="number" name="entrance.subjects[${index}].uPercentage" class="form-control"/></td>
+
+            <td><input type="number" name="entrance.subjects[${index}].aFull" class="form-control"/></td>
+            <td><input type="number" name="entrance.subjects[${index}].aObtained" class="form-control"/></td>
+            <td><input type="number" name="entrance.subjects[${index}].aPercentage" class="form-control"/></td>
+
+            <td><input type="number" name="entrance.subjects[${index}].haFull" class="form-control"/></td>
+            <td><input type="number" name="entrance.subjects[${index}].haObtained" class="form-control"/></td>
+            <td><input type="number" name="entrance.subjects[${index}].haPercentage" class="form-control"/></td>
+
+            <td><input type="number" name="entrance.subjects[${index}].totalFull" class="form-control" readonly/></td>
+            <td><input type="number" name="entrance.subjects[${index}].totalObtained" class="form-control" readonly/></td>
+            <td><input type="number" name="entrance.subjects[${index}].totalPercentage" class="form-control" readonly/></td>
+
+            <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button></td>
+        `;
+        tableBody.appendChild(row);
+    }
+</script>
+</th:block>
+</body>
+</html>

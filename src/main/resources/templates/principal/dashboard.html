@@ -1,27 +1,87 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-<h1>Dashboard - <span th:text="${school.name}"></span></h1>
-<a th:href="@{/logout}">Logout</a>
-<a th:href="@{./educators/create}">+ Create Educator</a>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
 
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/dashboard.css}">
+</th:block>
+
+<body>
+<div th:with="activePage='dashboard'">
+
+<div th:fragment="content">
+
+<h1 class="page-title">Dashboard</h1>
+
+
+<!-- Dashboard Cards -->
+
+<div class="dashboard-cards">
+
+<div class="card card-blue">
+<h3>Total Learners</h3>
+<p th:text="${#lists.size(learners)}"></p>
+</div>
+
+<div class="card card-orange">
+<h3>Total Educators</h3>
+<p th:text="${#lists.size(educators)}"></p>
+</div>
+
+<div class="card card-brown">
+<h3>Total Members</h3>
+<p th:text="${#lists.size(totalmembers)}"></p>
+</div>
+
+</div>
+
+
+<!-- Educator Table -->
+
+<div class="dashboard-section">
+
+<div class="section-header">
 <h2>Educators</h2>
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-    </tr>
-    <tr th:each="educator : ${educators}">
-        <td th:text="${educator.id}"></td>
-        <td th:text="${educator.username}"></td>
-        <td th:text="${educator.email}"></td>
-    </tr>
+</div>
+
+<div class="table-container">
+
+<table class="dashboard-table">
+
+<thead>
+<tr>
+<th>#</th>
+<th>Name</th>
+<th>Email</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr th:each="educator, stat : ${educators}">
+<td th:text="${stat.index + 1}"></td>
+<td th:text="${educator.username}"></td>
+<td th:text="${educator.email}"></td>
+</tr>
+
+</tbody>
+
 </table>
 
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script>
+console.log("Dashboard Page Loaded");
+</script>
+</th:block>
 </body>
 </html>

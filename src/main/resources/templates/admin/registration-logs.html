@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Status Audit Log</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<section>
+
+    <div class="rsa-header">
+        <h1>Registration Log</h1>
+    </div>
+
+    <!-- Filter Form -->
+    <form th:action="@{/admin/registrations/logs}" 
+          method="get" 
+          class="rsa-filter-form">
+
+        <label>Filter by To Status:</label>
+
+        <select name="toStatus">
+            <option value="">-- Show All --</option>
+            <option th:each="s : ${statuses}"
+                    th:value="${s}"
+                    th:text="${s}"
+                    th:selected="${s == selectedStatus}">
+            </option>
+        </select>
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Table Wrapper -->
+    <div class="rsa-table-wrapper">
+        <table class="rsa-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Registration ID</th>
+                    <th>Changed By</th>
+                    <th>From Status</th>
+                    <th>To Status</th>
+                    <th>Changed At</th>
+                    <th>Registration Date</th>
+                    <th>IP Address</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="log : ${logs}">
+                    <td th:text="${log.id}"></td>
+                    <td th:text="${log.registrationId}"></td>
+                    <td th:text="${log.changedBy}"></td>
+
+                    <!-- FROM STATUS -->
+                    <td>
+                        <span class="rsa-badge"
+                              th:text="${log.fromStatus}"
+                              th:classappend="
+                                  ${log.fromStatus.name() == 'PENDING'} ? ' rsa-pending' :
+                                  (${log.fromStatus.name() == 'ON_PROGRESS'} ? ' rsa-on-progress' :
+                                  (${log.fromStatus.name() == 'COMPLETED'} ? ' rsa-completed' : ''))">
+                        </span>
+                    </td>
+
+                    <!-- TO STATUS -->
+                    <td>
+                        <span class="rsa-badge"
+                              th:text="${log.toStatus}"
+                              th:classappend="
+                                  ${log.toStatus.name() == 'PENDING'} ? ' rsa-pending' :
+                                  (${log.toStatus.name() == 'ON_PROGRESS'} ? ' rsa-on-progress' :
+                                  (${log.toStatus.name() == 'COMPLETED'} ? ' rsa-completed' : ''))">
+                        </span>
+                    </td>
+
+                    <td th:text="${log.changedAt}"></td>
+                    <td th:text="${log.performedAt}"></td>
+                    <td th:text="${log.ipAddress}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
+</body>
+</html>

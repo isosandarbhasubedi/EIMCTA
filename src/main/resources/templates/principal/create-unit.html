@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/create-unit.css}">
+</th:block>
+<body>
+<div th:with="activePage='unit'">
+
+<div th:fragment="content">
+
+<h1 class="page-title">Create Unit</h1>
+
+<!-- Error -->
+<div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+<div class="center-container">
+
+<div class="form-card">
+
+<form th:action="@{/principal/units/create}" method="post" class="form-body">
+
+<!-- Class Select -->
+<label>Select Class</label>
+<select id="classroomSelect" required>
+<option value="">Select Class</option>
+<option th:each="c : ${classrooms}" th:value="${c.id}" th:text="${c.name}"></option>
+</select>
+
+<!-- Sections -->
+<label>Select Sections</label>
+<div id="sectionsContainer" class="checkbox-container"></div>
+
+<!-- Subjects -->
+<label>Select Subjects</label>
+<div id="subjectsContainer" class="checkbox-container"></div>
+
+<!-- Unit Name -->
+<label>Unit Name</label>
+<input type="text" name="unitName" placeholder="Enter Unit Name" required>
+
+<!-- Submit -->
+<button type="submit" class="submit-btn">Create Unit</button>
+
+</form>
+
+</div>
+</div>
+
+</div>
+</div>
+
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script th:src="@{/js/principal/create-unit.js}"></script>
+</th:block>
+</body>
+</html>

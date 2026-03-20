@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<div th:fragment="header(schoolName)">
+
+<style>
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px;
+    background:white;
+    border-bottom:1px solid #ddd;
+}
+
+.logout{
+    background:#ef4444;
+    color:white;
+    padding:8px 15px;
+    text-decoration:none;
+    border-radius:5px;
+}
+
+</style>
+
+<div class="header">
+
+<h2>Dashboard - <span th:text="${schoolName}"></span></h2>
+
+<a class="logout" th:href="@{/logout}">Logout</a>
+
+</div>
+
+</div>
+</body>
+</html>

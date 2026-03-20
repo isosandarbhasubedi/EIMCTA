@@ -27,6 +27,7 @@ import com.iso.Model.User;
 import com.iso.Repository.ProvinceRepository;
 import com.iso.Repository.SchoolRepository;
 import com.iso.Repository.UserRepository;
+import com.iso.Service.EmailService;
 import com.iso.Service.ProvinceAuditService;
 import com.iso.Service.SchoolAuditService;
 import com.iso.Service.SchoolUserAuditService;
@@ -46,6 +47,7 @@ public class ProvinceHeadController {
 	    private final ProvinceAuditService provinceAuditService;
 	    private final SchoolAuditService schoolAuditService;
 	    private final SchoolUserAuditService schoolUserAuditService;
+	    private final EmailService emailService;
 	    private final PasswordEncoder encoder;
 	    
 	    public ProvinceHeadController(SchoolRepository schoolRepo,
@@ -54,7 +56,8 @@ public class ProvinceHeadController {
                 ProvinceRepository provinceRepo,
                 ProvinceAuditService provinceAuditService,
                 SchoolAuditService schoolAuditService,
-                SchoolUserAuditService schoolUserAuditService) {
+                SchoolUserAuditService schoolUserAuditService,
+                EmailService emailService) {
            this.schoolRepo = schoolRepo;
            this.userRepo = userRepo;
            this.encoder = encoder;
@@ -62,6 +65,7 @@ public class ProvinceHeadController {
            this.provinceAuditService = provinceAuditService;
            this.schoolAuditService = schoolAuditService;
            this.schoolUserAuditService = schoolUserAuditService;
+           this.emailService = emailService;
           }
 	    
 	    @GetMapping("/dashboard")
@@ -372,8 +376,16 @@ public class ProvinceHeadController {
 	        // 4️⃣ Save password
 	        user.setPassword(encoder.encode(newPassword));
 	        userRepo.save(user);
+	        
+	        
 
 	        model.addAttribute("success", "Password changed successfully.");
+	        
+	     // 🔥 SEND EMAIL NOTIFICATION
+	        emailService.sendPasswordChangeEmail(
+	                user.getEmail(),
+	                user.getUsername()
+	        );
 	        return "auth/provincehead-change-password";
 	    }
 

@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/create-classroom.css}">
+</th:block>
+<body>
+<div th:with="activePage='createclassroom'">
+
+<div th:fragment="content">
+
+<h1 class="page-title">Create Classroom</h1>
+
+<div class="center-container">
+
+<div class="form-card">
+
+<div class="form-header">
+<h2>New Classroom</h2>
+<a class="back-btn" th:href="@{/principal/classrooms}">← View/Manage Classroom</a>
+</div>
+
+<form th:action="@{/principal/classrooms/create}"
+      th:object="${classRoom}"
+      method="post"
+      class="form-body">
+
+<label>Class Name</label>
+<input type="text" th:field="*{name}" placeholder="Example: Grade 10" required>
+
+<label>Academic Year</label>
+<select name= "academicYearId" required>
+    <option value="">Select Year</option>
+    <option th:each="y : ${academicYears}" th:value="${y.id}" th:text="${y.name}"></option>
+</select>
+
+<button type="submit" class="submit-btn">Create Classroom</button>
+<div th:if="${errorMessage}" style="color:red; font-weight:600; margin-bottom:10px;">
+    <span th:text="${errorMessage}"></span>
+</div>
+</form>
+
+</div> <!-- form-card -->
+
+</div> <!-- center-container -->
+
+</div>
+
+</div>
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script>
+console.log("Create Classroom Page Loaded");
+</script>
+</th:block>
+</body>
+</html>

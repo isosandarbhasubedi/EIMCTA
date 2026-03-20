@@ -1,0 +1,63 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/edit-chapter.css}">
+</th:block>
+<body>
+<div th:with="activePage='classroom'">
+
+<div th:fragment="content">
+
+<h1 class="page-title">Edit Chapter</h1>
+
+<div class="center-container">
+
+<div class="form-card">
+
+<div class="form-header">
+<h2>Update Chapter</h2>
+<a class="back-btn" th:href="@{/principal/sections}">
+← Back
+</a>
+</div>
+
+<form th:action="@{/principal/chapters/update/{id}(id=${chapter.id})}"
+      method="post"
+      class="form-body">
+<div th:if="${errorMessage}" style="color:red;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+<div th:if="${successMessage}" style="color:green;">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<input type="text"
+       name="chapterName"
+       th:value="${chapter.name}"
+       required>
+
+<button type="submit" class="save-btn">
+Save Changes
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script>
+console.log("Edit Chapter Page Loaded");
+</script>
+</th:block>
+</body>
+</html>

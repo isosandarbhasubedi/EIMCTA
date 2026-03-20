@@ -1,47 +1,57 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+       th:replace="~{admin/admin-layout :: layout(~{::section})}">
 <head>
+    <meta charset="UTF-8">
     <title>Edit HQ User</title>
 </head>
 <body>
 
-<h2>Edit HQ User</h2>
+<section class="edit-hq-user-card">
 
-<form th:action="@{/admin/hq-users/edit}"
-      th:object="${user}"
-      method="post">
-
-    <input type="hidden" th:field="*{id}" />
-
-    <div>
-        <label>Username:</label>
-        <input type="text" th:field="*{username}" required />
+    <div class="page-header">
+        <h1>Edit HQ User</h1>
+        <a th:href="@{/admin/hq-users}" class="back-btn">Back To HQ Users</a>
     </div>
 
-    <div>
-        <label>Email:</label>
-        <input type="email" th:field="*{email}" required />
+    <div class="form-container">
+        <form th:action="@{/admin/hq-users/edit}"
+              th:object="${user}"
+              method="post">
+
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text"
+                       th:field="*{username}"
+                       required />
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email"
+                       th:field="*{email}"
+                       required />
+            </div>
+
+            <div class="form-group">
+                <label>Role</label>
+                <select th:field="*{role}" required>
+                    <option value="HR">HR</option>
+                    <option value="SALES">SALES</option>
+                    <option value="ACCOUNT">ACCOUNT</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="update-btn">Update</button>
+            </div>
+
+        </form>
     </div>
 
-    <div>
-        <label>Role:</label>
-        <select th:field="*{role}" required>
-            <option value="HR">HR</option>
-            <option value="SALES">SALES</option>
-            <option value="ACCOUNT">ACCOUNT</option>
-        </select>
-    </div>
-
-    <br>
-
-    <button type="submit">Update</button>
-
-</form>
-
-<br>
-<a th:href="@{/admin/hq-users}">
-    Back
-</a>
+</section>
 
 </body>
 </html>

@@ -1,61 +1,115 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: layout(~{::section})}">
+
 <head>
+    <meta charset="UTF-8">
     <title>Create Province User</title>
 </head>
+
 <body>
 
-<h2>Create Province Level User</h2>
+<section class="ad-province-user-create-section">
 
-<form th:action="@{/admin/province-users/create}"
-      th:object="${user}"
-      method="post">
+    <div class="ad-province-user-create-card">
 
-    <!-- Basic Info -->
-    <div>
-        <label>Username:</label>
-        <input type="text" th:field="*{username}" required />
+        <div class="ad-province-user-create-header">
+            <h2>Create Province Level User</h2>
+        </div>
+
+        <form th:action="@{/admin/province-users/create}"
+              th:object="${user}"
+              method="post"
+              class="ad-province-user-create-form">
+
+            <!-- Username -->
+            <div class="ad-province-user-create-group">
+                <label>Username</label>
+                <input type="text" th:field="*{username}" required />
+            </div>
+
+            <!-- Email -->
+            <div class="ad-province-user-create-group">
+                <label>Email</label>
+                <input type="email" th:field="*{email}" required />
+            </div>
+
+           
+           <!-- Password -->
+<div class="ad-province-user-create-group">
+    <label>Password</label>
+
+    <div class="ad-province-user-create-password-wrapper">
+        <input type="password"
+               th:field="*{password}"
+               id="password"
+               required />
+
+        <button type="button"
+                class="ad-province-user-create-toggle"
+                onclick="toggleProvinceUserPassword()">
+            Show
+        </button>
     </div>
+</div>
 
-    <div>
-        <label>Email:</label>
-        <input type="email" th:field="*{email}" required />
-    </div>
-
-    <div>
-        <label>Password:</label>
-        <input type="password" th:field="*{password}" required />
-    </div>
-
-    <!-- Role Selection -->
-   <div>
-                <label>Role:</label>
+   
+            
+            <!-- Role -->
+            <div class="ad-province-user-create-group">
+                <label>Role</label>
                 <select name="role" required>
-                    <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"></option>
+                    <option value="">-- Select Role --</option>
+                    <option th:each="r : ${roles}"
+                            th:value="${r}"
+                            th:text="${r}">
+                    </option>
                 </select>
             </div>
 
+            <!-- Province -->
+            <div class="ad-province-user-create-group">
+                <label>Province</label>
+                <select name="provinceId" required>
+                    <option value="">-- Select Province --</option>
+                    <option th:each="p : ${provinces}"
+                            th:value="${p.id}"
+                            th:text="${p.name}">
+                    </option>
+                </select>
+            </div>
 
-    <!-- Province Selection -->
-    <div>
-        <label>Province:</label>
-        <select name="provinceId" required>
-            <option value="">-- Select Province --</option>
-            <option th:each="p : ${provinces}"
-                    th:value="${p.id}"
-                    th:text="${p.name}">
-            </option>
-        </select>
+            <!-- Buttons -->
+            <div class="ad-province-user-create-actions">
+                <button type="submit"
+                        class="ad-province-user-create-btn-primary">
+                    Create User
+                </button>
+
+                <a th:href="@{/admin/provinces}"
+                   class="ad-province-user-create-btn-secondary">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+
     </div>
+<script>
+    function toggleProvinceUserPassword() {
+        const passwordInput = document.getElementById("password");
+        const toggleBtn = document.querySelector(".ad-province-user-create-toggle");
 
-    <br>
-
-    <button type="submit">Create User</button>
-
-</form>
-
-<br>
-<a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleBtn.textContent = "Hide";
+        } else {
+            passwordInput.type = "password";
+            toggleBtn.textContent = "Show";
+        }
+    }
+</script>
+</section>
 
 </body>
 </html>

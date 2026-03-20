@@ -1,0 +1,12 @@
+package com.iso.Model;
+
+public enum AttachmentType {
+    PHOTO,
+    CITIZENSHIP,
+    CV,
+    EDUCATIONAL_CERTIFICATE,
+    EXPERIENCE_LETTER,
+    TRAINING_CERTIFICATE,
+    SWOT_RESEARCH,
+    RECOMMENDATION_LETTER
+}

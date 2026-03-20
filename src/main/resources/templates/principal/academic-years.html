@@ -1,0 +1,68 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/academic-year.css}">
+</th:block>
+<body>
+<div th:with="activePage='academic'">
+
+<div th:fragment="content">
+
+<h1 class="page-title">Academic Years</h1>
+
+<div class="action-buttons">
+    <a class="back-btn" th:href="@{/principal/dashboard}">← Dashboard</a>
+    <a class="create-btn" th:href="@{/principal/academic-years/create}">+ Create New Academic Year</a>
+</div>
+
+<div th:if="${param.error}">
+    <p class="error-msg" th:text="${param.error}"></p>
+</div>
+
+<div class="table-card">
+    <div class="table-container">
+        <table class="dashboard-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="year, stat : ${years}">
+                    <td th:text="${stat.index + 1}"></td>
+                    <td th:text="${year.name}"></td>
+                    <td th:text="${year.active ? 'Yes' : 'No'}"></td>
+                    <td>
+                        <a class="activate-btn" th:if="${!year.active}"
+                           th:href="@{'/principal/academic-years/activate/' + ${year.id}}">
+                           Activate
+                        </a>
+                        <a class="delete-btn"
+                           th:href="@{'/principal/academic-years/delete/' + ${year.id}}"
+                            onclick="return confirm('Delete this academic year?')">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</div>
+
+</div>
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script>
+console.log("Academic Years Page Loaded");
+</script>
+</th:block>
+</body>
+</html>

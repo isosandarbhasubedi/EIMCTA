@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/principal/layout/base :: html}">
+
+<!-- PAGE CSS -->
+<th:block th:fragment="pageCss">
+<link rel="stylesheet" th:href="@{/css/principal/enroll-learner.css}">
+</th:block>
+<body>
+<div th:with="activePage='learners'">
+
+<div th:fragment="content">
+
+    <div class="header-row">
+        <h2 class="page-title">Enroll Learners</h2>
+        <a th:href="@{/principal/dashboard}" class="back-link">← Back to Dashboard</a>
+    </div>
+<div class="center-container">
+    <form th:action="@{/principal/learners/enroll}" method="post">
+<div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+<div th:if="${successMessage}" style="color:green; margin-bottom:10px;">
+    <p th:text="${successMessage}"></p>
+</div>
+        <div class="card">
+
+            <!-- Classroom -->
+            <div class="form-group">
+                <label>Select Classroom</label>
+                <select id="classroomSelect" required>
+                    <option value="">Select Classroom</option>
+                    <option th:each="c : ${classrooms}"
+                            th:value="${c.id}"
+                            th:text="${c.name}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- Sections -->
+            <div class="form-group">
+                <label>Select Sections</label>
+                <div id="sectionContainer" class="scroll-box"></div>
+            </div>
+
+            <!-- Learners -->
+            <div class="form-group">
+                <label>Select Learners</label>
+
+                <div class="option-item">
+                    <input type="checkbox" id="selectAllLearners">
+                    <label for="selectAllLearners" style="display:inline;"> Select All Learners</label>
+                </div>
+
+                <div class="scroll-box">
+
+                    <div th:each="learner : ${learners}" class="option-item">
+
+                        <input type="checkbox"
+                               name="learnerIds"
+                               th:value="${learner.id}"
+                               class="learnerCheckbox">
+
+                        <span th:text="${learner.username}"></span>
+                        (<span th:text="${learner.email}"></span>)
+
+                    </div>
+
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Enroll Learners</button>
+
+        </div>
+
+    </form>
+
+</div>
+</div>
+</div>
+
+<!-- PAGE JS -->
+<th:block th:fragment="pageJs">
+<script th:src="@{/js/principal/enroll-learner.js}"></script>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h2 th:text="${educator.username} + ' Assignments'"></h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Classroom</th>
+            <th>Section</th>
+            <th>Subject</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="a : ${assignments}">
+            <td th:text="${a.section.classRoom.name}"></td>
+            <td th:text="${a.section.name}"></td>
+            <td th:text="${a.subject.name}"></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div th:fragment="sidebar(activePage)" class="sidebar">
+
+<div class="sidebar-logo">
+School Panel
+</div>
+
+<div class="sidebar-search">
+    <input type="text" id="sidebarSearch" placeholder="Search menu...">
+</div>
+
+<div class="sidebar-section">Main</div>
+
+<a class="sidebar-link" th:href="@{/principal/dashboard}"
+   th:classappend="${activePage == 'dashboard'} ? 'active'">
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+</a>
+
+<div class="sidebar-section">Academic Year</div>
+
+
+<a class="sidebar-link" th:href="@{/principal/academic-years/create}"
+th:classappend="${activePage == 'createacademicyear'} ? 'active'">
+<i class="fa-solid fa-calendar"></i>
++ Create Academic Years
+</a>
+
+<a class="sidebar-link" th:href="@{/principal/show/academic-years}"
+th:classappend="${activePage == 'academicyear'} ? 'active'">
+<i class="fa-solid fa-calendar"></i>
+Manage Academic Years
+</a>
+
+<div class="sidebar-section">Classroom</div>
+
+<a class="sidebar-link" th:href="@{/principal/classrooms/create}"
+   th:classappend="${activePage == 'createclassroom'} ? 'active'">
+<i class="fa-solid fa-school"></i>
++ Create Classrooms
+</a>
+
+<a class="sidebar-link" th:href="@{/principal/classrooms}"
+   th:classappend="${activePage == 'classroom'} ? 'active'">
+<i class="fa-solid fa-school"></i>
+Manage Classrooms
+</a>
+
+<div class="sidebar-section">Section</div>
+
+<a class="sidebar-link" th:href="@{/principal/sections/create}"
+   th:classappend="${activePage == 'createsection'} ? 'active'">
+<i class="fa-solid fa-layer-group"></i>
++ Create Sections
+</a>
+
+<a class="sidebar-link" th:href="@{/principal/sections}"
+   th:classappend="${activePage == 'section'} ? 'active'">
+<i class="fa-solid fa-layer-group"></i>
+Manage Sections
+</a>
+
+<div class="sidebar-section">Subject</div>
+
+<a class="sidebar-link" th:href="@{/principal/subjects/create}"
+   th:classappend="${activePage == 'createsubject'} ? 'active'">
+<i class="fa-solid fa-book"></i>
++ Create Subjects
+</a>
+
+<a class="sidebar-link" th:href="@{/principal/subjects}"
+   th:classappend="${activePage == 'subject'} ? 'active'">
+<i class="fa-solid fa-book"></i>
+Manage Subjects
+</a>
+
+<div class="sidebar-section">Unit</div>
+
+<a class="sidebar-link" th:href="@{/principal/units/create}"
+   th:classappend="${activePage == 'createunit'} ? 'active'">
+<i class="fa-solid fa-book"></i>
++ Create Unit
+</a>
+
+<a class="sidebar-link" th:href="@{/principal/units}"
+   th:classappend="${activePage == 'unit'} ? 'active'">
+<i class="fa-solid fa-book"></i>
+Manage Unit
+</a>
+
+<div class="sidebar-section">Chapter</div>
+
+<a class="sidebar-link" th:href="@{/principal/chapters/create}"
+   th:classappend="${activePage == 'createchapter'} ? 'active'">
+<i class="fa-solid fa-book"></i>
++ Create Chapter
+</a>
+
+
+
+<a class="sidebar-link" th:href="@{/principal/chapters}"
+   th:classappend="${activePage == 'chapter'} ? 'active'">
+<i class="fa-solid fa-book"></i>
+Manage Chapter
+</a>
+
+
+<div class="sidebar-section">Staff</div>
+
+<a class="sidebar-link" th:href="@{/principal/educators/create}"
+th:classappend="${activePage == 'createeducator'} ? 'active'">
+<i class="fa-solid fa-user-plus"></i>
++ Create Educator
+</a>
+
+<a class="sidebar-link" th:href="@{/principal/educator-assignment/create}"
+   th:classappend="${activePage == 'assigneducator'} ? 'active'">
+<i class="fa-solid fa-chalkboard-teacher"></i>
++ Assign Educator
+</a>
+
+<a class="sidebar-link" th:href="@{/principal/educator-assignments}"
+   th:classappend="${activePage == 'educatorassignment'} ? 'active'">
+<i class="fa-solid fa-chalkboard-teacher"></i>
+Educator Assignments
+</a>
+
+
+<div class="sidebar-section">Learners</div>
+
+<a class="sidebar-link" th:href="@{/principal/learners/create}"
+th:classappend="${activePage == 'createlearner'} ? 'active'">
+<i class="fa-solid fa-user-graduate"></i>
++ Create Learner
+</a>
+
+<a class="sidebar-link" th:href="@{/principal/learners/enroll}"
+th:classappend="${activePage == 'enrolllearner'} ? 'active'">
+<i class="fa-solid fa-user-check"></i>
++ Enroll Learner
+</a>
+
+<a class="sidebar-link" th:href="@{/principal/learners/enrollments}"
+   th:classappend="${activePage == 'learnerenrollment'} ? 'active'">
+<i class="fa-solid fa-users"></i>
+Manage Learners
+</a>
+
+<a class="sidebar-link" th:href="@{/principal/learners/promotion}"
+th:classappend="${activePage == 'learnerpromotion'} ? 'active'">
+<i class="fa-solid fa-arrow-up"></i>
+Promote Learners
+</a>
+
+</div>
+</body>
+</html>

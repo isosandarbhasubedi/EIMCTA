@@ -1,0 +1,153 @@
+body{
+	background:#f1e5d0;
+}
+/* Page title */
+.page-title{
+    font-size:28px;
+    margin-bottom:25px;
+    text-align:center;
+    color:#1f2937;
+}
+
+/* Error alert */
+.alert-error{
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:10px;
+    border-radius:6px;
+    margin-bottom:15px;
+    text-align:center;
+}
+
+/* Center container */
+.center-container{
+    display:flex;
+    justify-content:center;
+    padding:15px;
+}
+
+/* Card */
+.form-card{
+  width:100%;
+  max-width:550px;
+  background:#f1e5d0;
+  padding:40px;
+  border-radius:12px;
+  border-radius: 18px;
+    box-shadow: 
+        0 25px 50px rgba(0,0,0,0.25),
+        0 15px 25px rgba(0,0,0,0.15);
+    text-align: center;
+    animation: fadeInUp 0.6s ease;
+  overflow-x:auto;
+}
+
+
+.form-card:hover{
+    transform:translateY(-2px);
+}
+
+/* Form body */
+.form-body{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+/* Labels */
+.form-body label{
+    font-weight:500;
+    font-size:15px;
+    margin-bottom:5px;
+}
+
+/* Inputs and select */
+.form-body input, .form-body select{
+    padding:12px;
+    border-radius:6px;
+    border:1px solid #d1d5db;
+    font-size:15px;
+    width:100%;
+}
+
+/* Checkbox container */
+.checkbox-container{
+    border:1px solid #e5e7eb;
+    padding:12px;
+    border-radius:8px;
+    max-height:220px;
+    overflow-y:auto;
+    background:#f9fafb;
+}
+
+/* Individual checkbox card */
+.checkbox-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:8px 12px;
+    border-radius:8px;
+    margin-bottom:6px;
+    background:white;
+    border:1px solid #e5e7eb;
+    transition:0.2s;
+    cursor:pointer;
+}
+
+.checkbox-card:hover{
+    background:#eef2ff;
+    border-color:#2563eb;
+}
+
+/* Hide default checkbox */
+.checkbox-card input[type="checkbox"]{
+    cursor:pointer;
+    width:18px;
+    height:18px;
+}
+
+/* Select All top bar */
+.select-all-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:8px 12px;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    font-weight:500;
+    margin-bottom:8px;
+    cursor:pointer;
+}
+
+.select-all-bar input[type="checkbox"]{
+    width:18px;
+    height:18px;
+}
+
+/* Submit button */
+.submit-btn{
+    padding:14px;
+    border:none;
+    border-radius:6px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.submit-btn:hover{
+    background:#1d4ed8;
+}
+
+/* Responsive */
+@media (max-width:768px){
+    .form-card{
+        padding:25px;
+    }
+    .checkbox-card{
+        font-size:14px;
+    }
+}

@@ -10,8 +10,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    // Login & Role
+   
     private String username;
     private String email;              // used for login
     private String password;
@@ -19,37 +18,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
-    // ===== Employee Personal Details =====
-    private String firstName;
-    private String middleName;
-    private String lastName;
-
-    private String gender;
-
-    private LocalDate dateOfBirth;
-
-    private String maritalStatus;
-    private String nationality;
-
-    private String idNumber;
-
-    // ===== Contact Details =====
-    private String officeEmail;
-    private String personalEmail;
-
-    private String officeMobileNumber;
-    private String personalMobileNumber;
-
-    // ===== Address =====
-    @Column(length = 500)
-    private String permanentAddress;
-
-    @Column(length = 500)
-    private String currentAddress;
-
-    // ✅ Employee Image (store file name or path)
-    private String image;
     
     @Column(nullable = false)
     private boolean active = true;
@@ -73,7 +41,8 @@ public class User {
     @JoinColumn(name = "province_id")
     private Province province;   // For Province Users
 
-    
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Principal principal;
     
     // ===== Constructors =====
     public User() {}
@@ -88,13 +57,17 @@ public class User {
 		this.id = id;
 	}
 
+	
+
 	public String getUsername() {
 		return username;
 	}
 
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 
 	public String getEmail() {
 		return email;
@@ -124,128 +97,7 @@ public class User {
 	}
 
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getMiddleName() {
-		return middleName;
-	}
-
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-	public LocalDate getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(LocalDate dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-
-	public String getMaritalStatus() {
-		return maritalStatus;
-	}
-
-	public void setMaritalStatus(String maritalStatus) {
-		this.maritalStatus = maritalStatus;
-	}
-
-	public String getNationality() {
-		return nationality;
-	}
-
-	public void setNationality(String nationality) {
-		this.nationality = nationality;
-	}
-
-	public String getIdNumber() {
-		return idNumber;
-	}
-
-	public void setIdNumber(String idNumber) {
-		this.idNumber = idNumber;
-	}
-
-	public String getOfficeEmail() {
-		return officeEmail;
-	}
-
-	public void setOfficeEmail(String officeEmail) {
-		this.officeEmail = officeEmail;
-	}
-
-	public String getPersonalEmail() {
-		return personalEmail;
-	}
-
-	public void setPersonalEmail(String personalEmail) {
-		this.personalEmail = personalEmail;
-	}
-
-	public String getOfficeMobileNumber() {
-		return officeMobileNumber;
-	}
-
-	public void setOfficeMobileNumber(String officeMobileNumber) {
-		this.officeMobileNumber = officeMobileNumber;
-	}
-
-	public String getPersonalMobileNumber() {
-		return personalMobileNumber;
-	}
-
-	public void setPersonalMobileNumber(String personalMobileNumber) {
-		this.personalMobileNumber = personalMobileNumber;
-	}
-
-	public String getPermanentAddress() {
-		return permanentAddress;
-	}
-
-	public void setPermanentAddress(String permanentAddress) {
-		this.permanentAddress = permanentAddress;
-	}
-
-	public String getCurrentAddress() {
-		return currentAddress;
-	}
-
-	public void setCurrentAddress(String currentAddress) {
-		this.currentAddress = currentAddress;
-	}
-
-
-	public String getImage() {
-		return image;
-	}
-
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
+	
 
 	public boolean isActive() {
 		return active;
@@ -312,6 +164,16 @@ public class User {
 
 	public void setProvince(Province province) {
 		this.province = province;
+	}
+
+
+	public Principal getPrincipal() {
+		return principal;
+	}
+
+
+	public void setPrincipal(Principal principal) {
+		this.principal = principal;
 	}
 
   
